@@ -35,8 +35,8 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg shimmer-btn flex items-center justify-center text-sm font-bold font-sora">E</div>
-            <span className="font-sora font-bold text-xl gradient-text">EduLearn</span>
+            <div className="w-8 h-8 rounded-lg shimmer-btn flex items-center justify-center text-sm font-bold font-sora">R</div>
+            <span className="font-sora font-bold text-xl gradient-text">Raypanganiban</span>
           </Link>
 
           {/* Desktop nav */}

@@ -45,8 +45,8 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-lg shimmer-btn flex items-center justify-center text-sm font-bold font-sora">E</div>
-            <span className="font-sora font-bold text-xl gradient-text">EduLearn</span>
+            <div className="w-8 h-8 rounded-lg shimmer-btn flex items-center justify-center text-sm font-bold font-sora">R</div>
+            <span className="font-sora font-bold text-xl gradient-text">Raypanganiban</span>
           </Link>
           <h1 className="font-sora font-bold text-3xl mb-2">Create your account</h1>
           <p className="text-gray-400 text-sm">Start learning for free today</p>

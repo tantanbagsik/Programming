@@ -17,11 +17,11 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: { default: 'EduLearn – Learn Without Limits', template: '%s | EduLearn' },
+  title: { default: 'Raypanganiban – Learn Without Limits', template: '%s | Raypanganiban' },
   description: 'Join 500,000+ learners mastering in-demand skills through expert-led courses and AI-personalized learning paths.',
   keywords: ['online learning', 'courses', 'education', 'programming', 'design'],
   openGraph: {
-    title: 'EduLearn – Learn Without Limits',
+    title: 'Raypanganiban – Learn Without Limits',
     description: 'Expert-led courses with AI-powered learning paths.',
     type: 'website',
   },
