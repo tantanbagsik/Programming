@@ -6,6 +6,8 @@ import { connectDB } from '@/lib/mongodb'
 import Course from '@/models/Course'
 import Enrollment from '@/models/Enrollment'
 import { Payment } from '@/models/Review'
+import * as dns from 'dns'
+dns.setServers(['1.1.1.1'])
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-04-10' })
 

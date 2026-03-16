@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import Enrollment from '@/models/Enrollment'
 import Course from '@/models/Course'
+import * as dns from 'dns'
+dns.setServers(['1.1.1.1'])
 
 // GET /api/enrollments — get current user's enrollments
 export async function GET(req: NextRequest) {
