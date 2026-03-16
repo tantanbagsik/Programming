@@ -47,6 +47,7 @@ export interface ICourse extends Document {
   reviewCount: number
   stripeProductId?: string
   stripePriceId?: string
+  files: { id: string; title: string; url: string; type: 'pdf' | 'image' | 'other' }[]
   createdAt: Date
   updatedAt: Date
 }
@@ -100,6 +101,12 @@ const CourseSchema = new Schema<ICourse>(
     reviewCount: { type: Number, default: 0 },
     stripeProductId: { type: String },
     stripePriceId: { type: String },
+    files: [{
+      id: { type: String },
+      title: { type: String },
+      url: { type: String },
+      type: { type: String, enum: ['pdf', 'image', 'other'] }
+    }],
   },
   { timestamps: true }
 )

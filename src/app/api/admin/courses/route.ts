@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, instructorId } = body
+    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, instructorId } = body
 
     await connectDB()
 
@@ -107,7 +107,8 @@ export async function POST(req: NextRequest) {
       sections: sections || [],
       totalLessons: sections?.reduce((acc: number, s: any) => acc + (s.lessons?.length || 0), 0) || 0,
       instructor: instructorId || user.id,
-      isPublished: false
+      isPublished: false,
+      files: files || []
     })
 
     return NextResponse.json({ course: { ...course.toObject(), _id: course._id.toString() } }, { status: 201 })

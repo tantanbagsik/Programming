@@ -76,7 +76,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     const body = await req.json()
-    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, isPublished } = body
+    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, isPublished } = body
 
     await connectDB()
 
@@ -108,6 +108,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       ...(requirements && { requirements }),
       ...(whatYouLearn && { whatYouLearn }),
       ...(sections && { sections }),
+      ...(files && { files }),
       totalLessons,
       ...(isPublished !== undefined && { isPublished })
     }, { new: true }).populate('instructor', 'name email')

@@ -6,13 +6,22 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { 
   ArrowLeft, Save, Loader2, Plus, Trash2, 
-  GripVertical, Video, FileText, Check
+  GripVertical, Video, FileText, Check, Upload,
+  Image, File, X
 } from 'lucide-react'
 
 interface Section {
   title: string
   order: number
   lessons: { title: string; description: string; videoUrl: string; duration: number; order: number; isFree: boolean }[]
+}
+
+interface CourseFile {
+  id: string
+  title: string
+  url: string
+  type: 'pdf' | 'image' | 'other'
+  size?: number
 }
 
 interface CourseData {
@@ -28,17 +37,20 @@ interface CourseData {
   requirements: string[]
   whatYouLearn: string[]
   sections: Section[]
+  files: CourseFile[]
   isPublished: boolean
 }
 
 const categories = ['Programming', 'Design', 'Business', 'Marketing', 'Photography', 'Music', 'Health', 'Language']
 const levels = ['beginner', 'intermediate', 'advanced', 'all-levels']
 
+type Tab = 'basic' | 'pricing' | 'requirements' | 'content' | 'files'
+
 export default function NewCourseFormPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab>('basic')
 
   const [form, setForm] = useState<CourseData>({
     title: '',
@@ -53,11 +65,15 @@ export default function NewCourseFormPage() {
     requirements: [''],
     whatYouLearn: [''],
     sections: [{ title: '', order: 1, lessons: [] }],
+    files: [],
     isPublished: false
   })
 
   const [newRequirement, setNewRequirement] = useState('')
   const [newLearn, setNewLearn] = useState('')
+  const [newFileTitle, setNewFileTitle] = useState('')
+  const [newFileUrl, setNewFileUrl] = useState('')
+  const [newFileType, setNewFileType] = useState<'pdf' | 'image' | 'other'>('pdf')
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/auth/login')
@@ -172,6 +188,35 @@ export default function NewCourseFormPage() {
     setForm(f => ({ ...f, sections: newSections }))
   }
 
+  function addFile() {
+    if (!newFileTitle.trim() || !newFileUrl.trim()) {
+      toast.error('Please enter file title and URL')
+      return
+    }
+    const newFile: CourseFile = {
+      id: Date.now().toString(),
+      title: newFileTitle.trim(),
+      url: newFileUrl.trim(),
+      type: newFileType
+    }
+    setForm(f => ({ ...f, files: [...f.files, newFile] }))
+    setNewFileTitle('')
+    setNewFileUrl('')
+    setNewFileType('pdf')
+  }
+
+  function removeFile(id: string) {
+    setForm(f => ({ ...f, files: f.files.filter(file => file.id !== id) }))
+  }
+
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'basic', label: 'Basic Info' },
+    { id: 'pricing', label: 'Pricing' },
+    { id: 'requirements', label: 'Requirements' },
+    { id: 'content', label: 'Content' },
+    { id: 'files', label: 'Ebooks & Files' },
+  ]
+
   if (status === 'loading') {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
@@ -199,10 +244,27 @@ export default function NewCourseFormPage() {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="glow-card p-6">
-            <h2 className="font-sora font-semibold text-lg mb-4">Basic Information</h2>
-            <div className="space-y-4">
+        {/* Tabs */}
+        <div className="flex gap-1 mb-6 border-b border-border overflow-x-auto">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
+                activeTab === tab.id 
+                  ? 'text-primary border-b-2 border-primary -mb-px' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          {/* Basic Info Tab */}
+          {activeTab === 'basic' && (
+            <div className="glow-card p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1.5">Course Title *</label>
@@ -284,155 +346,275 @@ export default function NewCourseFormPage() {
                 />
               </div>
             </div>
-          </div>
+          )}
 
-          <div className="glow-card p-6">
-            <h2 className="font-sora font-semibold text-lg mb-4">Pricing</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1.5">Price ($)</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={form.price}
-                  onChange={(e) => setForm(f => ({ ...f, price: parseFloat(e.target.value) || 0 }))}
-                  className="input-base"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1.5">Discount Price ($)</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={form.discountPrice}
-                  onChange={(e) => setForm(f => ({ ...f, discountPrice: parseFloat(e.target.value) || 0 }))}
-                  className="input-base"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="glow-card p-6">
-            <h2 className="font-sora font-semibold text-lg mb-4">Requirements</h2>
-            <div className="flex gap-2 mb-4">
-              <input
-                type="text"
-                value={newRequirement}
-                onChange={(e) => setNewRequirement(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addRequirement())}
-                className="input-base flex-1"
-                placeholder="Add a requirement..."
-              />
-              <button type="button" onClick={addRequirement} className="btn-outline">Add</button>
-            </div>
-            <div className="space-y-2">
-              {form.requirements.map((r, i) => (
-                <div key={i} className="flex items-center gap-2 bg-card p-2 rounded-lg">
-                  <Check className="w-4 h-4 text-primary" />
-                  <span className="flex-1 text-sm">{r}</span>
-                  <button type="button" onClick={() => removeRequirement(i)} className="text-gray-500 hover:text-red-400">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+          {/* Pricing Tab */}
+          {activeTab === 'pricing' && (
+            <div className="glow-card p-6">
+              <h2 className="font-sora font-semibold text-lg mb-4">Pricing</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1.5">Price ($)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={form.price}
+                    onChange={(e) => setForm(f => ({ ...f, price: parseFloat(e.target.value) || 0 }))}
+                    className="input-base"
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="glow-card p-6">
-            <h2 className="font-sora font-semibold text-lg mb-4">What You'll Learn</h2>
-            <div className="flex gap-2 mb-4">
-              <input
-                type="text"
-                value={newLearn}
-                onChange={(e) => setNewLearn(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addWhatYouLearn())}
-                className="input-base flex-1"
-                placeholder="Add a learning outcome..."
-              />
-              <button type="button" onClick={addWhatYouLearn} className="btn-outline">Add</button>
-            </div>
-            <div className="space-y-2">
-              {form.whatYouLearn.map((l, i) => (
-                <div key={i} className="flex items-center gap-2 bg-card p-2 rounded-lg">
-                  <Check className="w-4 h-4 text-green-400" />
-                  <span className="flex-1 text-sm">{l}</span>
-                  <button type="button" onClick={() => removeWhatYouLearn(i)} className="text-gray-500 hover:text-red-400">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                <div>
+                  <label className="block text-sm font-medium mb-1.5">Discount Price ($)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={form.discountPrice}
+                    onChange={(e) => setForm(f => ({ ...f, discountPrice: parseFloat(e.target.value) || 0 }))}
+                    className="input-base"
+                  />
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="glow-card p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-sora font-semibold text-lg">Course Content</h2>
-              <button type="button" onClick={addSection} className="btn-outline flex items-center gap-2">
-                <Plus className="w-4 h-4" /> Add Section
-              </button>
+          {/* Requirements Tab */}
+          {activeTab === 'requirements' && (
+            <div className="space-y-6">
+              <div className="glow-card p-6">
+                <h2 className="font-sora font-semibold text-lg mb-4">Requirements</h2>
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="text"
+                    value={newRequirement}
+                    onChange={(e) => setNewRequirement(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addRequirement())}
+                    className="input-base flex-1"
+                    placeholder="Add a requirement..."
+                  />
+                  <button type="button" onClick={addRequirement} className="btn-outline">Add</button>
+                </div>
+                <div className="space-y-2">
+                  {form.requirements.map((r, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-card p-2 rounded-lg">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="flex-1 text-sm">{r}</span>
+                      <button type="button" onClick={() => removeRequirement(i)} className="text-gray-500 hover:text-red-400">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="glow-card p-6">
+                <h2 className="font-sora font-semibold text-lg mb-4">What You'll Learn</h2>
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="text"
+                    value={newLearn}
+                    onChange={(e) => setNewLearn(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addWhatYouLearn())}
+                    className="input-base flex-1"
+                    placeholder="Add a learning outcome..."
+                  />
+                  <button type="button" onClick={addWhatYouLearn} className="btn-outline">Add</button>
+                </div>
+                <div className="space-y-2">
+                  {form.whatYouLearn.map((l, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-card p-2 rounded-lg">
+                      <Check className="w-4 h-4 text-green-400" />
+                      <span className="flex-1 text-sm">{l}</span>
+                      <button type="button" onClick={() => removeWhatYouLearn(i)} className="text-gray-500 hover:text-red-400">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="space-y-4">
-              {form.sections.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="border border-border rounded-xl overflow-hidden">
-                  <div className="bg-card p-4 flex items-center gap-3">
-                    <GripVertical className="w-4 h-4 text-gray-600" />
+          )}
+
+          {/* Content Tab */}
+          {activeTab === 'content' && (
+            <div className="glow-card p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-sora font-semibold text-lg">Course Content</h2>
+                <button type="button" onClick={addSection} className="btn-outline flex items-center gap-2">
+                  <Plus className="w-4 h-4" /> Add Section
+                </button>
+              </div>
+              <div className="space-y-4">
+                {form.sections.map((section, sectionIndex) => (
+                  <div key={sectionIndex} className="border border-border rounded-xl overflow-hidden">
+                    <div className="bg-card p-4 flex items-center gap-3">
+                      <GripVertical className="w-4 h-4 text-gray-600" />
+                      <input
+                        type="text"
+                        value={section.title}
+                        onChange={(e) => {
+                          const newSections = [...form.sections]
+                          newSections[sectionIndex].title = e.target.value
+                          setForm(f => ({ ...f, sections: newSections }))
+                        }}
+                        className="flex-1 bg-transparent border-none focus:outline-none font-medium"
+                        placeholder="Section title..."
+                      />
+                      <button type="button" onClick={() => removeSection(sectionIndex)} className="text-gray-500 hover:text-red-400">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="p-4 space-y-3 bg-dark/50">
+                      {section.lessons.map((lesson, lessonIndex) => (
+                        <div key={lessonIndex} className="flex items-center gap-3 bg-card p-3 rounded-lg">
+                          <Video className="w-4 h-4 text-gray-500" />
+                          <input
+                            type="text"
+                            value={lesson.title}
+                            onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'title', e.target.value)}
+                            className="flex-1 bg-transparent border-none focus:outline-none text-sm"
+                            placeholder="Lesson title..."
+                          />
+                          <input
+                            type="number"
+                            value={lesson.duration}
+                            onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'duration', parseInt(e.target.value) || 0)}
+                            className="w-16 bg-transparent border border-border rounded px-2 py-1 text-sm"
+                            placeholder="Min"
+                          />
+                          <button type="button" onClick={() => removeLesson(sectionIndex, lessonIndex)} className="text-gray-500 hover:text-red-400">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => addLesson(sectionIndex)}
+                        className="text-sm text-primary hover:underline flex items-center gap-1"
+                      >
+                        <Plus className="w-3 h-3" /> Add Lesson
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {form.sections.length === 0 && (
+                  <p className="text-gray-500 text-center py-4">No sections yet. Click "Add Section" to start.</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Files & Ebooks Tab */}
+          {activeTab === 'files' && (
+            <div className="glow-card p-6">
+              <div className="flex items-center gap-2 mb-6">
+                <Upload className="w-5 h-5 text-primary" />
+                <h2 className="font-sora font-semibold text-lg">Ebooks & Course Files</h2>
+              </div>
+              
+              <p className="text-gray-400 text-sm mb-6">
+                Add PDFs, images, and other files that students can access with this course.
+              </p>
+
+              {/* Add File Form */}
+              <div className="bg-card p-4 rounded-xl mb-6 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">File Title</label>
                     <input
                       type="text"
-                      value={section.title}
-                      onChange={(e) => {
-                        const newSections = [...form.sections]
-                        newSections[sectionIndex].title = e.target.value
-                        setForm(f => ({ ...f, sections: newSections }))
-                      }}
-                      className="flex-1 bg-transparent border-none focus:outline-none font-medium"
-                      placeholder="Section title..."
+                      value={newFileTitle}
+                      onChange={(e) => setNewFileTitle(e.target.value)}
+                      className="input-base"
+                      placeholder="e.g., Course Guide PDF"
                     />
-                    <button type="button" onClick={() => removeSection(sectionIndex)} className="text-gray-500 hover:text-red-400">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
                   </div>
-                  <div className="p-4 space-y-3 bg-dark/50">
-                    {section.lessons.map((lesson, lessonIndex) => (
-                      <div key={lessonIndex} className="flex items-center gap-3 bg-card p-3 rounded-lg">
-                        <Video className="w-4 h-4 text-gray-500" />
-                        <input
-                          type="text"
-                          value={lesson.title}
-                          onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'title', e.target.value)}
-                          className="flex-1 bg-transparent border-none focus:outline-none text-sm"
-                          placeholder="Lesson title..."
-                        />
-                        <input
-                          type="number"
-                          value={lesson.duration}
-                          onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'duration', parseInt(e.target.value) || 0)}
-                          className="w-16 bg-transparent border border-border rounded px-2 py-1 text-sm"
-                          placeholder="Min"
-                        />
-                        <button type="button" onClick={() => removeLesson(sectionIndex, lessonIndex)} className="text-gray-500 hover:text-red-400">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => addLesson(sectionIndex)}
-                      className="text-sm text-primary hover:underline flex items-center gap-1"
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">File URL</label>
+                    <input
+                      type="url"
+                      value={newFileUrl}
+                      onChange={(e) => setNewFileUrl(e.target.value)}
+                      className="input-base"
+                      placeholder="https://..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">File Type</label>
+                    <select
+                      value={newFileType}
+                      onChange={(e) => setNewFileType(e.target.value as any)}
+                      className="input-base"
                     >
-                      <Plus className="w-3 h-3" /> Add Lesson
-                    </button>
+                      <option value="pdf">PDF (Ebook)</option>
+                      <option value="image">Image</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
                 </div>
-              ))}
-              {form.sections.length === 0 && (
-                <p className="text-gray-500 text-center py-4">No sections yet. Click "Add Section" to start.</p>
-              )}
-            </div>
-          </div>
+                <button type="button" onClick={addFile} className="btn-primary flex items-center gap-2">
+                  <Plus className="w-4 h-4" /> Add File
+                </button>
+              </div>
 
-          <div className="glow-card p-6">
+              {/* File List */}
+              {form.files.length === 0 ? (
+                <div className="text-center py-8 border border-dashed border-border rounded-xl">
+                  <File className="w-10 h-10 text-gray-600 mx-auto mb-3" />
+                  <p className="text-gray-500 text-sm">No files added yet</p>
+                  <p className="text-gray-600 text-xs mt-1">Add PDF ebooks, images, or other course materials above</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {form.files.map(file => (
+                    <div key={file.id} className="flex items-center gap-4 bg-card p-4 rounded-xl">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        file.type === 'pdf' ? 'bg-red-500/20 text-red-400' :
+                        file.type === 'image' ? 'bg-blue-500/20 text-blue-400' :
+                        'bg-gray-500/20 text-gray-400'
+                      }`}>
+                        {file.type === 'pdf' ? <FileText className="w-5 h-5" /> :
+                         file.type === 'image' ? <Image className="w-5 h-5" /> :
+                         <File className="w-5 h-5" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate">{file.title}</p>
+                        <p className="text-gray-500 text-xs truncate">{file.url}</p>
+                      </div>
+                      <span className={`badge text-xs ${
+                        file.type === 'pdf' ? 'text-red-400 border-red-400/30 bg-red-400/10' :
+                        file.type === 'image' ? 'text-blue-400 border-blue-400/30 bg-blue-400/10' :
+                        'text-gray-400 border-gray-600 bg-gray-800'
+                      }`}>
+                        {file.type.toUpperCase()}
+                      </span>
+                      <button 
+                        type="button" 
+                        onClick={() => removeFile(file.id)}
+                        className="p-2 hover:bg-border rounded-lg text-gray-500 hover:text-red-400 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Upload Tips */}
+              <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                <p className="text-primary text-sm font-medium mb-2">💡 Tips for file uploads:</p>
+                <ul className="text-gray-400 text-xs space-y-1">
+                  <li>• Upload your PDFs to Cloudinary, Google Drive, or Dropbox and paste the public URL</li>
+                  <li>• Make sure file URLs are publicly accessible (not private)</li>
+                  <li>• For images, you can use the thumbnail URL field or add them here as course assets</li>
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Publishing */}
+          <div className="glow-card p-6 mt-6">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="font-sora font-semibold text-lg">Publishing</h2>
