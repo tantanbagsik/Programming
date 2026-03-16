@@ -3,6 +3,9 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
+import Enrollment from '@/models/Enrollment'
+import * as dns from 'dns'
+dns.setServers(['1.1.1.1'])
 
 async function checkAdmin(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -40,8 +43,23 @@ export async function GET(req: NextRequest) {
       User.countDocuments(query),
     ])
 
+    // Get enrollment counts for each user
+    const userIds = users.map((u: any) => u._id)
+    const enrollmentCounts = await Enrollment.aggregate([
+      { $match: { user: { $in: userIds }, status: 'active' } },
+      { $group: { _id: '$user', count: { $sum: 1 } } }
+    ])
+    
+    const countMap = Object.fromEntries(enrollmentCounts.map((e: any) => [e._id.toString(), e.count]))
+    
+    const usersWithEnrollments = users.map((u: any) => ({
+      ...u,
+      _id: u._id.toString(),
+      enrollmentCount: countMap[u._id.toString()] || 0
+    }))
+
     return NextResponse.json({
-      users,
+      users: usersWithEnrollments,
       pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
     })
   } catch (error) {
