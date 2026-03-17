@@ -11,6 +11,8 @@ export interface IUser extends Document {
   bio?: string
   stripeCustomerId?: string
   emailVerified?: Date
+  points: number
+  pointsHistory: { amount: number; type: 'topup' | 'purchase' | 'earned'; description: string; createdAt: Date }[]
   createdAt: Date
   updatedAt: Date
   comparePassword(candidatePassword: string): Promise<boolean>
@@ -26,6 +28,13 @@ const UserSchema = new Schema<IUser>(
     bio: { type: String, maxlength: 500 },
     stripeCustomerId: { type: String },
     emailVerified: { type: Date },
+    points: { type: Number, default: 0, min: 0 },
+    pointsHistory: [{
+      amount: { type: Number, required: true },
+      type: { type: String, enum: ['topup', 'purchase', 'earned'], required: true },
+      description: { type: String, required: true },
+      createdAt: { type: Date, default: Date.now }
+    }],
   },
   { timestamps: true }
 )

@@ -3,9 +3,10 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { connectDB } from '@/lib/mongodb'
 import Enrollment from '@/models/Enrollment'
+import User from '@/models/User'
 import { Navbar } from '@/components/layout/Navbar'
 import Link from 'next/link'
-import { BookOpen, Clock, Trophy, TrendingUp, ChevronRight, Award } from 'lucide-react'
+import { BookOpen, Clock, Trophy, TrendingUp, ChevronRight, Award, Zap } from 'lucide-react'
 
 export const metadata = { title: 'Dashboard' }
 
@@ -15,6 +16,9 @@ export default async function DashboardPage() {
 
   const user = session.user as any
   await connectDB()
+
+  const userData = await User.findById(user.id).select('points').lean()
+  const userPoints = userData?.points || 0
 
   const enrollments = await Enrollment.find({ user: user.id, status: { $in: ['active', 'completed'] } })
     .populate({ path: 'course', select: 'title slug thumbnail category level totalLessons', populate: { path: 'instructor', select: 'name' } })
@@ -45,20 +49,21 @@ export default async function DashboardPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
             {[
               { icon: BookOpen, label: 'Enrolled', value: stats.enrolled, color: 'text-primary', bg: 'bg-primary/10' },
               { icon: TrendingUp, label: 'In Progress', value: stats.inProgress, color: 'text-secondary', bg: 'bg-secondary/10' },
               { icon: Trophy, label: 'Completed', value: stats.completed, color: 'text-accent', bg: 'bg-accent/10' },
               { icon: Clock, label: 'Avg. Progress', value: `${stats.avgProgress}%`, color: 'text-green-400', bg: 'bg-green-400/10' },
+              { icon: Zap, label: 'My Points', value: userPoints.toLocaleString(), color: 'text-yellow-400', bg: 'bg-yellow-400/10', link: '/topup' },
             ].map((s, i) => (
-              <div key={i} className="glow-card p-5">
+              <Link key={i} href={s.link || '#'} className={`glow-card p-5 ${s.link ? 'hover:border-yellow-400/50 transition-colors' : ''}`}>
                 <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center mb-3`}>
                   <s.icon className={`w-5 h-5 ${s.color}`} />
                 </div>
                 <div className="font-sora font-bold text-2xl">{s.value}</div>
                 <div className="text-gray-500 text-sm">{s.label}</div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -110,6 +115,7 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap gap-3">
               <Link href="/courses" className="btn-outline text-sm">Browse Courses</Link>
               <Link href="/dashboard/certificates" className="btn-outline text-sm">My Certificates</Link>
+              <Link href="/topup" className="btn-outline text-sm text-yellow-400 border-yellow-400/30 hover:border-yellow-400">Top Up Points</Link>
               <Link href="/dashboard/settings" className="btn-outline text-sm">Account Settings</Link>
             </div>
           </div>

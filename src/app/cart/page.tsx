@@ -1,12 +1,27 @@
 'use client'
 import { useCart } from '@/context/CartContext'
+import { useSession } from 'next-auth/react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Trash2, ShoppingBag, ArrowLeft, CreditCard } from 'lucide-react'
+import { Trash2, ShoppingBag, ArrowLeft, CreditCard, Zap } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 
 export default function CartPage() {
   const { items, removeItem, getTotal, clearCart } = useCart()
+  const { data: session } = useSession()
+  const [userPoints, setUserPoints] = useState(0)
   const total = getTotal()
+
+  useEffect(() => {
+    if (session?.user) {
+      fetch('/api/points')
+        .then(res => res.json())
+        .then(data => setUserPoints(data.points || 0))
+        .catch(console.error)
+    }
+  }, [session])
+
+  const pointsTotal = Math.round(total)
 
   if (items.length === 0) {
     return (
@@ -100,13 +115,26 @@ export default function CartPage() {
                     <span className="text-xl">${total.toFixed(2)}</span>
                   </div>
                 </div>
-                <Link href="/checkout" className="btn-primary w-full flex items-center justify-center gap-2">
+                <Link href="/checkout" className="btn-primary w-full flex items-center justify-center gap-2 mb-3">
                   <CreditCard className="w-4 h-4" />
                   Checkout with PayPal
                 </Link>
-                <p className="text-xs text-gray-500 text-center mt-4">
-                  Secure payment powered by PayPal
-                </p>
+                {session?.user && (
+                  <Link href="/checkout/points" className="btn-outline w-full flex items-center justify-center gap-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    Pay with Points ({pointsTotal} pts)
+                  </Link>
+                )}
+                {session?.user && userPoints > 0 && (
+                  <p className="text-xs text-gray-500 text-center mt-2">
+                    Your balance: {userPoints.toLocaleString()} points
+                  </p>
+                )}
+                {!session?.user && (
+                  <p className="text-xs text-gray-500 text-center mt-4">
+                    Secure payment powered by PayPal
+                  </p>
+                )}
               </div>
             </div>
           </div>
