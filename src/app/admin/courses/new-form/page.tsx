@@ -93,6 +93,10 @@ export default function NewCourseFormPage() {
   const [bookmarks, setBookmarks] = useState<number[]>([])
   const [showToc, setShowToc] = useState(true)
 
+  const [videoUploading, setVideoUploading] = useState(false)
+  const [uploadingLessonIndex, setUploadingLessonIndex] = useState<{section: number; lesson: number} | null>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/auth/login')
     else if (status === 'authenticated') {
@@ -204,6 +208,56 @@ export default function NewCourseFormPage() {
     const newSections = [...form.sections]
     newSections[sectionIndex].lessons = newSections[sectionIndex].lessons.filter((_, i) => i !== lessonIndex)
     setForm(f => ({ ...f, sections: newSections }))
+  }
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>, sectionIndex: number, lessonIndex: number) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo']
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Invalid video format. Use MP4, WebM, OGG, or MOV.')
+      return
+    }
+
+    if (file.size > 500 * 1024 * 1024) {
+      toast.error('Video too large. Max 500MB.')
+      return
+    }
+
+    setVideoUploading(true)
+    setUploadingLessonIndex({ section: sectionIndex, lesson: lessonIndex })
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await fetch('/api/upload/video', {
+        method: 'POST',
+        body: formData
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        updateLesson(sectionIndex, lessonIndex, 'videoUrl', data.url)
+        if (data.duration) {
+          updateLesson(sectionIndex, lessonIndex, 'duration', Math.round(data.duration / 60))
+        }
+        toast.success('Video uploaded successfully!')
+      } else {
+        toast.error(data.error || 'Upload failed')
+      }
+    } catch (error) {
+      console.error('Video upload error:', error)
+      toast.error('Failed to upload video')
+    } finally {
+      setVideoUploading(false)
+      setUploadingLessonIndex(null)
+      if (videoInputRef.current) {
+        videoInputRef.current.value = ''
+      }
+    }
   }
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -489,17 +543,59 @@ export default function NewCourseFormPage() {
                     </div>
                     <div className="p-4 space-y-3 bg-dark/50">
                       {section.lessons.map((lesson, lessonIndex) => (
-                        <div key={lessonIndex} className="flex items-center gap-3 bg-card p-3 rounded-lg">
-                          <Video className="w-4 h-4 text-gray-500" />
-                          <input type="text" value={lesson.title}
-                            onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'title', e.target.value)}
-                            className="flex-1 bg-transparent border-none focus:outline-none text-sm" placeholder="Lesson title..." />
-                          <input type="number" value={lesson.duration}
-                            onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'duration', parseInt(e.target.value) || 0)}
-                            className="w-16 bg-transparent border border-border rounded px-2 py-1 text-sm" placeholder="Min" />
-                          <button type="button" onClick={() => removeLesson(sectionIndex, lessonIndex)} className="text-gray-500 hover:text-red-400">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                        <div key={lessonIndex} className="bg-card p-3 rounded-lg space-y-2">
+                          <div className="flex items-center gap-3">
+                            <Video className="w-4 h-4 text-gray-500" />
+                            <input type="text" value={lesson.title}
+                              onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'title', e.target.value)}
+                              className="flex-1 bg-transparent border-none focus:outline-none text-sm" placeholder="Lesson title..." />
+                            <input type="number" value={lesson.duration}
+                              onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'duration', parseInt(e.target.value) || 0)}
+                              className="w-16 bg-transparent border border-border rounded px-2 py-1 text-sm" placeholder="Min" />
+                            <button type="button" onClick={() => removeLesson(sectionIndex, lessonIndex)} className="text-gray-500 hover:text-red-400">
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-2 ml-7">
+                            <input type="text" value={lesson.videoUrl}
+                              onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'videoUrl', e.target.value)}
+                              className="flex-1 bg-dark border border-border rounded px-3 py-1.5 text-sm" 
+                              placeholder="Video URL (YouTube, Vimeo, or uploaded video)" />
+                            <input
+                              ref={videoInputRef}
+                              type="file"
+                              accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                              className="hidden"
+                              onChange={(e) => handleVideoUpload(e, sectionIndex, lessonIndex)}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => videoInputRef.current?.click()}
+                              disabled={videoUploading && uploadingLessonIndex?.section === sectionIndex && uploadingLessonIndex?.lesson === lessonIndex}
+                              className="flex items-center gap-1 px-3 py-1.5 bg-primary/20 text-primary rounded text-xs font-medium hover:bg-primary/30 disabled:opacity-50"
+                            >
+                              {videoUploading && uploadingLessonIndex?.section === sectionIndex && uploadingLessonIndex?.lesson === lessonIndex ? (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                              ) : (
+                                <Upload className="w-3 h-3" />
+                              )}
+                              Upload
+                            </button>
+                            <label className="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={lesson.isFree}
+                                onChange={(e) => updateLesson(sectionIndex, lessonIndex, 'isFree', e.target.checked)}
+                                className="rounded border-border"
+                              />
+                              Free Preview
+                            </label>
+                          </div>
+                          {lesson.videoUrl && (
+                            <div className="ml-7 text-xs text-green-400 flex items-center gap-1">
+                              <Check className="w-3 h-3" /> Video attached
+                            </div>
+                          )}
                         </div>
                       ))}
                       <button type="button" onClick={() => addLesson(sectionIndex)}
