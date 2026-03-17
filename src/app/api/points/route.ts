@@ -10,9 +10,10 @@ export async function GET(req: NextRequest) {
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+    const user = session.user as any
 
     await connectDB()
-    const user = await User.findById(session.user.id).select('points pointsHistory').lean()
+    const userData = await User.findById(user.id).select('points pointsHistory').lean()
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+    const user = session.user as any
 
     const { amount, paymentId } = await req.json()
 
@@ -43,8 +45,8 @@ export async function POST(req: NextRequest) {
 
     await connectDB()
 
-    const user = await User.findByIdAndUpdate(
-      session.user.id,
+    const userData = await User.findByIdAndUpdate(
+      user.id,
       {
         $inc: { points: amount },
         $push: {
@@ -59,7 +61,7 @@ export async function POST(req: NextRequest) {
       { new: true }
     ).select('points')
 
-    return NextResponse.json({ success: true, points: user?.points || 0 })
+    return NextResponse.json({ success: true, points: userData?.points || 0 })
   } catch (error) {
     console.error('[POINTS POST]', error)
     return NextResponse.json({ error: 'Failed to add points' }, { status: 500 })
