@@ -79,36 +79,41 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, instructorId } = body
+    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, ebooks, instructorId, tags } = body
 
     await connectDB()
 
-    if (!title || !slug) {
-      return NextResponse.json({ error: 'Title and slug are required' }, { status: 400 })
+    if (!title) {
+      return NextResponse.json({ error: 'Title is required' }, { status: 400 })
     }
 
-    const existing = await Course.findOne({ slug })
+    const courseSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+
+    const existing = await Course.findOne({ slug: courseSlug })
     if (existing) {
-      return NextResponse.json({ error: 'Course with this slug already exists' }, { status: 409 })
+      return NextResponse.json({ error: 'Course with this title already exists' }, { status: 409 })
     }
 
     const course = await Course.create({
       title,
-      slug,
-      description,
-      shortDescription,
-      thumbnail,
-      category,
+      slug: courseSlug,
+      description: description || '',
+      shortDescription: shortDescription || title.substring(0, 200),
+      thumbnail: thumbnail || '',
+      category: category || 'Programming',
       level: level || 'beginner',
+      language: 'English',
       price: price || 0,
-      discountPrice,
+      discountPrice: discountPrice || undefined,
+      currency: 'usd',
       requirements: requirements || [],
       whatYouLearn: whatYouLearn || [],
       sections: sections || [],
       totalLessons: sections?.reduce((acc: number, s: any) => acc + (s.lessons?.length || 0), 0) || 0,
+      tags: tags || [],
       instructor: instructorId || user.id,
       isPublished: false,
-      files: files || []
+      files: files || ebooks || []
     })
 
     return NextResponse.json({ course: { ...course.toObject(), _id: course._id.toString() } }, { status: 201 })
