@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import { 
   ArrowLeft, Save, Loader2, Plus, Trash2, 
   GripVertical, Video, FileText, Check, Upload,
-  Image, File, X, Search, Bookmark, Highlight,
+  Image, File, X, Search, Bookmark, Highlighter,
   ChevronRight, ChevronLeft, ZoomIn, ZoomOut,
   List, ArrowUp, Download, ExternalLink
 } from 'lucide-react'
