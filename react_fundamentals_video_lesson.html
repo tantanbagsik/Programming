@@ -1,0 +1,442 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --react-blue: #61DAFB;
+    --react-dark: #20232A;
+    --react-mid: #282C34;
+    --accent: #61DAFB;
+    --text-bright: #F8F9FA;
+    --text-muted: #ABB2BF;
+    --code-bg: #1A1D23;
+    --slide-h: 420px;
+  }
+
+  .lesson-wrap {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--react-dark);
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* — Top bar — */
+  .topbar {
+    background: var(--react-mid);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(97,218,251,.15);
+  }
+  .topbar .dot { width:10px; height:10px; border-radius:50%; }
+  .dot-r { background:#FF5F57; }
+  .dot-y { background:#FEBC2E; }
+  .dot-g { background:#28C840; }
+  .lesson-title { margin-left:auto; font-size:12px; color:var(--text-muted); letter-spacing:.05em; }
+
+  /* — Slide area — */
+  .slide-stage {
+    position: relative;
+    height: var(--slide-h);
+    overflow: hidden;
+    background: var(--react-dark);
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 36px 48px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity .45s ease, transform .45s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1; transform: translateX(0); pointer-events: auto;
+  }
+  .slide.exit {
+    opacity: 0; transform: translateX(-60px);
+  }
+
+  /* Slide content styles */
+  .slide-badge {
+    font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--react-blue);
+    border: 1px solid rgba(97,218,251,.35);
+    border-radius: 20px; padding: 3px 12px; margin-bottom: 18px;
+  }
+  .slide-headline {
+    font-size: 30px; font-weight: 600; color: var(--text-bright);
+    text-align: center; line-height: 1.25; margin-bottom: 14px;
+  }
+  .slide-headline span { color: var(--react-blue); }
+  .slide-sub {
+    font-size: 15px; color: var(--text-muted); text-align: center;
+    max-width: 520px; line-height: 1.65;
+  }
+
+  /* Atom logo */
+  .atom { margin-bottom: 20px; }
+
+  /* Bullet list */
+  .bullet-list { list-style: none; margin-top: 10px; width: 100%; max-width: 500px; }
+  .bullet-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--text-muted); padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .slide.active .bullet-list li:nth-child(1) { opacity:1; transform:none; transition-delay:.15s }
+  .slide.active .bullet-list li:nth-child(2) { opacity:1; transform:none; transition-delay:.3s }
+  .slide.active .bullet-list li:nth-child(3) { opacity:1; transform:none; transition-delay:.45s }
+  .slide.active .bullet-list li:nth-child(4) { opacity:1; transform:none; transition-delay:.6s }
+  .bullet-list li .icon {
+    width: 22px; height: 22px; background: rgba(97,218,251,.12);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .bullet-list li .icon svg { width:13px; height:13px; fill:var(--react-blue); }
+  .bullet-list li strong { color: var(--text-bright); font-weight:500; }
+
+  /* Code block */
+  .code-block {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; line-height: 1.7;
+    background: var(--code-bg);
+    border: 1px solid rgba(97,218,251,.15);
+    border-radius: 10px;
+    padding: 18px 22px;
+    width: 100%; max-width: 500px;
+    color: var(--text-muted);
+    margin-top: 10px;
+  }
+  .kw { color: #C678DD; }
+  .fn { color: #61AFEF; }
+  .str { color: #98C379; }
+  .tag { color: #E06C75; }
+  .attr { color: #D19A66; }
+  .comment { color: #5C6370; font-style: italic; }
+  .hl { color: var(--react-blue); }
+
+  /* Compare cards */
+  .compare-row { display: flex; gap: 14px; width: 100%; max-width: 540px; margin-top: 12px; }
+  .compare-card {
+    flex: 1; border-radius: 10px; padding: 16px 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+  }
+  .compare-card h4 { font-size:13px; font-weight:500; margin-bottom:8px; }
+  .compare-card p { font-size:13px; color: var(--text-muted); line-height:1.55; }
+  .compare-card.blue { border-color: rgba(97,218,251,.3); }
+  .compare-card.blue h4 { color: var(--react-blue); }
+  .compare-card.coral { border-color: rgba(224,108,117,.3); }
+  .compare-card.coral h4 { color: #E06C75; }
+
+  /* Timeline dots */
+  .timeline { display:flex; gap:0; width:100%; max-width:500px; margin-top:14px; align-items:flex-start; }
+  .tl-item { flex:1; display:flex; flex-direction:column; align-items:center; }
+  .tl-dot { width:12px; height:12px; border-radius:50%; background:var(--react-blue); position:relative; z-index:1; }
+  .tl-line { height:2px; background:rgba(97,218,251,.25); flex:1; margin-top:5px; }
+  .tl-item:last-child .tl-line { display:none; }
+  .tl-row { display:flex; align-items:center; width:100%; }
+  .tl-label { font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px; }
+  .tl-year { font-size:12px; color:var(--react-blue); font-weight:500; text-align:center; margin-top:2px; }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: rgba(255,255,255,.06);
+    height: 3px; position: relative;
+  }
+  .progress-fill {
+    height: 100%; background: var(--react-blue);
+    border-radius: 0 2px 2px 0;
+    transition: width .4s ease;
+  }
+
+  /* Slide counter dots */
+  .slide-dots {
+    display: flex; justify-content: center; gap: 7px; padding: 10px 0 0;
+  }
+  .sdot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.18); cursor: pointer; transition: background .25s;
+  }
+  .sdot.on { background: var(--react-blue); }
+
+  /* Controls */
+  .controls {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 20px 18px;
+    background: var(--react-mid);
+    border-top: 1px solid rgba(97,218,251,.08);
+  }
+  .ctrl-btn {
+    background: rgba(97,218,251,.08);
+    border: 1px solid rgba(97,218,251,.2);
+    border-radius: 8px; color: var(--react-blue);
+    font-size: 13px; font-family: inherit;
+    padding: 7px 18px; cursor: pointer;
+    transition: background .2s, transform .1s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ctrl-btn:hover { background: rgba(97,218,251,.16); }
+  .ctrl-btn:active { transform: scale(.96); }
+  .ctrl-btn:disabled { opacity:.35; cursor:default; }
+  .play-btn {
+    background: var(--react-blue); color: var(--react-dark);
+    border-color: var(--react-blue); font-weight: 600;
+    padding: 8px 24px; margin-left: auto;
+  }
+  .play-btn:hover { background: #7ee7ff; border-color:#7ee7ff; }
+  .slide-info { font-size:12px; color:var(--text-muted); }
+</style>
+
+<div class="lesson-wrap">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="lesson-title">React Fundamentals · What is React?</span>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-fill" id="prog" style="width:16.6%"></div>
+  </div>
+
+  <!-- Slide stage -->
+  <div class="slide-stage">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="s0">
+      <div class="atom">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="50" rx="42" ry="16" stroke="#61DAFB" stroke-width="2.5" transform="rotate(0 50 50)" fill="none"/>
+          <ellipse cx="50" cy="50" rx="42" ry="16" stroke="#61DAFB" stroke-width="2.5" transform="rotate(60 50 50)" fill="none"/>
+          <ellipse cx="50" cy="50" rx="42" ry="16" stroke="#61DAFB" stroke-width="2.5" transform="rotate(120 50 50)" fill="none"/>
+          <circle cx="50" cy="50" r="7" fill="#61DAFB"/>
+        </svg>
+      </div>
+      <div class="slide-badge">Module 1 — Lesson 1</div>
+      <div class="slide-headline">Welcome to <span>React</span></div>
+      <div class="slide-sub">A beginner-friendly introduction to the world's most popular JavaScript UI library — what it is, why it exists, and how it thinks.</div>
+    </div>
+
+    <!-- SLIDE 2: The Problem -->
+    <div class="slide" id="s1">
+      <div class="slide-badge">The Problem</div>
+      <div class="slide-headline">Why did we need <span>React</span>?</div>
+      <ul class="bullet-list">
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M13 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1z"/></svg></span>
+          <span>Web UIs grew complex — keeping the DOM in sync with data was painful</span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm1 11H7V7h2v5zm0-6H7V4h2v2z"/></svg></span>
+          <span>Spaghetti JavaScript: manual DOM updates led to <strong>bugs and inconsistency</strong></span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M8 0L6 6H0l5 3.6L3 16l5-3.6L13 16l-2-6.4L16 6h-6L8 0z"/></svg></span>
+          <span>No standard way to <strong>reuse UI pieces</strong> across a project</span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/></svg></span>
+          <span>Facebook needed to scale UI development — that's where React was born</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SLIDE 3: What is React? -->
+    <div class="slide" id="s2">
+      <div class="slide-badge">Definition</div>
+      <div class="slide-headline">React is a <span>JavaScript Library</span></div>
+      <div class="compare-row">
+        <div class="compare-card blue">
+          <h4>What React IS</h4>
+          <p>A library for building <strong style="color:#f8f9fa">user interfaces</strong> using reusable components. It handles the "View" in MVC.</p>
+        </div>
+        <div class="compare-card coral">
+          <h4>What React is NOT</h4>
+          <p>A full framework. It doesn't handle routing, data fetching, or state management on its own.</p>
+        </div>
+      </div>
+      <div class="slide-sub" style="margin-top:16px; font-size:13px;">
+        Maintained by <strong style="color:#f8f9fa">Meta (Facebook)</strong> and a huge open-source community. Released 2013.
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Components -->
+    <div class="slide" id="s3">
+      <div class="slide-badge">Core Concept</div>
+      <div class="slide-headline">Everything is a <span>Component</span></div>
+      <div class="code-block">
+<span class="comment">// A simple React component</span><br>
+<span class="kw">function</span> <span class="fn">Greeting</span>(<span class="hl">{ name }</span>) {<br>
+&nbsp;&nbsp;<span class="kw">return</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="str">"card"</span><span class="tag">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1&gt;</span>Hello, <span class="hl">{name}</span>!<span class="tag">&lt;/h1&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;p&gt;</span>Welcome to React.<span class="tag">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;);<br>
+}
+      </div>
+      <div class="slide-sub" style="margin-top:12px;font-size:13px;">Components are <strong style="color:#f8f9fa">reusable, self-contained</strong> pieces of UI. Write once, use anywhere.</div>
+    </div>
+
+    <!-- SLIDE 5: Virtual DOM -->
+    <div class="slide" id="s4">
+      <div class="slide-badge">How React Works</div>
+      <div class="slide-headline">The <span>Virtual DOM</span></div>
+      <ul class="bullet-list">
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M8 0L10 6h6l-5 3.6L13 16 8 12l-5 4 2-6.4L0 6h6L8 0z"/></svg></span>
+          <span>React keeps a <strong>lightweight copy</strong> of the real DOM in memory</span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm1 11H7V7h2v5zm0-6H7V4h2v2z"/></svg></span>
+          <span>When state changes, React <strong>diffs</strong> old vs new Virtual DOM</span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M13 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1z"/></svg></span>
+          <span>Only the <strong>changed parts</strong> of the real DOM get updated — very fast!</span>
+        </li>
+        <li>
+          <span class="icon"><svg viewBox="0 0 16 16"><path d="M2 2h12v12H2z"/></svg></span>
+          <span>You <strong>declare</strong> what the UI should look like — React figures out the updates</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SLIDE 6: Summary -->
+    <div class="slide" id="s5">
+      <div class="slide-badge">Summary</div>
+      <div class="slide-headline"><span>React</span> in a nutshell</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-row"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-label">JavaScript<br>Library</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-row"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-label">Component<br>Based</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-row"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-label">Virtual<br>DOM</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-row"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-label">Declarative<br>UI</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-row"><div class="tl-dot"></div></div>
+          <div class="tl-label">Meta +<br>Community</div>
+        </div>
+      </div>
+      <div class="slide-sub" style="margin-top:22px;">
+        You're ready for the next lesson: <strong style="color:#61DAFB">JSX — writing HTML inside JavaScript.</strong>
+      </div>
+    </div>
+
+  </div><!-- /stage -->
+
+  <!-- Dot nav -->
+  <div class="slide-dots" id="dots"></div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="ctrl-btn" id="prevBtn" onclick="go(-1)" disabled>
+      ← Prev
+    </button>
+    <span class="slide-info" id="counter">1 / 6</span>
+    <button class="ctrl-btn" id="nextBtn" onclick="go(1)">
+      Next →
+    </button>
+    <button class="play-btn ctrl-btn" id="autoBtn" onclick="toggleAuto()">
+      ▶ Auto-play
+    </button>
+  </div>
+</div>
+
+<script>
+  const total = 6;
+  let cur = 0, autoTimer = null, isPlaying = false;
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl = document.getElementById('dots');
+  const prog   = document.getElementById('prog');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const autoBtn = document.getElementById('autoBtn');
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    d.className = 'sdot' + (i === 0 ? ' on' : '');
+    d.onclick = () => jumpTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function update(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const prev = cur;
+    setTimeout(() => slides[prev].classList.remove('exit'), 460);
+
+    cur = n;
+    slides[cur].classList.add('active');
+
+    const pct = ((cur + 1) / total * 100).toFixed(1);
+    prog.style.width = pct + '%';
+    counter.textContent = (cur + 1) + ' / ' + total;
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === total - 1;
+    if (cur === total - 1 && isPlaying) stopAuto();
+
+    dotsEl.querySelectorAll('.sdot').forEach((d, i) => {
+      d.classList.toggle('on', i === cur);
+    });
+  }
+
+  function go(dir) {
+    const n = cur + dir;
+    if (n < 0 || n >= total) return;
+    update(n);
+  }
+
+  function jumpTo(i) { if (i !== cur) update(i); }
+
+  function startAuto() {
+    isPlaying = true;
+    autoBtn.textContent = '⏸ Pause';
+    autoTimer = setInterval(() => {
+      if (cur < total - 1) { go(1); }
+      else { stopAuto(); }
+    }, 4000);
+  }
+
+  function stopAuto() {
+    isPlaying = false;
+    clearInterval(autoTimer);
+    autoBtn.textContent = '▶ Auto-play';
+  }
+
+  function toggleAuto() {
+    isPlaying ? stopAuto() : startAuto();
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft')  go(-1);
+  });
+</script>
