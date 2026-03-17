@@ -446,10 +446,72 @@ export default function NewCourseFormPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">Thumbnail URL</label>
-                <input type="url" value={form.thumbnail}
-                  onChange={(e) => setForm(f => ({ ...f, thumbnail: e.target.value }))}
-                  className="input-base" placeholder="https://..." />
+                <label className="block text-sm font-medium mb-1.5">Thumbnail</label>
+                <div className="flex items-start gap-3">
+                  <div className="flex-1">
+                    <input type="url" value={form.thumbnail}
+                      onChange={(e) => setForm(f => ({ ...f, thumbnail: e.target.value }))}
+                      className="input-base" placeholder="https://... or upload below" />
+                  </div>
+                  <input
+                    type="file"
+                    id="thumbnail-upload"
+                    accept="image/jpeg,image/png,image/gif,image/webp"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      
+                      const formData = new FormData()
+                      formData.append('file', file)
+                      
+                      setUploading(true)
+                      try {
+                        const res = await fetch('/api/upload/image', {
+                          method: 'POST',
+                          body: formData
+                        })
+                        const data = await res.json()
+                        if (data.success) {
+                          setForm(f => ({ ...f, thumbnail: data.url }))
+                          toast.success('Image uploaded!')
+                        } else {
+                          toast.error(data.error || 'Upload failed')
+                        }
+                      } catch (err) {
+                        toast.error('Upload failed')
+                      } finally {
+                        setUploading(false)
+                      }
+                    }}
+                  />
+                  <label
+                    htmlFor="thumbnail-upload"
+                    className={`flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-lg text-sm font-medium cursor-pointer hover:bg-primary/30 transition-colors ${uploading ? 'opacity-50' : ''}`}
+                  >
+                    {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                    Upload
+                  </label>
+                </div>
+                {form.thumbnail && (
+                  <div className="mt-3 relative inline-block">
+                    <img src={form.thumbnail} alt="Thumbnail preview" className="h-24 rounded-lg object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setForm(f => ({ ...f, thumbnail: '' }))}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+                <div 
+                  className="mt-3 border-2 border-dashed border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary transition-colors"
+                  onClick={() => document.getElementById('thumbnail-upload')?.click()}
+                >
+                  <p className="text-gray-400 text-sm">or drag and drop an image here</p>
+                  <p className="text-gray-500 text-xs mt-1">JPG, PNG, GIF, WebP - Max 10MB</p>
+                </div>
               </div>
             </div>
           )}
