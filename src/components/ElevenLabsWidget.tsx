@@ -2,6 +2,14 @@
 
 import { useEffect } from 'react';
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'elevenlabs-convai': any;
+    }
+  }
+}
+
 export default function ElevenLabsWidget() {
   useEffect(() => {
     const script = document.createElement('script');
