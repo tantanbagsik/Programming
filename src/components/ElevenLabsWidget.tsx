@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ElevenLabsClient } from '@elevenlabs/client';
 
-const AGENT_ID = 'agent_3b68f10d9e5d5c7e1f5651a9a7';
+const AGENT_ID = 'agent_8101kmpnp2nff0ts5vcrzxxfe16y';
 
 export default function ElevenLabsWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -226,7 +226,7 @@ export default function ElevenLabsWidget() {
           {/* Start Voice Button */}
           <div style={{ padding: '12px', borderTop: '1px solid rgba(124, 58, 237, 0.2)' }}>
             <a
-              href="https://elevenlabs.io/convai?agent_id=agent_3b68f10d9e5d5c7e1f5651a9a7"
+              href="https://elevenlabs.io/app/talk-to?agent_id=agent_8101kmpnp2nff0ts5vcrzxxfe16y&branch_id=agtbrch_5401kmpnp3kjftabkygpt76age6q"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -249,7 +249,7 @@ export default function ElevenLabsWidget() {
 
       {/* Hidden ElevenLabs widget */}
       <elevenlabs-convai 
-        agent-id={AGENT_ID}
+        agent-id="agent_8101kmpnp2nff0ts5vcrzxxfe16y"
         style={{ display: 'none' }}
       />
     </>
