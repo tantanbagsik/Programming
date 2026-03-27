@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ElevenLabsClient } from '@elevenlabs/client';
 
 const AGENT_ID = 'agent_8101kmpnp2nff0ts5vcrzxxfe16y';
 
