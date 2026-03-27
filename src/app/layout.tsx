@@ -3,6 +3,7 @@ import { Sora, Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/layout/Providers'
 import { Toaster } from 'react-hot-toast'
+import ElevenLabsWidget from '@/components/ElevenLabsWidget'
 
 const sora = Sora({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body className="bg-dark text-white font-inter antialiased">
         <Providers>
+          <ElevenLabsWidget />
           {children}
           <Toaster
             position="top-right"
