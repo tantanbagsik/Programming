@@ -33,8 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body className="bg-dark text-white font-inter antialiased">
         <Providers>
-          <ElevenLabsWidget />
           {children}
+          <ElevenLabsWidget />
           <Toaster
             position="top-right"
             toastOptions={{
