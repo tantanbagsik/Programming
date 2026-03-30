@@ -6,7 +6,7 @@ import Enrollment from '@/models/Enrollment'
 import User from '@/models/User'
 import { Navbar } from '@/components/layout/Navbar'
 import Link from 'next/link'
-import { BookOpen, Clock, Trophy, TrendingUp, ChevronRight, Award, Zap } from 'lucide-react'
+import { BookOpen, Clock, Trophy, TrendingUp, ChevronRight, Award, Zap, Video, Mail, MessageCircle } from 'lucide-react'
 
 export const metadata = { title: 'Dashboard' }
 
@@ -113,8 +113,17 @@ export default async function DashboardPage() {
           <div className="glow-card p-6">
             <h2 className="font-sora font-bold text-lg mb-4">Quick Actions</h2>
             <div className="flex flex-wrap gap-3">
+              <Link href="/dashboard/meetings" className="btn-outline text-sm relative">
+                <Video className="w-4 h-4 inline mr-2" />
+                Meeting Invites
+              </Link>
+              <Link href="/dashboard/chat" className="btn-outline text-sm">
+                <MessageCircle className="w-4 h-4 inline mr-2" />
+                Messages
+              </Link>
               <Link href="/courses" className="btn-outline text-sm">Browse Courses</Link>
               <Link href="/dashboard/certificates" className="btn-outline text-sm">My Certificates</Link>
+              <Link href="/video-call" className="btn-outline text-sm">Video Calls</Link>
               <Link href="/topup" className="btn-outline text-sm text-yellow-400 border-yellow-400/30 hover:border-yellow-400">Top Up Points</Link>
               <Link href="/dashboard/settings" className="btn-outline text-sm">Account Settings</Link>
             </div>

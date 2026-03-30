@@ -124,14 +124,56 @@ async function seed() {
       level: 'beginner', price: 0,
       enrollmentCount: 34100, rating: 4.7, reviewCount: 8900,
       totalLessons: 98, totalDuration: 2700,
-      sections: [
-        { title: 'Getting Started', order: 1, lessons: [
-          { title: 'Installing Python', description: 'Setup your environment', duration: 10, order: 1, isFree: true },
-          { title: 'Variables & Data Types', description: 'Python basics', duration: 20, order: 2, isFree: true },
-        ]},
-      ],
-    },
-  ]
+       sections: [
+         { title: 'Getting Started', order: 1, lessons: [
+           { title: 'Installing Python', description: 'Setup your environment', duration: 10, order: 1, isFree: true },
+           { title: 'Variables & Data Types', description: 'Python basics', duration: 20, order: 2, isFree: true },
+         ]},
+       ],
+     },
+     {
+       title: 'Video Production Fundamentals',
+       slug: 'video-production-fundamentals',
+       shortDescription: 'Learn video production from shooting to editing with professional techniques.',
+       description: 'Master the art of video production with hands-on lessons covering camera operation, lighting, audio, and editing workflows.',
+       thumbnail: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
+       instructor: instructor1._id,
+       category: 'Design', tags: ['video', 'production', 'editing', 'filmmaking'],
+       level: 'beginner', price: 29,
+       enrollmentCount: 5400, rating: 4.8, reviewCount: 1200,
+       isFeatured: true,
+       requirements: ['A smartphone or camera', 'Basic computer skills'],
+       whatYouLearn: ['Camera settings and composition', 'Lighting techniques for video', 'Audio recording best practices', 'Video editing workflow'],
+       totalLessons: 25, totalDuration: 375,
+       sections: [
+         { title: 'Introduction to Video', order: 1, lessons: [
+           { title: 'Course Welcome', description: 'Welcome to video production fundamentals', duration: 5, order: 1, isFree: true, videoUrl: '/videos/sample.mp4' },
+           { title: 'Understanding Video Formats', description: 'Different video formats and codecs', duration: 10, order: 2, isFree: true },
+         ]},
+         { title: 'Camera Basics', order: 2, lessons: [
+           { title: 'Camera Types and Sensors', description: 'DSLR, mirrorless, and smartphone cameras', duration: 15, order: 1, isFree: false },
+           { title: 'Exposure Triangle', description: 'Aperture, shutter speed, and ISO', duration: 20, order: 2, isFree: false },
+         ]},
+         { title: 'Lighting Fundamentals', order: 3, lessons: [
+           { title: 'Three-Point Lighting', description: 'Key, fill, and back light setup', duration: 20, order: 1, isFree: false },
+           { title: 'Natural Light Techniques', description: 'Using sunlight effectively', duration: 15, order: 2, isFree: false },
+         ]},
+         { title: 'Audio for Video', order: 4, lessons: [
+           { title: 'Microphone Types', description: 'Shotgun, lavalier, and handheld mics', duration: 15, order: 1, isFree: false },
+           { title: 'Recording Clean Audio', description: 'Reducing background noise and echo', duration: 15, order: 2, isFree: false },
+         ]},
+         { title: 'Video Editing Basics', order: 5, lessons: [
+           { title: 'Editing Software Overview', description: 'Premiere, Final Cut, and DaVinci Resolve', duration: 10, order: 1, isFree: false },
+           { title: 'Basic Cuts and Transitions', description: 'Jump cuts, L-cuts, and crossfades', duration: 20, order: 2, isFree: false },
+           { title: 'Color Correction Basics', description: 'Primary color correction and white balance', duration: 15, order: 3, isFree: false },
+         ]},
+         { title: 'Exporting and Delivery', order: 6, lessons: [
+           { title: 'Export Settings for Web', description: 'H.264, bitrate, and resolution settings', duration: 15, order: 1, isFree: false },
+           { title: 'Uploading to Platforms', description: 'YouTube, Vimeo, and social media specs', duration: 10, order: 2, isFree: false },
+         ]},
+       ],
+     },
+   ]
 
   await Course.insertMany(courses)
   console.log('📚 Created courses')

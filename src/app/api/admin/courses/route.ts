@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import Course from '@/models/Course'
 import User from '@/models/User'
+import mongoose from 'mongoose'
 import * as dns from 'dns'
 dns.setServers(['1.1.1.1'])
 
@@ -79,46 +80,94 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, ebooks, instructorId, tags } = body
+    const { title, slug, description, shortDescription, thumbnail, category, level, price, discountPrice, requirements, whatYouLearn, sections, files, ebooks, instructorId, tags, isPublished } = body
 
     await connectDB()
 
-    if (!title) {
+    // Validation
+    if (!title || title.trim() === '') {
       return NextResponse.json({ error: 'Title is required' }, { status: 400 })
     }
 
-    const courseSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-
-    const existing = await Course.findOne({ slug: courseSlug })
-    if (existing) {
-      return NextResponse.json({ error: 'Course with this title already exists' }, { status: 409 })
+    if (!description || description.trim() === '') {
+      return NextResponse.json({ error: 'Description is required' }, { status: 400 })
     }
 
+    if (!thumbnail || thumbnail.trim() === '') {
+      return NextResponse.json({ error: 'Thumbnail is required' }, { status: 400 })
+    }
+
+    const courseSlug = slug?.trim() || title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+
+    // Check if slug already exists
+    const existing = await Course.findOne({ slug: courseSlug })
+    if (existing) {
+      return NextResponse.json({ error: 'Course with this slug already exists' }, { status: 409 })
+    }
+
+    // Validate sections structure
+    const validatedSections = Array.isArray(sections) ? sections.map((section: any, index: number) => ({
+      title: section.title || `Section ${index + 1}`,
+      order: section.order || index + 1,
+      lessons: Array.isArray(section.lessons) ? section.lessons.map((lesson: any, lessonIndex: number) => ({
+        title: lesson.title || `Lesson ${lessonIndex + 1}`,
+        description: lesson.description || '',
+        videoUrl: lesson.videoUrl || '',
+        duration: lesson.duration || 0,
+        order: lesson.order || lessonIndex + 1,
+        isFree: lesson.isFree ?? false,
+        resources: Array.isArray(lesson.resources) ? lesson.resources : []
+      })) : []
+    })) : []
+
+    // Calculate total lessons
+    const totalLessons = validatedSections.reduce((acc: number, section: any) => {
+      return acc + (Array.isArray(section.lessons) ? section.lessons.length : 0)
+    }, 0)
+
+    // Process files and ebooks to match the expected schema
+    const processedFiles = Array.isArray(files) ? files.map((file: any) => ({
+      id: file.id || Math.random().toString(36).substr(2, 9),
+      title: file.title || 'Untitled File',
+      url: file.url || '',
+      type: file.type || 'other'
+    })) : []
+
+    const processedEbooks = Array.isArray(ebooks) ? ebooks.map((ebook: any) => ({
+      id: ebook.id || Math.random().toString(36).substr(2, 9),
+      title: ebook.title || 'Untitled Ebook',
+      url: ebook.url || '',
+      type: ebook.type || 'other'
+    })) : []
+
+    // Combine files and ebooks
+    const allFiles = [...processedFiles, ...processedEbooks]
+
     const course = await Course.create({
-      title,
+      title: title.trim(),
       slug: courseSlug,
-      description: description || '',
-      shortDescription: shortDescription || title.substring(0, 200),
-      thumbnail: thumbnail || '',
-      category: category || 'Programming',
-      level: level || 'beginner',
+      description: description.trim(),
+      shortDescription: shortDescription?.trim() || title.substring(0, Math.min(200, title.length)),
+      thumbnail: thumbnail.trim(),
+      category: category?.trim() || 'Programming',
+      level: (level && ['beginner', 'intermediate', 'advanced', 'all-levels'].includes(level)) ? level : 'beginner',
       language: 'English',
-      price: price || 0,
-      discountPrice: discountPrice || undefined,
+      price: typeof price === 'number' && !isNaN(price) ? Math.max(0, price) : 0,
+      discountPrice: typeof discountPrice === 'number' && !isNaN(discountPrice) && discountPrice >= 0 ? discountPrice : undefined,
       currency: 'usd',
-      requirements: requirements || [],
-      whatYouLearn: whatYouLearn || [],
-      sections: sections || [],
-      totalLessons: sections?.reduce((acc: number, s: any) => acc + (s.lessons?.length || 0), 0) || 0,
-      tags: tags || [],
-      instructor: instructorId || user.id,
-      isPublished: false,
-      files: files || ebooks || []
+      requirements: Array.isArray(requirements) ? requirements.filter((req: string) => typeof req === 'string' && req.trim() !== '') : [],
+      whatYouLearn: Array.isArray(whatYouLearn) ? whatYouLearn.filter((learn: string) => typeof learn === 'string' && learn.trim() !== '') : [],
+      sections: validatedSections,
+      totalLessons: totalLessons,
+      tags: Array.isArray(tags) ? tags.filter((tag: string) => typeof tag === 'string' && tag.trim() !== '') : [],
+      instructor: instructorId ? new mongoose.Types.ObjectId(instructorId) : user.id,
+      isPublished: Boolean(isPublished),
+      files: allFiles
     })
 
     return NextResponse.json({ course: { ...course.toObject(), _id: course._id.toString() } }, { status: 201 })
   } catch (error) {
     console.error('[ADMIN COURSES POST]', error)
-    return NextResponse.json({ error: 'Failed to create course' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to create course: ' + (error instanceof Error ? error.message : String(error)) }, { status: 500 })
   }
 }

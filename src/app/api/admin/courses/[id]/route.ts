@@ -86,31 +86,65 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     // Check slug uniqueness if changed
-    if (slug && slug !== course.slug) {
-      const existing = await Course.findOne({ slug })
+    if (slug && slug?.trim() !== course.slug) {
+      const existing = await Course.findOne({ slug: slug?.trim() })
       if (existing) {
         return NextResponse.json({ error: 'Course with this slug already exists' }, { status: 409 })
       }
     }
 
-    const totalLessons = sections?.reduce((acc: number, s: any) => acc + (s.lessons?.length || 0), 0) || course.totalLessons
+    // Validate and process sections if provided
+    let totalLessons = course.totalLessons
+    let processedSections = undefined
+    let processedFiles = undefined
+
+    if (sections !== undefined && Array.isArray(sections)) {
+      processedSections = sections.map((section: any, index: number) => ({
+        title: section.title || `Section ${index + 1}`,
+        order: section.order || index + 1,
+        lessons: Array.isArray(section.lessons) ? section.lessons.map((lesson: any, lessonIndex: number) => ({
+          title: lesson.title || `Lesson ${lessonIndex + 1}`,
+          description: lesson.description || '',
+          videoUrl: lesson.videoUrl || '',
+          duration: lesson.duration || 0,
+          order: lesson.order || lessonIndex + 1,
+          isFree: lesson.isFree ?? false,
+          resources: Array.isArray(lesson.resources) ? lesson.resources : []
+        })) : []
+      }))
+
+      // Calculate total lessons from processed sections
+      totalLessons = processedSections.reduce((acc: number, section: any) => {
+        return acc + (Array.isArray(section.lessons) ? section.lessons.length : 0)
+      }, 0)
+    }
+
+    // Process files if provided
+    if (files !== undefined && Array.isArray(files)) {
+      processedFiles = files.map((file: any) => ({
+        id: file.id || Math.random().toString(36).substr(2, 9),
+        title: file.title || 'Untitled File',
+        url: file.url || '',
+        type: file.type || 'other'
+      }))
+    }
 
     const updatedCourse = await Course.findByIdAndUpdate(params.id, {
-      ...(title && { title }),
-      ...(slug && { slug }),
-      ...(description && { description }),
-      ...(shortDescription && { shortDescription }),
-      ...(thumbnail && { thumbnail }),
-      ...(category && { category }),
-      ...(level && { level }),
-      ...(price !== undefined && { price }),
-      ...(discountPrice !== undefined && { discountPrice }),
-      ...(requirements && { requirements }),
-      ...(whatYouLearn && { whatYouLearn }),
-      ...(sections && { sections }),
-      ...(files && { files }),
-      totalLessons,
-      ...(isPublished !== undefined && { isPublished })
+      ...(title && { title: title?.trim() }),
+      ...(slug && { slug: slug?.trim() }),
+      ...(description && { description: description?.trim() }),
+      ...(shortDescription && { shortDescription: shortDescription?.trim() }),
+      ...(thumbnail && { thumbnail: thumbnail?.trim() }),
+      ...(category && { category: category?.trim() }),
+      ...(level && { level: (level && ['beginner', 'intermediate', 'advanced', 'all-levels'].includes(level)) ? level : undefined }),
+      ...(price !== undefined && { price: typeof price === 'number' && !isNaN(price) ? Math.max(0, price) : undefined }),
+      ...(discountPrice !== undefined && { discountPrice: typeof discountPrice === 'number' && !isNaN(discountPrice) && discountPrice >= 0 ? discountPrice : undefined }),
+      ...(requirements && { requirements: Array.isArray(requirements) ? requirements.filter((req: string) => typeof req === 'string' && req.trim() !== '') : undefined }),
+      ...(whatYouLearn && { whatYouLearn: Array.isArray(whatYouLearn) ? whatYouLearn.filter((learn: string) => typeof learn === 'string' && learn.trim() !== '') : undefined }),
+      ...(processedSections !== undefined && { sections: processedSections }),
+      ...(processedFiles !== undefined && { files: processedFiles }),
+      totalLessons: totalLessons,
+      ...(isPublished !== undefined && { isPublished: Boolean(isPublished) })
     }, { new: true }).populate('instructor', 'name email')
 
     return NextResponse.json({ 
@@ -121,6 +155,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     })
   } catch (error) {
     console.error('[ADMIN COURSE PUT]', error)
-    return NextResponse.json({ error: 'Failed to update course' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to update course: ' + (error instanceof Error ? error.message : String(error)) }, { status: 500 })
   }
 }

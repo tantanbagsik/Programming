@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import Link from 'next/link'
-import { Users, BookOpen, DollarSign, TrendingUp, ArrowUpRight } from 'lucide-react'
+import { Users, BookOpen, DollarSign, TrendingUp, ArrowUpRight, Video } from 'lucide-react'
 
 export const metadata = { title: 'Admin Dashboard' }
 
@@ -118,20 +118,22 @@ export default async function AdminPage() {
             </div>
           </div>
 
-          {/* Quick links */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { href: '/admin/users', label: 'Manage Users', icon: '👥' },
-              { href: '/admin/courses', label: 'Manage Courses', icon: '📚' },
-              { href: '/admin/payments', label: 'View Payments', icon: '💳' },
-              { href: '/admin/settings', label: 'Site Settings', icon: '⚙️' },
-            ].map((l, i) => (
-              <Link key={i} href={l.href} className="glow-card p-4 flex items-center gap-3 hover:border-primary/50 transition-all group">
-                <span className="text-2xl">{l.icon}</span>
-                <span className="text-sm font-medium group-hover:text-white transition-colors">{l.label}</span>
-              </Link>
-            ))}
-          </div>
+           {/* Quick links */}
+           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+             {[
+               { href: '/admin/users', label: 'Manage Users', icon: '👥' },
+               { href: '/admin/courses', label: 'Manage Courses', icon: '📚' },
+               { href: '/admin/video-call', label: 'Video Calls', icon: '📹' },
+               { href: '/admin/payments', label: 'View Payments', icon: '💳' },
+               { href: '/admin/settings', label: 'Site Settings', icon: '⚙️' },
+               { href: '/admin/settings/cloudinary', label: 'Cloudinary', icon: '☁️' },
+             ].map((l, i) => (
+               <Link key={i} href={l.href} className="glow-card p-4 flex items-center gap-3 hover:border-primary/50 transition-all group">
+                 <span className="text-2xl">{l.icon}</span>
+                 <span className="text-sm font-medium group-hover:text-white transition-colors">{l.label}</span>
+               </Link>
+             ))}
+           </div>
         </div>
       </div>
     </>

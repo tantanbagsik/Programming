@@ -130,7 +130,7 @@ CourseSchema.pre('save', function (next) {
 
 CourseSchema.index({ title: 'text', description: 'text', tags: 'text' })
 CourseSchema.index({ category: 1, isPublished: 1 })
-CourseSchema.index({ slug: 1 })
+// CourseSchema.index({ slug: 1 }) - Removed duplicate as slug already has unique: true
 
 const Course: Model<ICourse> = mongoose.models.Course || mongoose.model<ICourse>('Course', CourseSchema)
 export default Course

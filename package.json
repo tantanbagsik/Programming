@@ -10,6 +10,7 @@
     "seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
+    "@elevenlabs/client": "^0.16.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -30,6 +31,8 @@
     "react-hot-toast": "^2.4.1",
     "stripe": "^15.12.0",
     "tailwind-merge": "^2.4.0",
+    "twilio": "^5.13.1",
+    "twilio-video": "^2.34.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },
@@ -43,6 +46,7 @@
     "eslint-config-next": "14.2.5",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "tsx": "^4.16.2",
     "typescript": "^5"
   }
