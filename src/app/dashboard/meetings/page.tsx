@@ -19,13 +19,14 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 
 interface Meeting {
-  id: string
+  _id: string
   name: string
   createdAt: string
   hostEmail: string
   hostName: string
   invitees: string[]
   joinUrl: string
+  roomId: string
 }
 
 function MeetingsContent() {
@@ -46,31 +47,28 @@ function MeetingsContent() {
     }
   }, [status])
 
-  const loadMeetings = () => {
-    if (typeof window === 'undefined') return
-    const saved = localStorage.getItem('user-meetings')
-    if (saved) {
-      setMeetings(JSON.parse(saved))
+  const loadMeetings = async () => {
+    try {
+      const response = await fetch('/api/meeting')
+      const data = await response.json()
+      if (response.ok) {
+        setMeetings(data.meetings || [])
+      }
+    } catch (error) {
+      console.error('Error loading meetings:', error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const getHostMeetings = (): Meeting[] => {
-    if (typeof window === 'undefined') return []
-    const saved = localStorage.getItem('user-meetings')
-    if (!saved) return []
-    const allMeetings: Meeting[] = JSON.parse(saved)
     const userEmail = session?.user?.email || ''
-    return allMeetings.filter(m => m.hostEmail === userEmail)
+    return meetings.filter(m => m.hostEmail === userEmail)
   }
 
   const getInvitedMeetings = (): Meeting[] => {
-    if (typeof window === 'undefined') return []
-    const saved = localStorage.getItem('user-meetings')
-    if (!saved) return []
-    const allMeetings: Meeting[] = JSON.parse(saved)
     const userEmail = session?.user?.email || ''
-    return allMeetings.filter(m => m.invitees.includes(userEmail) && m.hostEmail !== userEmail)
+    return meetings.filter(m => m.invitees.includes(userEmail) && m.hostEmail !== userEmail)
   }
 
   const hostMeetings = getHostMeetings()
@@ -85,15 +83,19 @@ function MeetingsContent() {
     toast.success('Meeting link copied!')
   }
 
-  const deleteMeeting = (meeting: Meeting) => {
-    if (typeof window === 'undefined') return
-    const saved = localStorage.getItem('user-meetings')
-    if (!saved) return
-    let allMeetings: Meeting[] = JSON.parse(saved)
-    allMeetings = allMeetings.filter(m => m.id !== meeting.id)
-    localStorage.setItem('user-meetings', JSON.stringify(allMeetings))
-    setMeetings(allMeetings)
-    toast.success('Meeting deleted')
+  const deleteMeeting = async (meeting: Meeting) => {
+    try {
+      const response = await fetch(`/api/meeting/${meeting._id}?id=${meeting._id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        setMeetings(meetings.filter(m => m._id !== meeting._id))
+        toast.success('Meeting deleted')
+      }
+    } catch (error) {
+      toast.error('Failed to delete meeting')
+    }
   }
 
   if (status === 'loading' || loading) {
@@ -160,7 +162,7 @@ function MeetingsContent() {
             <div className="space-y-3">
               {hostMeetings.map((meeting) => (
                 <div 
-                  key={meeting.id} 
+                  key={meeting._id} 
                   className="p-4 bg-dark/50 rounded-xl border border-primary/30"
                 >
                   <div className="flex items-center justify-between">
@@ -241,7 +243,7 @@ function MeetingsContent() {
             <div className="space-y-3">
               {invitedMeetings.map((meeting) => (
                 <div 
-                  key={meeting.id} 
+                  key={meeting._id} 
                   className="p-4 bg-dark/50 rounded-xl border border-green-500/30"
                 >
                   <div className="flex items-center justify-between">

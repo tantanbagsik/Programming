@@ -10,34 +10,32 @@ import {
   Loader2, 
   Plus, 
   Play, 
-  Copy, 
-  ExternalLink,
-  Mail,
+  Copy,
   Trash2,
+  Mail,
   Check
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface Meeting {
-  id: string
+  _id: string
   name: string
   createdAt: string
   hostEmail: string
   hostName: string
   invitees: string[]
   joinUrl: string
+  roomId: string
 }
 
 function VideoCallContent() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [meetings, setMeetings] = useState<Meeting[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [newMeetingName, setNewMeetingName] = useState('')
   const [inviteeEmail, setInviteeEmail] = useState('')
-  const [currentMeeting, setCurrentMeeting] = useState<Meeting | null>(null)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -51,18 +49,18 @@ function VideoCallContent() {
     }
   }, [status])
 
-  const loadMeetings = () => {
-    if (typeof window === 'undefined') return
-    const saved = localStorage.getItem('user-meetings')
-    if (saved) {
-      setMeetings(JSON.parse(saved))
+  const loadMeetings = async () => {
+    try {
+      const response = await fetch('/api/meeting')
+      const data = await response.json()
+      if (response.ok) {
+        setMeetings(data.meetings || [])
+      }
+    } catch (error) {
+      console.error('Error loading meetings:', error)
+    } finally {
+      setLoading(false)
     }
-  }
-
-  const saveMeetings = (updated: Meeting[]) => {
-    if (typeof window === 'undefined') return
-    setMeetings(updated)
-    localStorage.setItem('user-meetings', JSON.stringify(updated))
   }
 
   const createMeeting = async () => {
@@ -88,20 +86,25 @@ function VideoCallContent() {
         throw new Error(data.error || 'Failed to create meeting')
       }
 
-      const newMeeting: Meeting = {
-        id: data.roomName,
-        name: newMeetingName,
-        createdAt: new Date().toISOString(),
-        hostEmail: session?.user?.email || '',
-        hostName: session?.user?.name || 'User',
-        invitees: [],
-        joinUrl: data.joinUrl
+      const meetingResponse = await fetch('/api/meeting', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: newMeetingName,
+          roomId: data.roomName,
+          joinUrl: data.joinUrl,
+          invitees: []
+        })
+      })
+
+      const meetingData = await meetingResponse.json()
+
+      if (!meetingResponse.ok) {
+        throw new Error(meetingData.error || 'Failed to save meeting')
       }
 
-      const updatedMeetings = [newMeeting, ...meetings]
-      saveMeetings(updatedMeetings)
+      setMeetings([meetingData.meeting, ...meetings])
       setNewMeetingName('')
-      setCurrentMeeting(newMeeting)
       toast.success('Meeting created! Invite others below.')
     } catch (error: any) {
       console.error('Error creating meeting:', error)
@@ -111,7 +114,7 @@ function VideoCallContent() {
     }
   }
 
-  const addInvitee = (meeting: Meeting) => {
+  const addInvitee = async (meeting: Meeting) => {
     if (!inviteeEmail.trim()) {
       toast.error('Please enter an email address')
       return
@@ -123,31 +126,46 @@ function VideoCallContent() {
       return
     }
 
-    const updatedMeetings = meetings.map(m => {
-      if (m.id === meeting.id) {
-        if (m.invitees.includes(inviteeEmail)) {
-          toast.error('This email is already invited')
-          return m
-        }
-        const updated = { ...m, invitees: [...m.invitees, inviteeEmail] }
-        toast.success(`Invited ${inviteeEmail}`)
-        return updated
-      }
-      return m
-    })
+    try {
+      const response = await fetch(`/api/meeting/${meeting._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ meetingId: meeting._id, invitee: inviteeEmail, action: 'add' })
+      })
 
-    saveMeetings(updatedMeetings)
-    setInviteeEmail('')
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to invite')
+      }
+
+      setMeetings(meetings.map(m => m._id === meeting._id ? data.meeting : m))
+      toast.success(`Invited ${inviteeEmail}`)
+      setInviteeEmail('')
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
 
-  const removeInvitee = (meeting: Meeting, email: string) => {
-    const updatedMeetings = meetings.map(m => {
-      if (m.id === meeting.id) {
-        return { ...m, invitees: m.invitees.filter(e => e !== email) }
+  const removeInvitee = async (meeting: Meeting, email: string) => {
+    try {
+      const response = await fetch(`/api/meeting/${meeting._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ meetingId: meeting._id, invitee: email, action: 'remove' })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to remove invitee')
       }
-      return m
-    })
-    saveMeetings(updatedMeetings)
+
+      setMeetings(meetings.map(m => m._id === meeting._id ? data.meeting : m))
+      toast.success('Invitee removed')
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
 
   const joinMeeting = (meeting: Meeting) => {
@@ -159,17 +177,30 @@ function VideoCallContent() {
     toast.success('Meeting link copied!')
   }
 
-  const deleteMeeting = (meeting: Meeting) => {
-    const updatedMeetings = meetings.filter(m => m.id !== meeting.id)
-    saveMeetings(updatedMeetings)
-    toast.success('Meeting deleted')
+  const deleteMeeting = async (meeting: Meeting) => {
+    try {
+      const response = await fetch(`/api/meeting/${meeting._id}?id=${meeting._id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        setMeetings(meetings.filter(m => m._id !== meeting._id))
+        toast.success('Meeting deleted')
+      }
+    } catch (error) {
+      toast.error('Failed to delete meeting')
+    }
+  }
+
+  const isMyMeeting = (meeting: Meeting) => {
+    return meeting.hostEmail === session?.user?.email
   }
 
   const isInvited = (meeting: Meeting) => {
     return meeting.invitees.includes(session?.user?.email || '')
   }
 
-  if (status === 'loading') {
+  if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -218,7 +249,7 @@ function VideoCallContent() {
         </div>
 
         <div className="glow-card p-6">
-          <h2 className="font-semibold text-lg mb-4">Your Meetings</h2>
+          <h2 className="font-semibold text-lg mb-4">All Meetings</h2>
           
           {meetings.length === 0 ? (
             <div className="text-center py-8">
@@ -229,7 +260,7 @@ function VideoCallContent() {
             <div className="space-y-4">
               {meetings.map((meeting) => (
                 <div 
-                  key={meeting.id} 
+                  key={meeting._id} 
                   className="p-4 bg-dark/50 rounded-xl border border-border"
                 >
                   <div className="flex items-center justify-between mb-4">
@@ -260,7 +291,7 @@ function VideoCallContent() {
                       >
                         <Copy className="w-4 h-4" />
                       </button>
-                      {meeting.hostEmail === session?.user?.email && (
+                      {isMyMeeting(meeting) && (
                         <button
                           onClick={() => deleteMeeting(meeting)}
                           className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors"
@@ -272,7 +303,7 @@ function VideoCallContent() {
                     </div>
                   </div>
 
-                  {meeting.hostEmail === session?.user?.email && (
+                  {isMyMeeting(meeting) && (
                     <div className="border-t border-border pt-4 mt-4">
                       <p className="text-sm text-gray-400 mb-2 flex items-center gap-2">
                         <Mail className="w-4 h-4" />
@@ -317,11 +348,11 @@ function VideoCallContent() {
                     </div>
                   )}
 
-                  {meeting.invitees.length > 0 && isInvited(meeting) && (
+                  {!isMyMeeting(meeting) && isInvited(meeting) && (
                     <div className="mt-3 p-2 bg-green-500/20 rounded-lg flex items-center justify-between">
                       <span className="text-sm text-green-400 flex items-center gap-2">
                         <Check className="w-4 h-4" />
-                        You've been invited to this meeting
+                        You have been invited to this meeting
                       </span>
                       <button
                         onClick={() => joinMeeting(meeting)}
@@ -335,16 +366,6 @@ function VideoCallContent() {
               ))}
             </div>
           )}
-        </div>
-
-        <div className="mt-6 glow-card p-6">
-          <h3 className="font-semibold mb-4">How it works:</h3>
-          <ol className="text-gray-400 text-sm space-y-2 list-decimal list-inside">
-            <li>Create a new meeting with a name</li>
-            <li>Share the meeting link or invite others by email</li>
-            <li>Click "Join" to start the video call</li>
-            <li>Invited users will see the meeting and can join directly</li>
-          </ol>
         </div>
       </div>
     </div>
