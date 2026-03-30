@@ -48,7 +48,7 @@ export async function GET() {
     const meetings = await Meeting.find({
       $or: [
         { hostEmail: userEmail },
-        { invitees: userEmail }
+        { invitees: { $in: [userEmail] } }
       ]
     }).sort({ createdAt: -1 }).lean()
 
