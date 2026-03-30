@@ -1,0 +1,302 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { 
+  Video, 
+  VideoOff, 
+  Mic, 
+  MicOff, 
+  PhoneOff, 
+  Monitor,
+  Users,
+  Clock,
+  Loader2,
+  Plus,
+  Search,
+  Calendar,
+  User
+} from 'lucide-react'
+import toast from 'react-hot-toast'
+
+interface Participant {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
+export default function VideoCallPage() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const [inCall, setInCall] = useState(false)
+  const [callId, setCallId] = useState<string | null>(null)
+  const [participants, setParticipants] = useState<Participant[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isVideoOn, setIsVideoOn] = useState(true)
+  const [isMicOn, setIsMicOn] = useState(true)
+  const [callDuration, setCallDuration] = useState(0)
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/login')
+    }
+  }, [status, router])
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      loadParticipants()
+    }
+  }, [status])
+
+  // Call duration timer
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (inCall) {
+      interval = setInterval(() => {
+        setCallDuration(prev => prev + 1)
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [inCall])
+
+  const loadParticipants = async () => {
+    try {
+      // For demo, we'll use mock data
+      // In production, this would fetch from /api/users
+      setParticipants([
+        { id: '1', name: 'Admin User', email: 'admin@edulearn.com', role: 'admin' },
+        { id: '2', name: 'Sarah Johnson', email: 'sarah@edulearn.com', role: 'instructor' },
+        { id: '3', name: 'Marcus Chen', email: 'marcus@edulearn.com', role: 'instructor' },
+        { id: '4', name: 'Test Student', email: 'student@edulearn.com', role: 'student' },
+      ])
+    } catch (error) {
+      console.error('Error loading participants:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const startCall = async (participantId: string) => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/video-call/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ participantId })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to start call')
+      }
+
+      setCallId(data.callId)
+      setInCall(true)
+      toast.success('Call started!')
+    } catch (error: any) {
+      console.error('Error starting call:', error)
+      toast.error(error.message || 'Failed to start call')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const endCall = async () => {
+    if (!callId) return
+
+    try {
+      await fetch('/api/video-call/end', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ callId })
+      })
+    } catch (error) {
+      console.error('Error ending call:', error)
+    }
+
+    setInCall(false)
+    setCallId(null)
+    setCallDuration(0)
+    toast.success('Call ended')
+  }
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const filteredParticipants = participants.filter(p => 
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.email.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  if (status === 'loading' || loading) {
+    return (
+      <div className="min-h-screen bg-dark flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  // In-call view
+  if (inCall) {
+    return (
+      <div className="min-h-screen bg-dark flex flex-col">
+        {/* Video Area */}
+        <div className="flex-1 relative bg-black">
+          {/* Main Video (Remote) */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                <User className="w-16 h-16 text-primary" />
+              </div>
+              <p className="text-white text-xl">Connecting...</p>
+            </div>
+          </div>
+
+          {/* Local Video Preview */}
+          <div className="absolute bottom-4 right-4 w-48 h-36 bg-gray-900 rounded-lg border border-border overflow-hidden">
+            {isVideoOn ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <Video className="w-8 h-8 text-gray-500" />
+              </div>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                <VideoOff className="w-8 h-8 text-gray-500" />
+              </div>
+            )}
+          </div>
+
+          {/* Call Info */}
+          <div className="absolute top-4 left-4 flex items-center gap-4">
+            <div className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full flex items-center gap-2">
+              <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
+              {formatDuration(callDuration)}
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="bg-card border-t border-border p-4">
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => setIsMicOn(!isMicOn)}
+              className={`p-4 rounded-full transition-colors ${
+                isMicOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
+              }`}
+            >
+              {isMicOn ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+            </button>
+
+            <button
+              onClick={() => setIsVideoOn(!isVideoOn)}
+              className={`p-4 rounded-full transition-colors ${
+                isVideoOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
+              }`}
+            >
+              {isVideoOn ? <Video className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
+            </button>
+
+            <button
+              className="p-4 rounded-full bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+            >
+              <Monitor className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={endCall}
+              className="p-4 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors"
+            >
+              <PhoneOff className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Pre-call view - Participant selection
+  return (
+    <div className="min-h-screen bg-dark pt-20">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="glow-card p-6">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+              <Video className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="font-sora font-bold text-2xl">Video Call</h1>
+              <p className="text-gray-400 text-sm">Start a video call with students or instructors</p>
+            </div>
+          </div>
+
+          {/* Search */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search participants..."
+              className="input-base pl-10"
+            />
+          </div>
+
+          {/* Participants List */}
+          <div className="space-y-3">
+            <h2 className="font-semibold text-lg mb-4">Available Participants</h2>
+            {filteredParticipants.map(participant => (
+              <div 
+                key={participant.id} 
+                className="flex items-center justify-between p-4 bg-dark/50 rounded-xl"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                    {participant.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-medium">{participant.name}</p>
+                    <p className="text-gray-500 text-sm">{participant.email}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`badge text-xs ${
+                    participant.role === 'admin' ? 'bg-accent/20 text-accent' :
+                    participant.role === 'instructor' ? 'bg-secondary/20 text-secondary' :
+                    'bg-gray-700 text-gray-400'
+                  }`}>
+                    {participant.role}
+                  </span>
+                  <button
+                    onClick={() => startCall(participant.id)}
+                    disabled={loading}
+                    className="btn-primary flex items-center gap-2"
+                  >
+                    <Video className="w-4 h-4" />
+                    Start Call
+                  </button>
+                </div>
+              </div>
+            ))}
+            {filteredParticipants.length === 0 && (
+              <p className="text-gray-500 text-center py-8">No participants found</p>
+            )}
+          </div>
+
+          {/* Info */}
+          <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-xl">
+            <p className="text-sm text-gray-400">
+              <strong>Note:</strong> Video calling requires Twilio credentials to be configured. 
+              Please contact your administrator if you encounter issues starting calls.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

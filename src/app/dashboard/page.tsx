@@ -115,6 +115,7 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap gap-3">
               <Link href="/courses" className="btn-outline text-sm">Browse Courses</Link>
               <Link href="/dashboard/certificates" className="btn-outline text-sm">My Certificates</Link>
+              <Link href="/video-call" className="btn-outline text-sm">Video Calls</Link>
               <Link href="/topup" className="btn-outline text-sm text-yellow-400 border-yellow-400/30 hover:border-yellow-400">Top Up Points</Link>
               <Link href="/dashboard/settings" className="btn-outline text-sm">Account Settings</Link>
             </div>

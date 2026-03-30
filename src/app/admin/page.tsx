@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import Link from 'next/link'
-import { Users, BookOpen, DollarSign, TrendingUp, ArrowUpRight } from 'lucide-react'
+import { Users, BookOpen, DollarSign, TrendingUp, ArrowUpRight, Video } from 'lucide-react'
 
 export const metadata = { title: 'Admin Dashboard' }
 
@@ -123,6 +123,7 @@ export default async function AdminPage() {
              {[
                { href: '/admin/users', label: 'Manage Users', icon: '👥' },
                { href: '/admin/courses', label: 'Manage Courses', icon: '📚' },
+               { href: '/admin/video-call', label: 'Video Calls', icon: '📹' },
                { href: '/admin/payments', label: 'View Payments', icon: '💳' },
                { href: '/admin/settings', label: 'Site Settings', icon: '⚙️' },
                { href: '/admin/settings/cloudinary', label: 'Cloudinary', icon: '☁️' },
