@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronDown, LogOut, LayoutDashboard, BookOpen, Settings, ShoppingCart, Zap, Plus } from 'lucide-react'
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard, BookOpen, Settings, ShoppingCart, Zap, Plus, MessageCircle } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
@@ -110,6 +110,9 @@ export function Navbar() {
                     <Link href="/dashboard/courses" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
                       <BookOpen className="w-4 h-4" /> My Courses
                     </Link>
+                    <Link href="/chat" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
+                      <MessageCircle className="w-4 h-4" /> Messages
+                    </Link>
                     {user?.role === 'admin' && (
                       <Link href="/admin" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
                         <Settings className="w-4 h-4" /> Admin Panel
@@ -163,6 +166,7 @@ export function Navbar() {
                 </div>
               </div>
               <Link href="/dashboard" className="block nav-link py-2" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+              <Link href="/chat" className="block nav-link py-2" onClick={() => setMobileOpen(false)}>Messages</Link>
               <button onClick={() => signOut({ callbackUrl: '/' })} className="block text-red-400 text-sm py-2">Sign Out</button>
             </>
           ) : (
