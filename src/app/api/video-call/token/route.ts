@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     // or that the user is allowed to create a call with the given identity.
     // For simplicity, we'll use the session user's ID as the identity.
     // But note: the client is sending identity, so we should check it matches the session.
-    if (identity !== session.user.id) {
+    if (!session.user || identity !== session.user.id) {
       return NextResponse.json(
         { error: 'Identity does not match the current user' },
         { status: 403 }
