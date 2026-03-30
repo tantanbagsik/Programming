@@ -11,39 +11,46 @@ export default function ElevenLabsWidget() {
   const [inputText, setInputText] = useState('');
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const startConversation = async () => {
-    try {
-      setStatus('connecting');
-      setIsOpen(true);
-      
-      const elevenlabs = new ElevenLabsClient({
-        apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || ''
-      });
+   const startConversation = async () => {
+     try {
+       setStatus('connecting');
+       setIsOpen(true);
+       
+       // For now, let's use the embed approach
+       setStatus('idle');
+     } catch (error) {
+       console.error('Error connecting:', error);
+       setStatus('error');
+     }
+   };
 
-      // This would require the API key - for a public widget, 
-      // we should use the embed script instead
-      console.log('Attempting to connect to agent:', AGENT_ID);
-      
-      // For now, let's use the embed approach
-      setStatus('idle');
-    } catch (error) {
-      console.error('Error connecting:', error);
-      setStatus('error');
-    }
-  };
-
-  useEffect(() => {
-    // Dynamically load the ElevenLabs widget script
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
-    script.async = true;
-    script.type = 'text/javascript';
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup
-    };
-  }, []);
+   useEffect(() => {
+     // Dynamically load the ElevenLabs widget script
+     const script = document.createElement('script');
+     script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+     script.async = true;
+     script.onload = () => {
+       // Initialize the widget after script loads
+       // @ts-ignore - ElevenLabsWidget is added to window by the script
+       if (window.ElevenLabsWidget) {
+         // @ts-ignore - ElevenLabsWidget is added to window by the script
+         window.ElevenLabsWidget.init({
+           agentId: 'agent_8101kmpnp2nff0ts5vcrzxxfe16y',
+           container: document.getElementById('elevenlabs-widget-container')
+         });
+       }
+     };
+     document.head.appendChild(script);
+ 
+     return () => {
+       // Cleanup
+       // @ts-ignore - ElevenLabsWidget is added to window by the script
+       if (window.ElevenLabsWidget && window.ElevenLabsWidget.unmount) {
+         // @ts-ignore - ElevenLabsWidget is added to window by the script
+         window.ElevenLabsWidget.unmount();
+       }
+     };
+   }, []);
 
   return (
     <>
@@ -246,11 +253,8 @@ export default function ElevenLabsWidget() {
         </div>
       )}
 
-      {/* Hidden ElevenLabs widget */}
-      <elevenlabs-convai 
-        agent-id="agent_8101kmpnp2nff0ts5vcrzxxfe16y"
-        style={{ display: 'none' }}
-      />
+      {/* Hidden ElevenLabs widget container - the script will create the widget */}
+       <div id="elevenlabs-widget-container" style={{ display: 'none' }}></div>
     </>
   );
 
