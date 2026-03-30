@@ -1,6 +1,4 @@
 import mongoose from 'mongoose'
-import * as dns from 'dns'
-dns.setServers(['1.1.1.1'])
 
 const MONGODB_URI = process.env.MONGODB_URI!
 
@@ -26,6 +24,8 @@ export async function connectDB() {
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
     })
   }
 
@@ -33,6 +33,7 @@ export async function connectDB() {
     cached.conn = await cached.promise
   } catch (e) {
     cached.promise = null
+    console.error('MongoDB Connection Error:', e)
     throw e
   }
 
