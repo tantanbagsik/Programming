@@ -1,54 +1,43 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { 
-  Video as VideoIcon, 
-  VideoOff, 
-  Mic, 
-  MicOff, 
-  PhoneOff, 
-  Monitor,
-  Users,
-  Clock,
-  Loader2,
-  Plus,
-  Search,
-  Calendar,
-  User,
-  Settings
+  Video, 
+  Users, 
+  Clock, 
+  Loader2, 
+  Plus, 
+  Play, 
+  Copy, 
+  ExternalLink,
+  Mail,
+  Trash2,
+  Check
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import Video, { Room, LocalTrack, RemoteParticipant, LocalVideoTrack, LocalAudioTrack, RemoteVideoTrack, RemoteAudioTrack } from 'twilio-video'
 
-type CallProvider = 'twilio' | 'bbb'
-
-interface Participant {
+interface Meeting {
   id: string
   name: string
-  email: string
-  role: string
+  createdAt: string
+  hostEmail: string
+  hostName: string
+  invitees: string[]
+  joinUrl: string
 }
 
-export default function VideoCallPage() {
+function VideoCallContent() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [callProvider, setCallProvider] = useState<CallProvider>('bbb')
-  const [inCall, setInCall] = useState(false)
-  const [callId, setCallId] = useState<string | null>(null)
-  const [participants, setParticipants] = useState<Participant[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isVideoOn, setIsVideoOn] = useState(true)
-  const [isMicOn, setIsMicOn] = useState(true)
-  const [callDuration, setCallDuration] = useState(0)
-  const [room, setRoom] = useState<Room | null>(null)
-  const [remoteParticipants, setRemoteParticipants] = useState<RemoteParticipant[]>([])
-  
-  const localVideoRef = useRef<HTMLVideoElement>(null)
-  const remoteVideoRef = useRef<HTMLVideoElement>(null)
-  const localTracksRef = useRef<LocalTrack[]>([])
+  const searchParams = useSearchParams()
+  const [meetings, setMeetings] = useState<Meeting[]>([])
+  const [loading, setLoading] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [newMeetingName, setNewMeetingName] = useState('')
+  const [inviteeEmail, setInviteeEmail] = useState('')
+  const [currentMeeting, setCurrentMeeting] = useState<Meeting | null>(null)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -58,241 +47,129 @@ export default function VideoCallPage() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      loadParticipants()
+      loadMeetings()
     }
   }, [status])
 
-  // Call duration timer
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-    if (inCall) {
-      interval = setInterval(() => {
-        setCallDuration(prev => prev + 1)
-      }, 1000)
-    }
-    return () => clearInterval(interval)
-  }, [inCall])
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (room) {
-        room.disconnect()
-      }
-      localTracksRef.current.forEach(track => {
-        if (track.kind === 'video' || track.kind === 'audio') {
-          track.stop()
-        }
-      })
-    }
-  }, [room])
-
-  const attachTrack = (track: LocalVideoTrack | RemoteVideoTrack, element: HTMLVideoElement | null) => {
-    if (element && 'attach' in track) {
-      const mediaElement = track.attach()
-      element.srcObject = mediaElement.srcObject
+  const loadMeetings = () => {
+    if (typeof window === 'undefined') return
+    const saved = localStorage.getItem('user-meetings')
+    if (saved) {
+      setMeetings(JSON.parse(saved))
     }
   }
 
-  const detachTrack = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
-    if ('detach' in track) {
-      track.detach().forEach(el => el.remove())
-    }
+  const saveMeetings = (updated: Meeting[]) => {
+    if (typeof window === 'undefined') return
+    setMeetings(updated)
+    localStorage.setItem('user-meetings', JSON.stringify(updated))
   }
 
-  const loadParticipants = async () => {
+  const createMeeting = async () => {
+    if (!newMeetingName.trim()) {
+      toast.error('Please enter a meeting name')
+      return
+    }
+
+    setCreating(true)
     try {
-      // For demo, we'll use mock data
-      // In production, this would fetch from /api/users
-      setParticipants([
-        { id: '1', name: 'Admin User', email: 'admin@edulearn.com', role: 'admin' },
-        { id: '2', name: 'Sarah Johnson', email: 'sarah@edulearn.com', role: 'instructor' },
-        { id: '3', name: 'Marcus Chen', email: 'marcus@edulearn.com', role: 'instructor' },
-        { id: '4', name: 'Test Student', email: 'student@edulearn.com', role: 'student' },
-      ])
-    } catch (error) {
-      console.error('Error loading participants:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const startCall = async (participantId: string) => {
-    setLoading(true)
-    try {
-      // First, initiate the call on our backend
-      const response = await fetch('/api/video-call/initiate', {
+      const response = await fetch('/api/jitsi/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ participantId })
+        body: JSON.stringify({ 
+          roomName: newMeetingName,
+          userName: session?.user?.name || 'User'
+        })
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to start call')
+        throw new Error(data.error || 'Failed to create meeting')
       }
 
-      setCallId(data.callId)
-
-      // Get Twilio token
-      const tokenResponse = await fetch('/api/video-call/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          identity: session?.user?.email || 'user',
-          roomName: data.callId
-        })
-      })
-
-      const tokenData = await tokenResponse.json()
-
-      if (!tokenResponse.ok) {
-        throw new Error(tokenData.error || 'Failed to get video token')
+      const newMeeting: Meeting = {
+        id: data.roomName,
+        name: newMeetingName,
+        createdAt: new Date().toISOString(),
+        hostEmail: session?.user?.email || '',
+        hostName: session?.user?.name || 'User',
+        invitees: [],
+        joinUrl: data.joinUrl
       }
 
-      // Create local tracks
-      const localTracks = await Video.createLocalTracks({
-        video: { width: 640, height: 480 },
-        audio: true
-      })
-
-      localTracksRef.current = localTracks
-
-      // Attach local video
-      const videoTrack = localTracks.find(t => t.kind === 'video') as LocalVideoTrack
-      if (videoTrack && localVideoRef.current) {
-        attachTrack(videoTrack, localVideoRef.current)
-      }
-
-      // Connect to the room
-      const connectedRoom = await Video.connect(tokenData.token, {
-        name: data.callId,
-        tracks: localTracks
-      })
-
-      setRoom(connectedRoom)
-
-      // Handle existing participants
-      connectedRoom.participants.forEach(participant => {
-        handleParticipantConnected(participant)
-      })
-
-      // Set up event listeners
-      connectedRoom.on('participantConnected', handleParticipantConnected)
-      connectedRoom.on('participantDisconnected', handleParticipantDisconnected)
-
-      setInCall(true)
-      toast.success('Call started!')
+      const updatedMeetings = [newMeeting, ...meetings]
+      saveMeetings(updatedMeetings)
+      setNewMeetingName('')
+      setCurrentMeeting(newMeeting)
+      toast.success('Meeting created! Invite others below.')
     } catch (error: any) {
-      console.error('Error starting call:', error)
-      toast.error(error.message || 'Failed to start call')
+      console.error('Error creating meeting:', error)
+      toast.error(error.message || 'Failed to create meeting')
     } finally {
-      setLoading(false)
+      setCreating(false)
     }
   }
 
-  const handleParticipantConnected = (participant: RemoteParticipant) => {
-    setRemoteParticipants(prev => [...prev, participant])
-    
-    participant.tracks.forEach(publication => {
-      if (publication.isSubscribed && publication.track) {
-        handleTrackSubscribed(publication.track as LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack)
+  const addInvitee = (meeting: Meeting) => {
+    if (!inviteeEmail.trim()) {
+      toast.error('Please enter an email address')
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(inviteeEmail)) {
+      toast.error('Please enter a valid email address')
+      return
+    }
+
+    const updatedMeetings = meetings.map(m => {
+      if (m.id === meeting.id) {
+        if (m.invitees.includes(inviteeEmail)) {
+          toast.error('This email is already invited')
+          return m
+        }
+        const updated = { ...m, invitees: [...m.invitees, inviteeEmail] }
+        toast.success(`Invited ${inviteeEmail}`)
+        return updated
       }
+      return m
     })
 
-    participant.on('trackSubscribed', handleTrackSubscribed)
-    participant.on('trackUnsubscribed', handleTrackUnsubscribed)
+    saveMeetings(updatedMeetings)
+    setInviteeEmail('')
   }
 
-  const handleParticipantDisconnected = (participant: RemoteParticipant) => {
-    setRemoteParticipants(prev => prev.filter(p => p !== participant))
-  }
-
-  const handleTrackSubscribed = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
-    if (track.kind === 'video' && remoteVideoRef.current) {
-      attachTrack(track as RemoteVideoTrack, remoteVideoRef.current)
-    }
-  }
-
-  const handleTrackUnsubscribed = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
-    detachTrack(track as RemoteVideoTrack | RemoteAudioTrack)
-  }
-
-  const endCall = async () => {
-    if (!callId) return
-
-    try {
-      // Disconnect from room
-      if (room) {
-        room.disconnect()
-        setRoom(null)
+  const removeInvitee = (meeting: Meeting, email: string) => {
+    const updatedMeetings = meetings.map(m => {
+      if (m.id === meeting.id) {
+        return { ...m, invitees: m.invitees.filter(e => e !== email) }
       }
-
-      // Stop local tracks
-      localTracksRef.current.forEach(track => {
-        if (track.kind === 'video' || track.kind === 'audio') {
-          track.stop()
-        }
-      })
-      localTracksRef.current = []
-
-      // Clear remote participants
-      setRemoteParticipants([])
-
-      // Notify backend
-      await fetch('/api/video-call/end', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ callId })
-      })
-    } catch (error) {
-      console.error('Error ending call:', error)
-    }
-
-    setInCall(false)
-    setCallId(null)
-    setCallDuration(0)
-    setRemoteParticipants([])
-    toast.success('Call ended')
+      return m
+    })
+    saveMeetings(updatedMeetings)
   }
 
-  const toggleVideo = async () => {
-    const videoTrack = localTracksRef.current.find(t => t.kind === 'video') as LocalVideoTrack | undefined
-    if (videoTrack) {
-      if (isVideoOn) {
-        videoTrack.disable()
-      } else {
-        videoTrack.enable()
-      }
-      setIsVideoOn(!isVideoOn)
-    }
+  const joinMeeting = (meeting: Meeting) => {
+    window.open(meeting.joinUrl, '_blank')
   }
 
-  const toggleMic = async () => {
-    const audioTrack = localTracksRef.current.find(t => t.kind === 'audio') as LocalAudioTrack | undefined
-    if (audioTrack) {
-      if (isMicOn) {
-        audioTrack.disable()
-      } else {
-        audioTrack.enable()
-      }
-      setIsMicOn(!isMicOn)
-    }
+  const copyLink = (meeting: Meeting) => {
+    navigator.clipboard.writeText(meeting.joinUrl)
+    toast.success('Meeting link copied!')
   }
 
-  const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  const deleteMeeting = (meeting: Meeting) => {
+    const updatedMeetings = meetings.filter(m => m.id !== meeting.id)
+    saveMeetings(updatedMeetings)
+    toast.success('Meeting deleted')
   }
 
-  const filteredParticipants = participants.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.email.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const isInvited = (meeting: Meeting) => {
+    return meeting.invitees.includes(session?.user?.email || '')
+  }
 
-  if (status === 'loading' || loading) {
+  if (status === 'loading') {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -300,173 +177,188 @@ export default function VideoCallPage() {
     )
   }
 
-  // In-call view
-  if (inCall) {
-    return (
-      <div className="min-h-screen bg-dark flex flex-col">
-        {/* Video Area */}
-        <div className="flex-1 relative bg-black">
-          {/* Main Video (Remote) */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {remoteParticipants.length > 0 ? (
-              <video 
-                ref={remoteVideoRef} 
-                autoPlay 
-                playsInline 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="text-center">
-                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
-                  <User className="w-16 h-16 text-primary" />
-                </div>
-                <p className="text-white text-xl">Waiting for others to join...</p>
-              </div>
-            )}
-          </div>
-
-          {/* Local Video Preview */}
-          <div className="absolute bottom-4 right-4 w-48 h-36 bg-gray-900 rounded-lg border border-border overflow-hidden">
-            {isVideoOn ? (
-              <video 
-                ref={localVideoRef} 
-                autoPlay 
-                muted 
-                playsInline 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                <VideoOff className="w-8 h-8 text-gray-500" />
-              </div>
-            )}
-          </div>
-
-          {/* Call Info */}
-          <div className="absolute top-4 left-4 flex items-center gap-4">
-            <div className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
-              {formatDuration(callDuration)}
-            </div>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="bg-card border-t border-border p-4">
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={toggleMic}
-              className={`p-4 rounded-full transition-colors ${
-                isMicOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
-              }`}
-            >
-              {isMicOn ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
-            </button>
-
-            <button
-              onClick={toggleVideo}
-              className={`p-4 rounded-full transition-colors ${
-                isVideoOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
-              }`}
-            >
-              {isVideoOn ? <VideoIcon className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
-            </button>
-
-            <button
-              className="p-4 rounded-full bg-gray-700 hover:bg-gray-600 text-white transition-colors"
-            >
-              <Monitor className="w-6 h-6" />
-            </button>
-
-            <button
-              onClick={endCall}
-              className="p-4 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors"
-            >
-              <PhoneOff className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Pre-call view - Participant selection
   return (
     <div className="min-h-screen bg-dark pt-20">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="glow-card p-6">
+        <div className="glow-card p-6 mb-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-              <VideoIcon className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+              <Video className="w-6 h-6 text-green-500" />
             </div>
             <div>
-              <h1 className="font-sora font-bold text-2xl">Video Call</h1>
-              <p className="text-gray-400 text-sm">Start a video call with students or instructors</p>
+              <h1 className="font-sora font-bold text-2xl">Video Calls</h1>
+              <p className="text-gray-400 text-sm">Create meetings and invite others to join</p>
             </div>
           </div>
 
-          {/* Search */}
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+          <div className="flex gap-4 mb-6">
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search participants..."
-              className="input-base pl-10"
+              value={newMeetingName}
+              onChange={(e) => setNewMeetingName(e.target.value)}
+              placeholder="Enter meeting name..."
+              className="input-base flex-1"
+              onKeyDown={(e) => e.key === 'Enter' && createMeeting()}
             />
+            <button
+              onClick={createMeeting}
+              disabled={creating}
+              className="btn-primary flex items-center gap-2"
+            >
+              {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              Create Meeting
+            </button>
           </div>
 
-          {/* Participants List */}
-          <div className="space-y-3">
-            <h2 className="font-semibold text-lg mb-4">Available Participants</h2>
-            {filteredParticipants.map(participant => (
-              <div 
-                key={participant.id} 
-                className="flex items-center justify-between p-4 bg-dark/50 rounded-xl"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-                    {participant.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-medium">{participant.name}</p>
-                    <p className="text-gray-500 text-sm">{participant.email}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`badge text-xs ${
-                    participant.role === 'admin' ? 'bg-accent/20 text-accent' :
-                    participant.role === 'instructor' ? 'bg-secondary/20 text-secondary' :
-                    'bg-gray-700 text-gray-400'
-                  }`}>
-                    {participant.role}
-                  </span>
-                  <button
-                    onClick={() => startCall(participant.id)}
-                    disabled={loading}
-                    className="btn-primary flex items-center gap-2"
-                  >
-                    <VideoIcon className="w-4 h-4" />
-                    Start Call
-                  </button>
-                </div>
-              </div>
-            ))}
-            {filteredParticipants.length === 0 && (
-              <p className="text-gray-500 text-center py-8">No participants found</p>
-            )}
-          </div>
-
-          {/* Info */}
-          <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-xl">
+          <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
             <p className="text-sm text-gray-400">
-              <strong>Note:</strong> Video calling requires Twilio credentials to be configured. 
-              Please contact your administrator if you encounter issues starting calls.
+              <strong className="text-green-400">Jitsi Meet:</strong> Free video calls. Create a meeting, invite participants, and start immediately.
             </p>
           </div>
         </div>
+
+        <div className="glow-card p-6">
+          <h2 className="font-semibold text-lg mb-4">Your Meetings</h2>
+          
+          {meetings.length === 0 ? (
+            <div className="text-center py-8">
+              <Users className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-500">No meetings yet. Create your first meeting above!</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {meetings.map((meeting) => (
+                <div 
+                  key={meeting.id} 
+                  className="p-4 bg-dark/50 rounded-xl border border-border"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <Video className="w-5 h-5 text-green-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{meeting.name}</p>
+                        <p className="text-gray-500 text-sm flex items-center gap-2">
+                          <Clock className="w-3 h-3" />
+                          {new Date(meeting.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => joinMeeting(meeting)}
+                        className="btn-primary flex items-center gap-2 text-sm"
+                      >
+                        <Play className="w-4 h-4" />
+                        Join
+                      </button>
+                      <button
+                        onClick={() => copyLink(meeting)}
+                        className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+                        title="Copy link"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                      {meeting.hostEmail === session?.user?.email && (
+                        <button
+                          onClick={() => deleteMeeting(meeting)}
+                          className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors"
+                          title="Delete meeting"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {meeting.hostEmail === session?.user?.email && (
+                    <div className="border-t border-border pt-4 mt-4">
+                      <p className="text-sm text-gray-400 mb-2 flex items-center gap-2">
+                        <Mail className="w-4 h-4" />
+                        Invite participants:
+                      </p>
+                      <div className="flex gap-2 mb-3">
+                        <input
+                          type="email"
+                          value={inviteeEmail}
+                          onChange={(e) => setInviteeEmail(e.target.value)}
+                          placeholder="Enter email to invite..."
+                          className="input-base flex-1 text-sm"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') addInvitee(meeting)
+                          }}
+                        />
+                        <button
+                          onClick={() => addInvitee(meeting)}
+                          className="btn-secondary text-sm"
+                        >
+                          Invite
+                        </button>
+                      </div>
+                      {meeting.invitees.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {meeting.invitees.map((email) => (
+                            <span 
+                              key={email} 
+                              className="text-xs bg-primary/20 text-primary px-3 py-1 rounded-full flex items-center gap-2"
+                            >
+                              {email}
+                              <button 
+                                onClick={() => removeInvitee(meeting, email)}
+                                className="hover:text-red-400"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {meeting.invitees.length > 0 && isInvited(meeting) && (
+                    <div className="mt-3 p-2 bg-green-500/20 rounded-lg flex items-center justify-between">
+                      <span className="text-sm text-green-400 flex items-center gap-2">
+                        <Check className="w-4 h-4" />
+                        You've been invited to this meeting
+                      </span>
+                      <button
+                        onClick={() => joinMeeting(meeting)}
+                        className="btn-primary text-sm"
+                      >
+                        Join Now
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 glow-card p-6">
+          <h3 className="font-semibold mb-4">How it works:</h3>
+          <ol className="text-gray-400 text-sm space-y-2 list-decimal list-inside">
+            <li>Create a new meeting with a name</li>
+            <li>Share the meeting link or invite others by email</li>
+            <li>Click "Join" to start the video call</li>
+            <li>Invited users will see the meeting and can join directly</li>
+          </ol>
+        </div>
       </div>
     </div>
+  )
+}
+
+export default function VideoCallPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-dark flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    }>
+      <VideoCallContent />
+    </Suspense>
   )
 }
