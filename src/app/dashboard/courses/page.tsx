@@ -19,18 +19,27 @@ export default async function MyCoursesPage() {
   if (!session?.user) redirect('/auth/login')
   const user = session.user as any
 
-  await connectDB()
-  const enrollments = await Enrollment.find({ user: user.id })
-    .populate({
-      path: 'course',
-      select: 'title slug thumbnail category level totalLessons totalDuration instructor rating reviewCount price',
-      populate: { path: 'instructor', select: 'name image' },
-    })
-    .sort({ lastAccessedAt: -1 })
-    .lean()
+  let enrollments: any[] = []
+  let active: any[] = []
+  let completed: any[] = []
 
-  const active = enrollments.filter((e: any) => e.status === 'active')
-  const completed = enrollments.filter((e: any) => e.status === 'completed')
+  try {
+    await connectDB()
+    enrollments = await Enrollment.find({ user: user.id })
+      .populate({
+        path: 'course',
+        select: 'title slug thumbnail category level totalLessons totalDuration instructor rating reviewCount price',
+        populate: { path: 'instructor', select: 'name image' },
+      })
+      .sort({ lastAccessedAt: -1 })
+      .lean()
+
+    active = enrollments.filter((e: any) => e.status === 'active')
+    completed = enrollments.filter((e: any) => e.status === 'completed')
+  } catch (error) {
+    console.error('Error loading courses:', error)
+    // Continue with empty arrays if there's an error
+  }
 
   return (
     <>
