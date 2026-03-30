@@ -100,14 +100,14 @@ export default function NewCourseFormPage() {
   const videoInputRef = useRef<HTMLInputElement>(null)
 
   const tabs: TabItem[] = [
-    { id: 'basic', label: 'Basic Info', Icon: BookOpen, description: 'Course title, description, and details' },
-    { id: 'media', label: 'Media', Icon: Image, description: 'Thumbnail and preview media' },
-    { id: 'pricing', label: 'Pricing', Icon: DollarSign, description: 'Set your course price and discounts' },
-    { id: 'requirements', label: 'Requirements', Icon: ListChecks, description: 'What students need to know' },
-    { id: 'outcomes', label: 'Outcomes', Icon: CheckCircle2, description: 'What students will learn' },
-    { id: 'content', label: 'Content', Icon: Layers, description: 'Curriculum and lessons' },
-    { id: 'files', label: 'Resources', Icon: FileUp, description: 'Ebooks and downloadable files' },
-    { id: 'settings', label: 'Settings', Icon: Settings, description: 'Tags and publishing options' },
+    { id: 'basic', label: 'Basic Info', icon: BookOpen, description: 'Course title, description, and details' },
+    { id: 'media', label: 'Media', icon: Image, description: 'Thumbnail and preview media' },
+    { id: 'pricing', label: 'Pricing', icon: DollarSign, description: 'Set your course price and discounts' },
+    { id: 'requirements', label: 'Requirements', icon: ListChecks, description: 'What students need to know' },
+    { id: 'outcomes', label: 'Outcomes', icon: CheckCircle2, description: 'What students will learn' },
+    { id: 'content', label: 'Content', icon: Layers, description: 'Curriculum and lessons' },
+    { id: 'files', label: 'Resources', icon: FileUp, description: 'Ebooks and downloadable files' },
+    { id: 'settings', label: 'Settings', icon: Settings, description: 'Tags and publishing options' },
   ]
 
   useEffect(() => {
@@ -443,7 +443,9 @@ export default function NewCourseFormPage() {
 
           {/* Tab Navigation */}
           <div className="flex gap-1 pb-0 overflow-x-auto">
-            {tabs.map(tab => (
+            {tabs.map(tab => {
+              const Icon = tab.icon
+              return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -453,10 +455,10 @@ export default function NewCourseFormPage() {
                     : 'text-gray-400 border-transparent hover:text-white'
                 }`}
               >
-                <tab.Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4" />
                 {tab.label}
               </button>
-            ))}
+            )})}
           </div>
         </div>
       </div>
