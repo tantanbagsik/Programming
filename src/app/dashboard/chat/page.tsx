@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { MessageCircle, Send, Loader2, User } from 'lucide-react'
+import { MessageCircle, Send, Loader2, User, Circle } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface UserType {
@@ -41,6 +41,7 @@ export default function ChatPage() {
   const [showNewChat, setShowNewChat] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const currentUserId = (session?.user as any)?.id
+  const [onlineUsers, setOnlineUsers] = useState<any[]>([])
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/auth/login')
@@ -50,10 +51,35 @@ export default function ChatPage() {
     if (status === 'authenticated') {
       loadConversations()
       loadAllUsers()
+      loadOnlineUsers()
+      updatePresence('online')
       const interval = setInterval(loadConversations, 5000)
-      return () => clearInterval(interval)
+      const presenceInterval = setInterval(loadOnlineUsers, 30000)
+      return () => {
+        clearInterval(interval)
+        clearInterval(presenceInterval)
+        updatePresence('offline')
+      }
     }
   }, [status])
+
+  const updatePresence = async (status: string) => {
+    try {
+      await fetch('/api/user/presence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      })
+    } catch (error) {}
+  }
+
+  const loadOnlineUsers = async () => {
+    try {
+      const res = await fetch('/api/user/presence')
+      const data = await res.json()
+      if (res.ok) setOnlineUsers(data.online || [])
+    } catch (error) {}
+  }
 
   useEffect(() => {
     if (selectedConversation) {
@@ -165,6 +191,7 @@ export default function ChatPage() {
     <div className="min-h-screen bg-dark pt-20">
       <div className="max-w-6xl mx-auto px-0 py-0">
         <div className="flex h-[calc(100vh-80px)] bg-dark/50 border border-border rounded-xl overflow-hidden">
+          {/* Conversations List */}
           <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-80 flex-col border-r border-border`}>
             <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between mb-4">
@@ -272,6 +299,41 @@ export default function ChatPage() {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Online Users Sidebar */}
+          <div className="w-64 border-l border-border hidden lg:flex flex-col">
+            <div className="p-4 border-b border-border">
+              <h2 className="font-semibold text-sm flex items-center gap-2">
+                <Circle className="w-3 h-3 text-green-400 fill-green-400" />
+                Online ({onlineUsers.length})
+              </h2>
+            </div>
+            <div className="flex-1 overflow-y-auto p-2">
+              {onlineUsers.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center py-4">No users online</p>
+              ) : (
+                onlineUsers.map(user => (
+                  <div
+                    key={user.userId}
+                    onClick={() => startConversation(user.userId)}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-card cursor-pointer"
+                  >
+                    <div className="relative">
+                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                        {user.image ? (
+                          <img src={user.image} alt="" className="w-8 h-8 rounded-full object-cover" />
+                        ) : (
+                          <User className="w-4 h-4 text-primary" />
+                        )}
+                      </div>
+                      <Circle className="w-3 h-3 text-green-400 fill-green-400 absolute -bottom-0 -right-0 bg-dark rounded-full" />
+                    </div>
+                    <span className="text-sm font-medium truncate">{user.name}</span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
