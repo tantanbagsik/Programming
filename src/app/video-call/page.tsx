@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { 
-  Video, 
+  Video as VideoIcon, 
   VideoOff, 
   Mic, 
   MicOff, 
@@ -19,6 +19,7 @@ import {
   User
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import Video, { Room, LocalTrack, RemoteParticipant, LocalVideoTrack, LocalAudioTrack, RemoteVideoTrack, RemoteAudioTrack } from 'twilio-video'
 
 interface Participant {
   id: string
@@ -38,6 +39,12 @@ export default function VideoCallPage() {
   const [isVideoOn, setIsVideoOn] = useState(true)
   const [isMicOn, setIsMicOn] = useState(true)
   const [callDuration, setCallDuration] = useState(0)
+  const [room, setRoom] = useState<Room | null>(null)
+  const [remoteParticipants, setRemoteParticipants] = useState<RemoteParticipant[]>([])
+  
+  const localVideoRef = useRef<HTMLVideoElement>(null)
+  const remoteVideoRef = useRef<HTMLVideoElement>(null)
+  const localTracksRef = useRef<LocalTrack[]>([])
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -62,6 +69,33 @@ export default function VideoCallPage() {
     return () => clearInterval(interval)
   }, [inCall])
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (room) {
+        room.disconnect()
+      }
+      localTracksRef.current.forEach(track => {
+        if (track.kind === 'video' || track.kind === 'audio') {
+          track.stop()
+        }
+      })
+    }
+  }, [room])
+
+  const attachTrack = (track: LocalVideoTrack | RemoteVideoTrack, element: HTMLVideoElement | null) => {
+    if (element && 'attach' in track) {
+      const mediaElement = track.attach()
+      element.srcObject = mediaElement.srcObject
+    }
+  }
+
+  const detachTrack = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
+    if ('detach' in track) {
+      track.detach().forEach(el => el.remove())
+    }
+  }
+
   const loadParticipants = async () => {
     try {
       // For demo, we'll use mock data
@@ -82,6 +116,7 @@ export default function VideoCallPage() {
   const startCall = async (participantId: string) => {
     setLoading(true)
     try {
+      // First, initiate the call on our backend
       const response = await fetch('/api/video-call/initiate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -95,6 +130,54 @@ export default function VideoCallPage() {
       }
 
       setCallId(data.callId)
+
+      // Get Twilio token
+      const tokenResponse = await fetch('/api/video-call/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          identity: session?.user?.email || 'user',
+          roomName: data.callId
+        })
+      })
+
+      const tokenData = await tokenResponse.json()
+
+      if (!tokenResponse.ok) {
+        throw new Error(tokenData.error || 'Failed to get video token')
+      }
+
+      // Create local tracks
+      const localTracks = await Video.createLocalTracks({
+        video: { width: 640, height: 480 },
+        audio: true
+      })
+
+      localTracksRef.current = localTracks
+
+      // Attach local video
+      const videoTrack = localTracks.find(t => t.kind === 'video') as LocalVideoTrack
+      if (videoTrack && localVideoRef.current) {
+        attachTrack(videoTrack, localVideoRef.current)
+      }
+
+      // Connect to the room
+      const connectedRoom = await Video.connect(tokenData.token, {
+        name: data.callId,
+        tracks: localTracks
+      })
+
+      setRoom(connectedRoom)
+
+      // Handle existing participants
+      connectedRoom.participants.forEach(participant => {
+        handleParticipantConnected(participant)
+      })
+
+      // Set up event listeners
+      connectedRoom.on('participantConnected', handleParticipantConnected)
+      connectedRoom.on('participantDisconnected', handleParticipantDisconnected)
+
       setInCall(true)
       toast.success('Call started!')
     } catch (error: any) {
@@ -105,10 +188,55 @@ export default function VideoCallPage() {
     }
   }
 
+  const handleParticipantConnected = (participant: RemoteParticipant) => {
+    setRemoteParticipants(prev => [...prev, participant])
+    
+    participant.tracks.forEach(publication => {
+      if (publication.isSubscribed && publication.track) {
+        handleTrackSubscribed(publication.track as LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack)
+      }
+    })
+
+    participant.on('trackSubscribed', handleTrackSubscribed)
+    participant.on('trackUnsubscribed', handleTrackUnsubscribed)
+  }
+
+  const handleParticipantDisconnected = (participant: RemoteParticipant) => {
+    setRemoteParticipants(prev => prev.filter(p => p !== participant))
+  }
+
+  const handleTrackSubscribed = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
+    if (track.kind === 'video' && remoteVideoRef.current) {
+      attachTrack(track as RemoteVideoTrack, remoteVideoRef.current)
+    }
+  }
+
+  const handleTrackUnsubscribed = (track: LocalVideoTrack | LocalAudioTrack | RemoteVideoTrack | RemoteAudioTrack) => {
+    detachTrack(track as RemoteVideoTrack | RemoteAudioTrack)
+  }
+
   const endCall = async () => {
     if (!callId) return
 
     try {
+      // Disconnect from room
+      if (room) {
+        room.disconnect()
+        setRoom(null)
+      }
+
+      // Stop local tracks
+      localTracksRef.current.forEach(track => {
+        if (track.kind === 'video' || track.kind === 'audio') {
+          track.stop()
+        }
+      })
+      localTracksRef.current = []
+
+      // Clear remote participants
+      setRemoteParticipants([])
+
+      // Notify backend
       await fetch('/api/video-call/end', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,7 +249,32 @@ export default function VideoCallPage() {
     setInCall(false)
     setCallId(null)
     setCallDuration(0)
+    setRemoteParticipants([])
     toast.success('Call ended')
+  }
+
+  const toggleVideo = async () => {
+    const videoTrack = localTracksRef.current.find(t => t.kind === 'video') as LocalVideoTrack | undefined
+    if (videoTrack) {
+      if (isVideoOn) {
+        videoTrack.disable()
+      } else {
+        videoTrack.enable()
+      }
+      setIsVideoOn(!isVideoOn)
+    }
+  }
+
+  const toggleMic = async () => {
+    const audioTrack = localTracksRef.current.find(t => t.kind === 'audio') as LocalAudioTrack | undefined
+    if (audioTrack) {
+      if (isMicOn) {
+        audioTrack.disable()
+      } else {
+        audioTrack.enable()
+      }
+      setIsMicOn(!isMicOn)
+    }
   }
 
   const formatDuration = (seconds: number) => {
@@ -151,20 +304,33 @@ export default function VideoCallPage() {
         <div className="flex-1 relative bg-black">
           {/* Main Video (Remote) */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
-                <User className="w-16 h-16 text-primary" />
+            {remoteParticipants.length > 0 ? (
+              <video 
+                ref={remoteVideoRef} 
+                autoPlay 
+                playsInline 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="text-center">
+                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                  <User className="w-16 h-16 text-primary" />
+                </div>
+                <p className="text-white text-xl">Waiting for others to join...</p>
               </div>
-              <p className="text-white text-xl">Connecting...</p>
-            </div>
+            )}
           </div>
 
           {/* Local Video Preview */}
           <div className="absolute bottom-4 right-4 w-48 h-36 bg-gray-900 rounded-lg border border-border overflow-hidden">
             {isVideoOn ? (
-              <div className="w-full h-full flex items-center justify-center">
-                <Video className="w-8 h-8 text-gray-500" />
-              </div>
+              <video 
+                ref={localVideoRef} 
+                autoPlay 
+                muted 
+                playsInline 
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-800">
                 <VideoOff className="w-8 h-8 text-gray-500" />
@@ -185,7 +351,7 @@ export default function VideoCallPage() {
         <div className="bg-card border-t border-border p-4">
           <div className="flex items-center justify-center gap-4">
             <button
-              onClick={() => setIsMicOn(!isMicOn)}
+              onClick={toggleMic}
               className={`p-4 rounded-full transition-colors ${
                 isMicOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
               }`}
@@ -194,12 +360,12 @@ export default function VideoCallPage() {
             </button>
 
             <button
-              onClick={() => setIsVideoOn(!isVideoOn)}
+              onClick={toggleVideo}
               className={`p-4 rounded-full transition-colors ${
                 isVideoOn ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-500 hover:bg-red-600 text-white'
               }`}
             >
-              {isVideoOn ? <Video className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
+              {isVideoOn ? <VideoIcon className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
             </button>
 
             <button
@@ -227,7 +393,7 @@ export default function VideoCallPage() {
         <div className="glow-card p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-              <Video className="w-6 h-6 text-primary" />
+              <VideoIcon className="w-6 h-6 text-primary" />
             </div>
             <div>
               <h1 className="font-sora font-bold text-2xl">Video Call</h1>
@@ -277,7 +443,7 @@ export default function VideoCallPage() {
                     disabled={loading}
                     className="btn-primary flex items-center gap-2"
                   >
-                    <Video className="w-4 h-4" />
+                    <VideoIcon className="w-4 h-4" />
                     Start Call
                   </button>
                 </div>
