@@ -95,7 +95,7 @@ export default async function MyCoursesPage() {
           </div>
 
           {/* Continue Learning CTA */}
-          {active.length > 0 && (
+          {active.length > 0 && active[0]?.course && (
             <div className="glow-card p-6 mb-10 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-primary/20">
               <div className="flex items-center justify-between">
                 <div>
@@ -103,7 +103,7 @@ export default async function MyCoursesPage() {
                   <p className="text-gray-400 text-sm">Pick up where you left off</p>
                 </div>
                 <Link 
-                  href={`/dashboard/courses/${active[0]?.course?.slug}`}
+                  href={`/dashboard/courses/${(active[0]?.course as any)?.slug || ''}`}
                   className="btn-primary flex items-center gap-2"
                 >
                   <Zap className="w-4 h-4" />
