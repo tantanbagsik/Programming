@@ -16,10 +16,13 @@ import {
   Plus,
   Search,
   Calendar,
-  User
+  User,
+  Settings
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Video, { Room, LocalTrack, RemoteParticipant, LocalVideoTrack, LocalAudioTrack, RemoteVideoTrack, RemoteAudioTrack } from 'twilio-video'
+
+type CallProvider = 'twilio' | 'bbb'
 
 interface Participant {
   id: string
@@ -31,6 +34,7 @@ interface Participant {
 export default function VideoCallPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const [callProvider, setCallProvider] = useState<CallProvider>('bbb')
   const [inCall, setInCall] = useState(false)
   const [callId, setCallId] = useState<string | null>(null)
   const [participants, setParticipants] = useState<Participant[]>([])
