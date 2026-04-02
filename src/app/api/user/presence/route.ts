@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { status } = await request.json()
-    const userId = session.user.id as string
+    const userId = (session.user as any).id as string
     const user = await User.findById(userId).select('name image').lean()
 
     if (status === 'online' && user) {
