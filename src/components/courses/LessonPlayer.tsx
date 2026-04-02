@@ -5,15 +5,35 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import {
   ChevronLeft, ChevronRight, CheckCircle, Circle,
-  Menu, X, BookOpen, Trophy, Home, Play, Pause, Volume2, VolumeX, Maximize, SkipBack, SkipForward
+  Menu, X, BookOpen, Trophy, Home, Play, Pause, Volume2, VolumeX, Maximize, SkipBack, SkipForward,
+  FileText, Download, ExternalLink, Eye
 } from 'lucide-react'
+import { PDFViewer } from './PDFViewer'
+import { QuizPlayer } from './QuizPlayer'
+
+interface Lesson {
+   _id: string
+   title: string
+   description: string
+   videoUrl?: string
+   duration: number // in minutes
+   order: number
+   isFree: boolean
+   resources: { title: string; url: string; type?: string; pages?: number }[]
+   // Quiz-specific fields
+   type?: 'video' | 'quiz' | 'reading' | 'pdf'
+   programId?: string // Reference to quiz/program
+   // PDF-specific fields
+   pdfUrl?: string
+   pdfPages?: number
+}
 
 interface Props {
-  course: any
-  enrollment: any
-  currentLesson: any
-  currentSection: any
-  userId: string
+   course: any
+   enrollment: any
+   currentLesson: Lesson
+   currentSection: any
+   userId: string
 }
 
 function getVideoType(url: string): 'youtube' | 'vimeo' | 'cloudinary' | 'direct' | 'embed' | null {
@@ -60,6 +80,8 @@ export function LessonPlayer({ course, enrollment, currentLesson, currentSection
   const [volume, setVolume] = useState(1)
   const [isMuted, setIsMuted] = useState(false)
   const [showControls, setShowControls] = useState(true)
+  const [activeTab, setActiveTab] = useState<'video' | 'pdf' | 'resources'>('video')
+  const [selectedPdf, setSelectedPdf] = useState<{title: string; url: string; pages: number} | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const videoUrl = currentLesson?.videoUrl || ''
@@ -337,10 +359,21 @@ export function LessonPlayer({ course, enrollment, currentLesson, currentSection
         <main className="flex-1 overflow-y-auto">
           {currentLesson ? (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-              {/* Video area */}
-              <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-border">
-                {renderVideoPlayer()}
-              </div>
+   {/* Lesson content area */}
+               {currentLesson.type === 'quiz' && currentLesson.programId ? (
+                 <QuizPlayer 
+                   course={course} 
+                   enrollment={enrollment} 
+                   lesson={currentLesson} 
+                   userId={userId} 
+                   onComplete={markComplete} 
+                   completedLessons={completedLessons} 
+                 />
+               ) : (
+                 <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-border">
+                   {renderVideoPlayer()}
+                 </div>
+               )}
 
               {/* Lesson header */}
               <div className="flex items-start justify-between gap-4 mb-6">

@@ -1,0 +1,441 @@
+{
+  "title": "Philippine CPA Board Exam Review - Financial Accounting and Reporting (FAR)",
+  "slug": "philippine-cpa-board-far",
+  "description": "Comprehensive review for the Philippine CPA Board Exam focusing on Financial Accounting and Reporting (FAR) section with over 200 practice questions, detailed explanations, and board exam simulations",
+  "shortDescription": "Prepare for the FAR section of the Philippine CPA Board Exam with comprehensive lectures, practice problems, and board exam simulations",
+  "thumbnail": "https://images.unsplash.com/photo-1580915588867-7821f2fd05f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNzQyNzl8MHwxfHNlYXJjaHwxfHxhY2NvdW50YW5jeSUyMGJvYXJkfGVufDB8fHx8MTY2ODk4MTg0NQ&ixlib=rb-1.2.1&q=80&w=400",
+  "previewVideoUrl": "https://www.youtube.com/watch?v=sample_far_overview",
+  "instructor": "admin-user-id-will-be-replaced",
+  "category": "Accountancy",
+  "tags": ["CPA Board Exam", "Financial Accounting", "PFRS", "Accountancy", "FAR"],
+  "level": "all-levels",
+  "language": "English",
+  "price": 2999,
+  "discountPrice": 1999,
+  "currency": "php",
+  "requirements": [
+    "Basic understanding of accounting principles",
+    "Access to accounting calculator or spreadsheet software",
+    "Familiarity with basic financial statements"
+  ],
+  "whatYouLearn": [
+    "Master PFRS applications for financial statement preparation under Philippine setting",
+    "Analyze complex accounting transactions including business combinations, leases, and financial instruments",
+    "Prepare consolidated financial statements for parent-subsidiary relationships",
+    "Apply revenue recognition principles under PFRS 15",
+    "Account for property, plant and equipment, intangible assets, and investment property",
+    "Implement proper accounting for income taxes, employee benefits, and provisions",
+    "Prepare statement of cash flows using both direct and indirect methods",
+    "Navigate ethical considerations and professional responsibilities in financial reporting",
+    "Develop exam-taking strategies for the CPA Board Exam FAR section",
+    "Build confidence through timed practice exams and performance analytics"
+  ],
+  "targetAudience": [
+    "Accounting graduates preparing for the CPA Board Exam",
+    "Accountants seeking to strengthen PFRS knowledge",
+    "Finance professionals transitioning to accounting roles",
+    "Review center students seeking supplementary materials",
+    "Overseas Filipino Workers (OFWs) preparing for return to Philippine practice"
+  ],
+  "sections": [
+    {
+      "title": "Section 1: Conceptual Framework and Philippine Financial Reporting Standards",
+      "order": 1,
+      "lessons": [
+        {
+          "title": "Lesson 1: Conceptual Framework for Financial Reporting",
+          "description": "Understanding the IASB Conceptual Framework and its application in Philippine setting under PFRS",
+          "videoUrl": "https://www.youtube.com/watch?v=conceptual-framework-overview",
+          "duration": 50,
+          "order": 1,
+          "isFree": true,
+          "resources": [
+            {
+              "title": "Conceptual Framework Summary Cheat Sheet",
+              "url": "https://example.com/resources/conceptual-framework-summary.pdf"
+            },
+            {
+              "title": "Qualitative Characteristics of Financial Information",
+              "url": "https://example.com/resources/qualitative-characteristics.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2: Philippine Financial Reporting Standards (PFRS) Framework",
+          "description": "Overview of PFRS, their convergence with IFRS, and the standard-setting process in the Philippines",
+          "videoUrl": "https://www.youtube.com/watch?v=pfrc-overview",
+          "duration": 45,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "PFRS vs IFRS Comparison Chart",
+              "url": "https://example.com/resources/pfrs-ifrs-comparison.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 3: Presentation of Financial Statements (PFRS 1/IAS 1)",
+          "description": "Requirements for presenting financial statements including structure, content, and presentation guidelines",
+          "videoUrl": "https://www.youtube.com/watch?v=pfrs1-presentation",
+          "duration": 55,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Statement of Financial Position Template",
+              "url": "https://example.com/resources/sofp-template.xlsx"
+            },
+            {
+              "title": "Statement of Comprehensive Income Format",
+              "url": "https://example.com/resources/soci-format.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 2: Assets - Current and Non-Current",
+      "order": 2,
+      "lessons": [
+        {
+          "title": "Lesson 4: Cash and Cash Equivalents",
+          "description": "Accounting for cash, bank overdrafts, and cash equivalents including bank reconciliations",
+          "videoUrl": "https://www.youtube.com/watch?v=cash-equivalents",
+          "duration": 35,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Bank Reconciliation Practice Problems",
+              "url": "https://example.com/resources/bank-reconciliation.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 5: Trade and Other Receivables",
+          "description": "Accounting for receivables including valuation, impairment, and factoring arrangements",
+          "videoUrl": "https://www.youtube.com/watch?v=receivables-accounting",
+          "duration": 50,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Allowance for Doubtful Accounts Calculation",
+              "url": "https://example.com/resources/allowance-doubtful.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 6: Inventories",
+          "description": "Accounting for inventories under PFRS 2/IAS 2 including cost formulas and net realizable value",
+          "videoUrl": "https://www.youtube.com/watch?v=inventories-accounting",
+          "duration": 60,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "FIFO vs Weighted Average Comparison",
+              "url": "https://example.com/resources/fifo-weighted-average.pdf"
+            },
+            {
+              "title": "Inventory Valuation Practice Problems",
+              "url": "https://example.com/resources/inventory-valuation.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 7: Biological Assets",
+          "description": "Specialized accounting for living animals and plants under PFRS 41/IAS 41",
+          "videoUrl": "https://www.youtube.com/watch?v=biological-assets",
+          "duration": 30,
+          "order": 4,
+          "isFree": false
+        }
+      ]
+    },
+    {
+      "title": "Section 3: Non-Current Assets",
+      "order": 3,
+      "lessons": [
+        {
+          "title": "Lesson 8: Property, Plant and Equipment",
+          "description": "Accounting for PPE under PFRS 16/IAS 16 including recognition, measurement, and depreciation",
+          "videoUrl": "https://www.youtube.com/watch?v=ppe-accounting",
+          "duration": 65,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Depreciation Methods Comparison",
+              "url": "https://example.com/resources/depreciation-methods.pdf"
+            },
+            {
+              "title": "PPE Disposal and Retirement Accounting",
+              "url": "https://example.com/resources/ppe-disposal.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 9: Investment Property",
+          "description": "Accounting for property held to earn rentals or for capital appreciation under PFRS 40/IAS 40",
+          "videoUrl": "https://www.youtube.com/watch?v=investment-property",
+          "duration": 40,
+          "order": 2,
+          "isFree": false
+        },
+        {
+          "title": "Lesson 10: Goodwill and Intangible Assets",
+          "description": "Accounting for intangible assets and goodwill under PFRS 38/IAS 38 and PFRS 3/IFRS 3",
+          "videoUrl": "https://www.youtube.com/watch?v=intangible-assets-goodwill",
+          "duration": 55,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Intangible Assets Identification Checklist",
+              "url": "https://example.com/resources/intangible-checklist.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 11: Impairment of Assets",
+          "description": "Accounting for asset impairment under PFRS 36/IAS 36 including recoverable amount calculations",
+          "videoUrl": "https://www.youtube.com/watch?v=asset-impairment",
+          "duration": 50,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Impairment Loss Calculation Worksheet",
+              "url": "https://example.com/resources/impairment-calculation.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 4: Liabilities and Equity",
+      "order": 4,
+      "lessons": [
+        {
+          "title": "Lesson 12: Financial Liabilities",
+          "description": "Accounting for financial liabilities under PFRS 9/IAS 39 including classification and measurement",
+          "videoUrl": "https://www.youtube.com/watch?v=financial-liabilities",
+          "duration": 50,
+          "order": 1,
+          "isFree": false
+        },
+        {
+          "title": "Lesson 13: Provisions and Contingencies",
+          "description": "Accounting for provisions, contingent liabilities, and contingent assets under PFRS 37/IAS 37",
+          "videoUrl": "https://www.youtube.com/watch?v=provisions-contingencies",
+          "duration": 45,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Provision Recognition Decision Tree",
+              "url": "https://example.com/resources/provision-decision-tree.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 14: Employee Benefits",
+          "description": "Accounting for employee benefits under PFRS 19/IAS 19 including short-term and post-employment benefits",
+          "videoUrl": "https://www.youtube.com/watch?v=employee-benefits",
+          "duration": 55,
+          "order": 3,
+          "isFree": false
+        },
+        {
+          "title": "Lesson 15: Equity",
+          "description": "Accounting for equity including share capital, retained earnings, and other equity components",
+          "videoUrl": "https://www.youtube.com/watch?v=equity-accounting",
+          "duration": 40,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Statement of Changes in Equity Template",
+              "url": "https://example.com/resources/soce-template.xlsx"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 16: Revenue from Contracts with Customers",
+          "description": "Revenue recognition under PFRS 15/IFRS 15 including the five-step model and contract modifications",
+          "videoUrl": "https://www.youtube.com/watch?v=revenue-recognition-pfrs15",
+          "duration": 60,
+          "order": 5,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "PFRS 15 Five-Step Model Summary",
+              "url": "https://example.com/resources/pfrs15-five-step.pdf"
+            },
+            {
+              "title": "Revenue Recognition Practice Scenarios",
+              "url": "https://example.com/resources/revenue-scenarios.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 5: Special Topics and Consolidations",
+      "order": 5,
+      "lessons": [
+        {
+          "title": "Lesson 17: The Effects of Changes in Foreign Exchange Rates",
+          "description": "Accounting for foreign currency transactions and translations under PFRS 21/IAS 21",
+          "videoUrl": "https://www.youtube.com/watch?v=foreign-exchange-effects",
+          "duration": 50,
+          "order": 1,
+          "isFree": false
+        },
+        {
+          "title": "Lesson 18: Income Taxes",
+          "description": "Accounting for income taxes under PFRS 12/IAS 12 including current and deferred tax",
+          "videoUrl": "https://www.youtube.com/watch?v=income-taxes-accounting",
+          "duration": 55,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Deferred Tax Liability and Asset Calculation",
+              "url": "https://example.com/resources/deferred-tax-calculation.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 19: Business Combinations",
+          "description": "Accounting for business combinations under PFRS 3/IFRS 3 including acquisition method and goodwill",
+          "videoUrl": "https://www.youtube.com/watch?v=business-combinations",
+          "duration": 65,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Purchase Price Allocation Worksheet",
+              "url": "https://example.com/resources/ppa-worksheet.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 20: Consolidated Financial Statements",
+          "description": "Preparation of consolidated financial statements under PFRS 10/IAS 27 and PFRS 3/IFRS 3",
+          "videoUrl": "https://www.youtube.com/watch?v=consolidated-financial-statements",
+          "duration": 70,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Consolidation Elimination Entries Cheat Sheet",
+              "url": "https://example.com/resources/consolidation-eliminations.pdf"
+            },
+            {
+              "title": "Non-Controlling Interest Calculation Guide",
+              "url": "https://example.com/resources/nci-calculation.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 21: Accounting for Government Grants",
+          "description": "Accounting for government assistance and disclosure of government assistance under PFRS 20/IAS 20",
+          "videoUrl": "https://www.youtube.com/watch?v=government-grants",
+          "duration": 30,
+          "order": 5,
+          "isFree": false
+        }
+      ]
+    },
+    {
+      "title": "Section 6: Financial Statement Analysis and Interpretation",
+      "order": 6,
+      "lessons": [
+        {
+          "title": "Lesson 22: Statement of Cash Flows",
+          "description": "Preparation and analysis of statement of cash flows under PFRS 7/IAS 7 using direct and indirect methods",
+          "videoUrl": "https://www.youtube.com/watch?v=statement-of-cash-flows",
+          "duration": 60,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Cash Flow Classification Decision Tree",
+              "url": "https://example.com/resources/cash-flow-classification.pdf"
+            },
+            {
+              "title": "Indirect Method Adjustments Summary",
+              "url": "https://example.com/resources/indirect-method-adjustments.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 23: Financial Ratios and Analysis",
+          "description": "Analysis of financial statements using liquidity, profitability, leverage, and efficiency ratios",
+          "videoUrl": "https://www.youtube.com/watch?v=financial-ratios-analysis",
+          "duration": 50,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Financial Ratios Formula Sheet",
+              "url": "https://example.com/resources/financial-ratios-formula.pdf"
+            },
+            {
+              "title": "Common Size and Trend Analysis Practice",
+              "url": "https://example.com/resources/common-size-trend-analysis.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 24: Ethical Considerations in Financial Reporting",
+          "description": "Professional ethics and responsibilities of accountants under the Philippine Code of Ethics for Professional Accountants",
+          "videoUrl": "https://www.youtube.com/watch?v=ethics-financial-reporting",
+          "duration": 40,
+          "order": 3,
+          "isFree": false
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "id": "resource-001",
+      "title": "PFRS Quick Reference Guide",
+      "url": "https://example.com/resources/pfrs-quick-reference.pdf",
+      "type": "pdf"
+    },
+    {
+      "id": "resource-002",
+      "title": "CPA Board Exam FAR Past Papers (Last 5 Years)",
+      "url": "https://example.com/resources/cpa-far-past-papers.zip",
+      "type": "pdf"
+    },
+    {
+      "id": "resource-003",
+      "title": "Accounting Standards Update Summary 2023-2024",
+      "url": "https://example.com/resources/as-updates-2023-2024.pdf",
+      "type": "pdf"
+    },
+    {
+      "id": "resource-004",
+      "title": "Board Exam Formula Sheet",
+      "url": "https://example.com/resources/board-exam-formula-sheet.pdf",
+      "type": "pdf"
+    },
+    {
+      "id": "resource-005",
+      "title": "Time Management Strategies for Board Exams",
+      "url": "https://example.com/resources/time-management-board-exams.pdf",
+      "type": "pdf"
+    }
+  ],
+  "isPublished": true,
+  "isFeatured": true,
+  "enrollmentCount": 0,
+  "rating": 0,
+  "reviewCount": 0
+}

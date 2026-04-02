@@ -19,37 +19,37 @@ export interface ISection {
 }
 
 export interface ICourse extends Document {
-  _id: mongoose.Types.ObjectId
-  title: string
-  slug: string
-  description: string
-  shortDescription: string
-  thumbnail: string
-  previewVideoUrl?: string
-  instructor: mongoose.Types.ObjectId
-  category: string
-  tags: string[]
-  level: 'beginner' | 'intermediate' | 'advanced' | 'all-levels'
-  language: string
-  price: number
-  discountPrice?: number
-  currency: string
-  sections: ISection[]
-  totalDuration: number // in minutes
-  totalLessons: number
-  requirements: string[]
-  whatYouLearn: string[]
-  targetAudience: string[]
-  isPublished: boolean
-  isFeatured: boolean
-  enrollmentCount: number
-  rating: number
-  reviewCount: number
-  stripeProductId?: string
-  stripePriceId?: string
-  files: { id: string; title: string; url: string; type: 'pdf' | 'image' | 'other' }[]
-  createdAt: Date
-  updatedAt: Date
+   _id: mongoose.Types.ObjectId
+   title: string
+   slug: string
+   description: string
+   shortDescription: string
+   thumbnail: string
+   previewVideoUrl?: string
+   instructor: mongoose.Types.ObjectId
+   category: string
+   tags: string[]
+   level: 'beginner' | 'intermediate' | 'advanced' | 'all-levels'
+   language: string
+   price: number
+   discountPrice?: number
+   currency: string
+   sections: ISection[]
+   totalDuration: number // in minutes
+   totalLessons: number
+   requirements: string[]
+   whatYouLearn: string[]
+   targetAudience: string[]
+   isPublished: boolean
+   isFeatured: boolean
+   enrollmentCount: number
+   rating: number
+   reviewCount: number
+   stripeProductId?: string
+   stripePriceId?: string
+   files: { id: string; title: string; url: string; type: 'pdf' | 'image' | 'other' }[]
+   createdAt: Date
+   updatedAt: Date
 }
 
 const LessonSchema = new Schema<ILesson>({
@@ -87,7 +87,7 @@ const CourseSchema = new Schema<ICourse>(
     language: { type: String, default: 'English' },
     price: { type: Number, required: true, min: 0 },
     discountPrice: { type: Number },
-    currency: { type: String, default: 'usd' },
+    currency: { type: String, default: 'php' },
     sections: [SectionSchema],
     totalDuration: { type: Number, default: 0 },
     totalLessons: { type: Number, default: 0 },

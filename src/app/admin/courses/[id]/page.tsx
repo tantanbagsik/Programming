@@ -28,33 +28,51 @@ interface EbookFile {
 }
 
 interface CourseData {
-  title: string
-  slug: string
-  description: string
-  shortDescription: string
-  thumbnail: string
-  category: string
-  level: string
-  price: number
-  discountPrice: number
-  requirements: string[]
-  whatYouLearn: string[]
-  sections: Section[]
-  ebooks: EbookFile[]
-  isPublished: boolean
-  tags: string[]
-  language: string
-  targetAudience: string[]
+   title: string
+   slug: string
+   description: string
+   shortDescription: string
+   thumbnail: string
+   category: string
+   level: string
+   price: number
+   discountPrice: number
+   requirements: string[]
+   whatYouLearn: string[]
+   sections: Section[]
+   ebooks: EbookFile[]
+   isPublished: boolean
+   tags: string[]
+   language: string
+   targetAudience: string[]
+   programs: Program[] // Quiz questions and exercises
 }
 
 const categories = ['Programming', 'Design', 'Business', 'Marketing', 'Photography', 'Music', 'Health', 'Language', 'Data Science', 'Personal Development']
 const levels = ['beginner', 'intermediate', 'advanced', 'all-levels']
 
+interface Program {
+   id: string
+   title: string
+   description: string
+   type: 'quiz' | 'exercise' | 'assignment'
+   questions: Question[]
+   passingScore: number
+}
+
+interface Question {
+   id: string
+   question: string
+   options?: string[] // For multiple choice
+   correctAnswer: string | string[] // String for text, array for multiple correct
+   points: number
+}
+
 interface TabItem {
-  id: string
-  label: string
-  icon: React.ElementType
-  description: string
+   id: string
+   label: string
+   icon: React.ElementType
+   description: string
 }
 
 export default function AdminCourseEditPage() {
@@ -70,25 +88,26 @@ export default function AdminCourseEditPage() {
   const dropZoneRef = useRef<HTMLDivElement>(null)
   const videoInputRef = useRef<HTMLInputElement>(null)
 
-  const [form, setForm] = useState<CourseData>({
-    title: '',
-    slug: '',
-    description: '',
-    shortDescription: '',
-    thumbnail: '',
-    category: '',
-    level: 'beginner',
-    price: 0,
-    discountPrice: 0,
-    requirements: [''],
-    whatYouLearn: [''],
-    sections: [{ title: '', order: 1, lessons: [] }],
-    ebooks: [],
-    isPublished: false,
-    tags: [],
-    language: 'English',
-    targetAudience: ['']
-  })
+   const [form, setForm] = useState<CourseData>({
+     title: '',
+     slug: '',
+     description: '',
+     shortDescription: '',
+     thumbnail: '',
+     category: '',
+     level: 'beginner',
+     price: 0,
+     discountPrice: 0,
+     requirements: [''],
+     whatYouLearn: [''],
+     sections: [{ title: '', order: 1, lessons: [] }],
+     ebooks: [],
+     isPublished: false,
+     tags: [],
+     language: 'English',
+     targetAudience: [''],
+     programs: []
+   })
 
   const [newRequirement, setNewRequirement] = useState('')
   const [newLearn, setNewLearn] = useState('')
@@ -103,16 +122,17 @@ export default function AdminCourseEditPage() {
   const [videoUploading, setVideoUploading] = useState(false)
   const [uploadingLessonIndex, setUploadingLessonIndex] = useState<{section: number; lesson: number} | null>(null)
 
-  const tabs: TabItem[] = [
-    { id: 'basic', label: 'Basic Info', icon: BookOpen, description: 'Course title, description, and details' },
-    { id: 'media', label: 'Media', icon: Image, description: 'Thumbnail and preview media' },
-    { id: 'pricing', label: 'Pricing', icon: DollarSign, description: 'Set your course price and discounts' },
-    { id: 'requirements', label: 'Requirements', icon: ListChecks, description: 'What students need to know' },
-    { id: 'outcomes', label: 'Outcomes', icon: CheckCircle2, description: 'What students will learn' },
-    { id: 'content', label: 'Content', icon: Layers, description: 'Curriculum and lessons' },
-    { id: 'files', label: 'Resources', icon: FileUp, description: 'Ebooks and downloadable files' },
-    { id: 'settings', label: 'Settings', icon: Settings, description: 'Tags and publishing options' },
-  ]
+const tabs: TabItem[] = [
+     { id: 'basic', label: 'Basic Info', icon: BookOpen, description: 'Course title, description, and details' },
+     { id: 'media', label: 'Media', icon: Image, description: 'Thumbnail and preview media' },
+     { id: 'pricing', label: 'Pricing', icon: DollarSign, description: 'Set your course price and discounts' },
+     { id: 'requirements', label: 'Requirements', icon: ListChecks, description: 'What students need to know' },
+     { id: 'outcomes', label: 'Outcomes', icon: CheckCircle2, description: 'What students will learn' },
+     { id: 'content', label: 'Content', icon: Layers, description: 'Curriculum and lessons' },
+     { id: 'programs', label: 'Programs', icon: Layers, description: 'Quiz questions and exercises' },
+     { id: 'files', label: 'Resources', icon: FileUp, description: 'Ebooks and downloadable files' },
+     { id: 'settings', label: 'Settings', icon: Settings, description: 'Tags and publishing options' },
+   ]
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/auth/login')
@@ -130,25 +150,26 @@ export default function AdminCourseEditPage() {
       const data = await res.json()
       if (data.course) {
         const course = data.course
-        setForm({
-          title: course.title || '',
-          slug: course.slug || '',
-          description: course.description || '',
-          shortDescription: course.shortDescription || '',
-          thumbnail: course.thumbnail || '',
-          category: course.category || '',
-          level: course.level || 'beginner',
-          price: course.price || 0,
-          discountPrice: course.discountPrice || 0,
-          requirements: course.requirements?.length ? course.requirements : [''],
-          whatYouLearn: course.whatYouLearn?.length ? course.whatYouLearn : [''],
-          sections: course.sections?.length ? course.sections : [{ title: '', order: 1, lessons: [] }],
-          ebooks: course.files?.length ? course.files.map((f: any) => ({ ...f, uploadMethod: 'url' as const })) : [],
-          isPublished: course.isPublished || false,
-          tags: course.tags || [],
-          language: course.language || 'English',
-          targetAudience: course.targetAudience?.length ? course.targetAudience : ['']
-        })
+         setForm({
+           title: course.title || '',
+           slug: course.slug || '',
+           description: course.description || '',
+           shortDescription: course.shortDescription || '',
+           thumbnail: course.thumbnail || '',
+           category: course.category || '',
+           level: course.level || 'beginner',
+           price: course.price || 0,
+           discountPrice: course.discountPrice || 0,
+           requirements: course.requirements?.length ? course.requirements : [''],
+           whatYouLearn: course.whatYouLearn?.length ? course.whatYouLearn : [''],
+           sections: course.sections?.length ? course.sections : [{ title: '', order: 1, lessons: [] }],
+           ebooks: course.files?.length ? course.files.map((f: any) => ({ ...f, uploadMethod: 'url' as const })) : [],
+           isPublished: course.isPublished || false,
+           tags: course.tags || [],
+           language: course.language || 'English',
+           targetAudience: course.targetAudience?.length ? course.targetAudience : [''],
+           programs: [] // Initialize empty programs array
+         })
         if (course.sections?.length) {
           setExpandedSections(Array.from({ length: course.sections.length }, (_, i) => i))
         }
@@ -448,19 +469,19 @@ export default function AdminCourseEditPage() {
                   <h2 className="font-sora font-semibold text-lg mb-4">Pricing</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-1.5">Regular Price ($)</label>
+                      <label className="block text-sm font-medium mb-1.5">Regular Price (₱)</label>
                       <input type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm(f => ({ ...f, price: parseFloat(e.target.value) || 0 }))} className="input-base" placeholder="0.00" />
                       <p className="text-gray-500 text-xs mt-1">Set to 0 for free courses</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1.5">Discount Price ($)</label>
+                      <label className="block text-sm font-medium mb-1.5">Discount Price (₱)</label>
                       <input type="number" min="0" step="0.01" value={form.discountPrice} onChange={(e) => setForm(f => ({ ...f, discountPrice: parseFloat(e.target.value) || 0 }))} className="input-base" placeholder="0.00" />
                       <p className="text-gray-500 text-xs mt-1">Leave empty for no discount</p>
                     </div>
                   </div>
                   {form.price > 0 && form.discountPrice > 0 && (
                     <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <p className="text-green-400 text-sm">Students will pay <span className="font-bold">${form.discountPrice.toFixed(2)}</span> (saved <span className="font-bold">${(form.price - form.discountPrice).toFixed(2)}</span>)</p>
+                      <p className="text-green-400 text-sm">Students will pay <span className="font-bold">₱{form.discountPrice.toFixed(2)}</span> (saved <span className="font-bold">₱{(form.price - form.discountPrice).toFixed(2)}</span>)</p>
                     </div>
                   )}
                 </div>
@@ -610,30 +631,242 @@ export default function AdminCourseEditPage() {
                 </div>
               )}
 
-              {activeTab === 'settings' && (
-                <div className="space-y-6">
-                  <div className="glow-card p-6">
-                    <h2 className="font-sora font-semibold text-lg mb-4">Tags</h2>
-                    <div className="flex gap-2 mb-4">
-                      <input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())} className="input-base flex-1" placeholder="Add a tag..." />
-                      <button type="button" onClick={addTag} className="btn-outline">Add</button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {form.tags.map((tag, i) => (<span key={i} className="flex items-center gap-1 px-3 py-1 bg-card rounded-full text-sm"><Tag className="w-3 h-3" /> {tag}<button onClick={() => removeTag(i)} className="hover:text-red-400"><X className="w-3 h-3" /></button></span>))}
-                      {form.tags.length === 0 && <p className="text-gray-500 text-sm">No tags added</p>}
-                    </div>
-                  </div>
-                  <div className="glow-card p-6">
-                    <h2 className="font-sora font-semibold text-lg mb-4">Publishing</h2>
-                    <div className="flex items-center justify-between">
-                      <div><p className="font-medium">Course Status</p><p className="text-gray-400 text-sm">{form.isPublished ? 'Published - visible to students' : 'Draft - only you can see'}</p></div>
-                      <button type="button" onClick={() => setForm(f => ({ ...f, isPublished: !f.isPublished }))} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${form.isPublished ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-gray-800 text-gray-400 border border-gray-700'}`}>
-                        {form.isPublished ? <><Eye className="w-4 h-4" /> Published</> : <><EyeOff className="w-4 h-4" /> Draft</>}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+               {activeTab === 'settings' && (
+                 <div className="space-y-6">
+                   <div className="glow-card p-6">
+                     <h2 className="font-sora font-semibold text-lg mb-4">Tags</h2>
+                     <div className="flex gap-2 mb-4">
+                       <input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())} className="input-base flex-1" placeholder="Add a tag..." />
+                       <button type="button" onClick={addTag} className="btn-outline">Add</button>
+                     </div>
+                     <div className="flex flex-wrap gap-2">
+                       {form.tags.map((tag, i) => (<span key={i} className="flex items-center gap-1 px-3 py-1 bg-card rounded-full text-sm"><Tag className="w-3 h-3" /> {tag}<button onClick={() => removeTag(i)} className="hover:text-red-400"><X className="w-3 h-3" /></button></span>))}
+                       {form.tags.length === 0 && <p className="text-gray-500 text-sm">No tags added</p>}
+                     </div>
+                   </div>
+                   <div className="glow-card p-6">
+                     <h2 className="font-sora font-semibold text-lg mb-4">Publishing</h2>
+                     <div className="flex items-center justify-between">
+                       <div><p className="font-medium">Course Status</p><p className="text-gray-400 text-sm">{form.isPublished ? 'Published - visible to students' : 'Draft - only you can see'}</p></div>
+                       <button type="button" onClick={() => setForm(f => ({ ...f, isPublished: !f.isPublished }))} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${form.isPublished ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-gray-800 text-gray-400 border border-gray-700'}`}>
+                         {form.isPublished ? <><Eye className="w-4 h-4" /> Published</> : <><EyeOff className="w-4 h-4" /> Draft</>}
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+               )}
+               {/* Programs Tab */}
+               {activeTab === 'programs' && (
+                 <div className="glow-card p-6">
+                   <h2 className="font-sora font-semibold text-lg mb-4">Quiz Questions & Exercises</h2>
+                   <p className="text-gray-400 text-sm mb-4">Add interactive questions to test student knowledge</p>
+                   <div className="space-y-4">
+                     <div className="flex items-center justify-between mb-4">
+                       <h3 className="font-sora font-semibold text-lg">Questions ({form.programs?.length || 0})</h3>
+                       <button type="button" onClick={() => {
+                         setForm(f => ({ ...f, programs: [...(f.programs || []), {
+                           id: Date.now().toString(),
+                           title: 'New Quiz',
+                           description: '',
+                           type: 'quiz',
+                           questions: [{ id: Date.now().toString(), question: '', correctAnswer: '', points: 1 }],
+                           passingScore: 80
+                         }] }));
+                       }} className="btn-outline">
+                         <Plus className="w-4 h-4" /> Add Quiz
+                       </button>
+                     </div>
+                     {form.programs?.map((program, programIndex) => (
+                       <div key={program.id} className="border border-border rounded-xl overflow-hidden">
+                         <div className="bg-card p-4 flex items-center gap-3 cursor-pointer">
+                           <GripVertical className="w-4 h-4 text-gray-600" />
+                           <input type="text" value={program.title}
+                             onChange={(e) => {
+                               const newPrograms = [...form.programs];
+                               newPrograms[programIndex].title = e.target.value;
+                               setForm(f => ({ ...f, programs: newPrograms }));
+                             }}
+                             className="flex-1 bg-transparent border-none focus:outline-none font-medium"
+                             placeholder="Quiz title..." />
+                           <span className="text-gray-500 text-sm">{program.questions?.length || 0} questions</span>
+                           <button type="button" onClick={() => {
+                             const newPrograms = [...form.programs];
+                             newPrograms.splice(programIndex, 1);
+                             setForm(f => ({ ...f, programs: newPrograms }));
+                           }} className="text-gray-500 hover:text-red-400">
+                             <Trash2 className="w-4 h-4" />
+                           </button>
+                         </div>
+                         <div className="p-4 space-y-3 bg-dark/50">
+                           <div className="space-y-2">
+                             <label className="block text-sm font-medium mb-1">Description</label>
+                             <textarea value={program.description}
+                               onChange={(e) => {
+                                 const newPrograms = [...form.programs];
+                                 newPrograms[programIndex].description = e.target.value;
+                                 setForm(f => ({ ...f, programs: newPrograms }));
+                               }}
+                               className="input-base min-h-[60px]" placeholder="Brief description of the quiz..." />
+                           </div>
+                           <div className="space-y-2">
+                             <label className="block text-sm font-medium mb-1">Passing Score (%)</label>
+                             <input type="number" min="0" max="100" value={program.passingScore}
+                               onChange={(e) => {
+                                 const newPrograms = [...form.programs];
+                                 newPrograms[programIndex].passingScore = parseInt(e.target.value) || 0;
+                                 setForm(f => ({ ...f, programs: newPrograms }));
+                               }}
+                               className="w-20 bg-dark border border-border rounded px-2 py-1 text-xs" />
+                           </div>
+                           <div className="space-y-2">
+                             <button type="button" onClick={() => {
+                               const newPrograms = [...form.programs];
+                               newPrograms[programIndex].questions.push({
+                                 id: Date.now().toString(),
+                                 question: '',
+                                 options: ['', '', '', ''],
+                                 correctAnswer: '',
+                                 points: 1
+                               });
+                               setForm(f => ({ ...f, programs: newPrograms }));
+                             }} className="btn-outline w-full">
+                               <Plus className="w-3 h-3" /> Add Question
+                             </button>
+                           </div>
+                           <div className="space-y-4">
+                             {program.questions?.map((question, questionIndex) => (
+                               <div key={question.id} className="bg-card p-3 rounded-lg space-y-2">
+                                 <div className="flex items-center gap-3">
+                                   <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                   <div className="flex-1 min-w-0">
+                                     <p className="font-medium text-sm">{question.question}</p>
+                                     <p className="text-gray-500 text-xs">{question.points} points</p>
+                                   </div>
+                                   <button type="button" onClick={() => {
+                                     const newPrograms = [...form.programs];
+                                     newPrograms[programIndex].questions.splice(questionIndex, 1);
+                                     setForm(f => ({ ...f, programs: newPrograms }));
+                                   }} className="text-gray-500 hover:text-red-400">
+                                     <Trash2 className="w-3 h-3" />
+                                   </button>
+                                 </div>
+                                 <div className="space-y-2">
+                                   <label className="block text-sm font-medium mb-1">Question</label>
+                                   <input type="text" value={question.question}
+                                     onChange={(e) => {
+                                       const newPrograms = [...form.programs];
+                                       newPrograms[programIndex].questions[questionIndex].question = e.target.value;
+                                       setForm(f => ({ ...f, programs: newPrograms }));
+                                     }}
+                                     className="input-base" placeholder="Enter your question here..." />
+                                 </div>
+                                 <div className="space-y-2">
+                                    <label className="block text-sm font-medium mb-1">Question Type</label>
+                                    <select value={(question.options && question.options.length > 0) ? 'multiple' : 'text'}
+                                      onChange={(e) => {
+                                        const newPrograms = [...form.programs];
+                                        if (e.target.value === 'multiple') {
+                                          newPrograms[programIndex].questions[questionIndex].options = ['', '', '', ''];
+                                          newPrograms[programIndex].questions[questionIndex].correctAnswer = '';
+                                        } else {
+                                          newPrograms[programIndex].questions[questionIndex].options = undefined;
+                                          newPrograms[programIndex].questions[questionIndex].correctAnswer = '';
+                                        }
+                                        setForm(f => ({ ...f, programs: newPrograms }));
+                                      }}
+                                      className="w-24 bg-dark border border-border rounded px-2 py-1 text-xs">
+                                      <option value="text">Text Answer</option>
+                                      <option value="multiple">Multiple Choice</option>
+                                    </select>
+                                 </div>
+                                   {(question.options || []).map((option, optionIndex) => (
+                                    <div key={optionIndex} className="space-y-2">
+                                      <label className="block text-sm font-medium mb-1">Option {optionIndex + 1}</label>
+                                      <input type="text" value={option}
+                                        onChange={(e) => {
+                                          const newPrograms = [...form.programs];
+                                          // Add null check for options before accessing
+                                          if (newPrograms[programIndex].questions[questionIndex].options) {
+                                            newPrograms[programIndex].questions[questionIndex].options[optionIndex] = e.target.value;
+                                          }
+                                          setForm(f => ({ ...f, programs: newPrograms }));
+                                        }}
+                                        className="input-base" placeholder="Enter option text..." />
+                                    </div>
+                                  ))}
+                                 <div className="space-y-2">
+                                   <label className="block text-sm font-medium mb-1">Correct Answer</label>
+                                    {question.options ? (
+                                      <div>
+                                        {question.options.map((_, optionIndex) => (
+                                          <div key={optionIndex} className="flex items-center gap-2">
+                                            <input type="checkbox"
+                                              checked={Array.isArray(question.correctAnswer) ? question.correctAnswer.includes(optionIndex.toString()) : question.correctAnswer?.includes?.(optionIndex.toString()) ?? false}
+                                              onChange={(e) => {
+                                                const newPrograms = [...form.programs];
+                                                const currentAnswers = Array.isArray(question.correctAnswer) ? question.correctAnswer : (question.correctAnswer?.split(',').map(String) || []);
+                                                const isChecked = e.target.checked;
+                                                let newAnswers = [...currentAnswers];
+                                                if (isChecked && !newAnswers.includes(optionIndex.toString())) {
+                                                  newAnswers.push(optionIndex.toString());
+                                                } else if (isChecked && newAnswers.includes(optionIndex.toString())) {
+                                                  newAnswers = newAnswers.filter(a => a !== optionIndex.toString());
+                                                }
+                                                newPrograms[programIndex].questions[questionIndex].correctAnswer = newAnswers;
+                                                setForm(f => ({ ...f, programs: newPrograms }));
+                                              }}
+                                              className="rounded border-border" />
+                                            <span className="text-sm">Option {optionIndex + 1}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <input type="text" value={question.correctAnswer || ''}
+                                        onChange={(e) => {
+                                          const newPrograms = [...form.programs];
+                                          newPrograms[programIndex].questions[questionIndex].correctAnswer = e.target.value;
+                                          setForm(f => ({ ...f, programs: newPrograms }));
+                                        }}
+                                        className="input-base" placeholder="Enter correct answer..." />
+                                    )}
+                                 </div>
+                                 <div className="space-y-2">
+                                   <label className="block text-sm font-medium mb-1">Points</label>
+                                   <input type="number" min="1" value={question.points}
+                                     onChange={(e) => {
+                                       const newPrograms = [...form.programs];
+                                       newPrograms[programIndex].questions[questionIndex].points = parseInt(e.target.value) || 1;
+                                       setForm(f => ({ ...f, programs: newPrograms }));
+                                     }}
+                                     className="w-16 bg-dark border border-border rounded px-2 py-1 text-xs" />
+                                 </div>
+                               </div>
+                             ))}
+                           </div>
+                         </div>
+                       </div>
+                     ))}
+                     {form.programs?.length === 0 && (
+                       <div className="text-center py-8">
+                         <Layers className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                         <p className="text-gray-500">No quizzes added yet</p>
+                         <button type="button" onClick={() => {
+                           setForm(f => ({ ...f, programs: [...(f.programs || []), {
+                             id: Date.now().toString(),
+                             title: 'New Quiz',
+                             description: '',
+                             type: 'quiz',
+                             questions: [{ id: Date.now().toString(), question: '', correctAnswer: '', points: 1 }],
+                             passingScore: 80
+                           }] }));
+                         }} className="btn-primary mt-3">
+                           Add Your First Quiz
+                         </button>
+                       </div>
+                     )}
+                   </div>
+                 </div>
+               )}
             </form>
           </div>
 
@@ -646,7 +879,7 @@ export default function AdminCourseEditPage() {
                 <div><p className="text-gray-400 text-xs mb-1">Category</p><p className="font-medium">{form.category || 'Not selected'}</p></div>
                 <div><p className="text-gray-400 text-xs mb-1">Level</p><p className="font-medium capitalize">{form.level?.replace('-', ' ') || 'Beginner'}</p></div>
                 <div><p className="text-gray-400 text-xs mb-1">Language</p><p className="font-medium">{form.language || 'English'}</p></div>
-                <div><p className="text-gray-400 text-xs mb-1">Price</p><p className="font-medium">{form.price === 0 ? 'Free' : form.discountPrice > 0 ? `$${form.discountPrice} ($${form.price})` : `$${form.price}`}</p></div>
+                <div><p className="text-gray-400 text-xs mb-1">Price</p><p className="font-medium">{form.price === 0 ? 'Free' : form.discountPrice > 0 ? `₱${form.discountPrice} (₱${form.price})` : `₱${form.price}`}</p></div>
                 <div><p className="text-gray-400 text-xs mb-1">Content</p><p className="font-medium">{form.sections.filter(s => s.title).length} sections · {getTotalLessons()} lessons</p></div>
                 <div><p className="text-gray-400 text-xs mb-1">Resources</p><p className="font-medium">{form.ebooks.length} files</p></div>
                 <div><p className="text-gray-400 text-xs mb-1">Tags</p><p className="font-medium">{form.tags.length > 0 ? form.tags.join(', ') : 'No tags'}</p></div>

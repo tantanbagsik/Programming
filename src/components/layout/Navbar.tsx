@@ -8,8 +8,8 @@ import { useCart } from '@/context/CartContext'
 
 const navLinks = [
   { href: '/#courses', label: 'Courses' },
-  { href: '/#features', label: 'Features' },
   { href: '/#pricing', label: 'Pricing' },
+  { href: 'https://raypanganiban8.vercel.app/', label: 'RAY PANGANIBAN PORTFOLIO & PROJECTS', external: true },
 ]
 
 export function Navbar() {
@@ -60,7 +60,19 @@ export function Navbar() {
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map(link => (
-              <Link key={link.href} href={link.href} className="nav-link">{link.label}</Link>
+              link.external ? (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="nav-link"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} className="nav-link">{link.label}</Link>
+              )
             ))}
           </div>
 
@@ -142,14 +154,27 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-dark/95 backdrop-blur-xl px-4 py-4 space-y-3">
-          {navLinks.map(link => (
-            <Link key={link.href} href={link.href} className="block nav-link py-2" onClick={() => setMobileOpen(false)}>
-              {link.label}
-            </Link>
-          ))}
+       {/* Mobile menu */}
+       {mobileOpen && (
+         <div className="md:hidden border-t border-border bg-dark/95 backdrop-blur-xl px-4 py-4 space-y-3">
+           {navLinks.map(link => (
+             link.external ? (
+               <a 
+                 key={link.href} 
+                 href={link.href} 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="block nav-link py-2"
+                 onClick={() => setMobileOpen(false)}
+               >
+                 {link.label}
+               </a>
+             ) : (
+               <Link key={link.href} href={link.href} className="block nav-link py-2" onClick={() => setMobileOpen(false)}>
+                 {link.label}
+               </Link>
+             )
+           ))}
           {session ? (
             <>
               {/* Points in mobile */}

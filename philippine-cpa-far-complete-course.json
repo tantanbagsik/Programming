@@ -1,0 +1,2536 @@
+{
+  "title": "Philippine CPA Board Exam Review - Financial Accounting and Reporting (FAR)",
+  "slug": "philippine-cpa-board-far-complete",
+  "description": "Complete review course for the Philippine CPA Board Exam FAR section. This comprehensive course covers all major topics tested in the board exam including conceptual framework, assets, liabilities, equity, and financial statement analysis.\n\n**Course Features:**\n• 72+ hours of video lectures\n• 200+ practice questions with detailed explanations\n• 6 comprehensive board exam simulations\n• Downloadable PDF resources and templates\n• Progress tracking and performance analytics\n• Mobile-friendly learning platform\n• Lifetime access to course materials\n\n**What You'll Learn:**\n✓ Master PFRS applications for financial statement preparation\n✓ Analyze complex accounting transactions\n✓ Prepare consolidated financial statements\n✓ Apply revenue recognition principles\n✓ Account for PPE, intangible assets, and investment property\n✓ Implement proper accounting for income taxes and employee benefits\n✓ Prepare statement of cash flows\n✓ Navigate ethical considerations in financial reporting\n\n**Target Audience:**\n• Accounting graduates preparing for the CPA Board Exam\n• Accountants seeking to strengthen PFRS knowledge\n• Finance professionals transitioning to accounting roles\n• Review center students seeking supplementary materials\n• Overseas Filipino Workers (OFWs) preparing for return to Philippine practice",
+  "shortDescription": "Complete 72-hour FAR review course with 200+ practice questions, board exam simulations, and comprehensive resources for Philippine CPA Board Exam preparation.",
+  "thumbnail": "https://images.unsplash.com/photo-1580915588867-7821f2fd05f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+  "category": "Accountancy",
+  "tags": [
+    "CPA Board Exam",
+    "Financial Accounting",
+    "PFRS",
+    "Accountancy",
+    "FAR",
+    "Philippine Accounting",
+    "Board Exam Review"
+  ],
+  "level": "all-levels",
+  "language": "English",
+  "price": 4999,
+  "discountPrice": 2999,
+  "currency": "php",
+  "requirements": [
+    "Basic understanding of accounting principles",
+    "Access to accounting calculator or spreadsheet software",
+    "Familiarity with basic financial statements",
+    "Dedication to study 2-3 hours per day",
+    "Internet connection for video streaming"
+  ],
+  "whatYouLearn": [
+    "Master PFRS applications for financial statement preparation under Philippine setting",
+    "Analyze complex accounting transactions including business combinations, leases, and financial instruments",
+    "Prepare consolidated financial statements for parent-subsidiary relationships",
+    "Apply revenue recognition principles under PFRS 15",
+    "Account for property, plant and equipment, intangible assets, and investment property",
+    "Implement proper accounting for income taxes, employee benefits, and provisions",
+    "Prepare statement of cash flows using both direct and indirect methods",
+    "Navigate ethical considerations and professional responsibilities in financial reporting",
+    "Develop exam-taking strategies for the CPA Board Exam FAR section",
+    "Build confidence through timed practice exams and performance analytics",
+    "Solve 200+ practice problems with detailed step-by-step solutions",
+    "Master time management for the 4-hour board exam",
+    "Identify common exam traps and avoid costly mistakes",
+    "Build a personal formula sheet and quick reference guide"
+  ],
+  "targetAudience": [
+    "Accounting graduates preparing for the CPA Board Exam",
+    "Accountants seeking to strengthen PFRS knowledge",
+    "Finance professionals transitioning to accounting roles",
+    "Review center students seeking supplementary materials",
+    "Overseas Filipino Workers (OFWs) preparing for return to Philippine practice",
+    "Working professionals with limited study time",
+    "Students who want comprehensive practice with instant feedback"
+  ],
+  "sections": [
+    {
+      "title": "Section 1: Conceptual Framework and Philippine Financial Reporting Standards",
+      "description": "Foundation of financial reporting under PFRS including conceptual framework, qualitative characteristics, and standard-setting process",
+      "order": 1,
+      "totalDuration": 480,
+      "lessons": [
+        {
+          "title": "Lesson 1.1: Conceptual Framework for Financial Reporting",
+          "description": "**Learning Objectives:**\n• Understand the purpose and components of the Conceptual Framework\n• Identify the qualitative characteristics of useful financial information\n• Apply the concepts of recognition, measurement, and presentation\n• Distinguish between capital maintenance concepts\n\n**Key Topics:**\n1. Objective of General Purpose Financial Reporting\n2. Qualitative Characteristics of Useful Financial Information\n   - Fundamental: Relevance, Faithful Representation\n   - Enhancing: Comparability, Verifiability, Timeliness, Understandability\n3. Financial Statements and the Reporting Entity\n4. Elements of Financial Statements\n5. Recognition and Derecognition\n6. Measurement\n7. Presentation and Disclosure\n8. Concepts of Capital and Capital Maintenance",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 120,
+          "order": 1,
+          "isFree": true,
+          "resources": [
+            {
+              "title": "Conceptual Framework Summary PDF",
+              "url": "/resources/cpa-far/conceptual-framework-summary.pdf"
+            },
+            {
+              "title": "Qualitative Characteristics Cheat Sheet",
+              "url": "/resources/cpa-far/qualitative-characteristics.pdf"
+            },
+            {
+              "title": "Recognition and Measurement Guide",
+              "url": "/resources/cpa-far/recognition-measurement.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 1.2: Philippine Financial Reporting Standards (PFRS) Overview",
+          "description": "**Learning Objectives:**\n• Understand the structure of PFRS in the Philippines\n• Identify the differences between PFRS and IFRS\n• Navigate the standard-setting process\n• Apply effective dates of standards\n\n**Key Topics:**\n1. History of Accounting Standards in the Philippines\n2. Financial Reporting Standards Council (FRSC)\n3. Philippine Interpretations Committee\n4. PFRS vs IFRS: Key Differences\n5. Effective Dates and Transition Provisions\n6. First-time Adoption of PFRS (PFRS 1)\n7. Small and Medium-sized Entity Framework\n8. Recent Updates and Exposure Drafts",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 90,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "PFRS Standards List 2024",
+              "url": "/resources/cpa-far/pfrs-standards-list.pdf"
+            },
+            {
+              "title": "PFRS vs IFRS Comparison Chart",
+              "url": "/resources/cpa-far/pfrs-ifrs-comparison.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 1.3: Presentation of Financial Statements (PFRS 1/IAS 1)",
+          "description": "**Learning Objectives:**\n• Prepare a complete set of financial statements\n• Apply minimum line item requirements\n• Understand current/non-current classification\n• Apply presentation and disclosure requirements\n\n**Key Topics:**\n1. Objective and Scope of PFRS 1\n2. Complete Set of Financial Statements\n   - Statement of Financial Position\n   - Statement of Comprehensive Income\n   - Statement of Changes in Equity\n   - Statement of Cash Flows\n   - Notes to Financial Statements\n3. Current vs Non-Current Classification\n4. Offsetting\n5. Comparative Information\n6. Materiality and Aggregation\n7. Going Concern Assessment\n8. Events After Reporting Period",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 150,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Statement of Financial Position Template",
+              "url": "/resources/cpa-far/sofp-template.xlsx"
+            },
+            {
+              "title": "Statement of Comprehensive Income Format",
+              "url": "/resources/cpa-far/soci-format.pdf"
+            },
+            {
+              "title": "Minimum Disclosure Checklist",
+              "url": "/resources/cpa-far/disclosure-checklist.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 1.4: Accounting Policies, Changes in Estimates and Errors (PFRS 8/IAS 8)",
+          "description": "**Learning Objectives:**\n• Select and apply accounting policies\n• Account for changes in accounting policies\n• Account for changes in accounting estimates\n• Correct prior period errors\n\n**Key Topics:**\n1. Selection of Accounting Policies\n2. Changes in Accounting Policies\n   - Retrospective Application\n   - Impracticability Exception\n3. Changes in Accounting Estimates\n   - Prospective Application\n4. Prior Period Errors\n   - Retrospective Restatement\n5. Disclosure Requirements\n6. Interaction with Other Standards\n7. Practice Problems and Examples",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 120,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Accounting Changes Decision Tree",
+              "url": "/resources/cpa-far/accounting-changes-decision-tree.pdf"
+            },
+            {
+              "title": "Retrospective vs Prospective Application Guide",
+              "url": "/resources/cpa-far/retrospective-prospective.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 2: Assets - Current and Non-Current",
+      "description": "Comprehensive coverage of asset recognition, measurement, and disclosure including cash, receivables, inventories, and non-current assets",
+      "order": 2,
+      "totalDuration": 720,
+      "lessons": [
+        {
+          "title": "Lesson 2.1: Cash and Cash Equivalents",
+          "description": "**Learning Objectives:**\n• Define cash and cash equivalents\n• Prepare bank reconciliation statements\n• Account for petty cash transactions\n• Apply proper disclosure requirements\n\n**Key Topics:**\n1. Definition of Cash\n2. Definition of Cash Equivalents\n3. Bank Reconciliation\n   - Adjusting Entries\n   - Proof of Cash\n4. Petty Cash Fund\n   - Imprest System\n   - Replenishment\n5. Restricted Cash\n6. Compensating Balances\n7. Foreign Currency Cash\n8. Disclosure Requirements\n9. Common Board Exam Problems",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 90,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Bank Reconciliation Template",
+              "url": "/resources/cpa-far/bank-reconciliation-template.xlsx"
+            },
+            {
+              "title": "Petty Cash Journal Entries",
+              "url": "/resources/cpa-far/petty-cash-entries.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.2: Trade and Other Receivables",
+          "description": "**Learning Objectives:**\n• Recognize and measure trade receivables\n• Account for bad debts and doubtful accounts\n• Apply the expected credit loss model\n• Account for receivable factoring and transfers\n\n**Key Topics:**\n1. Recognition of Receivables\n2. Measurement\n   - Initial Measurement at Fair Value\n   - Subsequent Measurement\n3. Impairment of Receivables\n   - Allowance Method\n   - Direct Write-off Method\n   - Expected Credit Loss Model\n4. Factoring of Receivables\n   - With Recourse\n   - Without Recourse\n5. Pledging of Receivables\n6. Assigning of Receivables\n7. Notes Receivable\n   - Interest-Bearing Notes\n   - Non-Interest-Bearing Notes\n8. Disclosure Requirements\n9. Board Exam Problem Solving Techniques",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 150,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Allowance for Doubtful Accounts Calculation",
+              "url": "/resources/cpa-far/allowance-calculation.pdf"
+            },
+            {
+              "title": "Factoring vs Pledging Comparison",
+              "url": "/resources/cpa-far/factoring-pledging.pdf"
+            },
+            {
+              "title": "Notes Receivable Calculator",
+              "url": "/resources/cpa-far/notes-receivable-calc.xlsx"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.3: Inventories",
+          "description": "**Learning Objectives:**\n• Determine the cost of inventories\n• Apply different inventory cost formulas\n• Measure inventory at net realizable value\n• Apply the lower of cost and NRV rule\n\n**Key Topics:**\n1. Definition and Scope (PFRS 2/IAS 2)\n2. Measurement of Inventories\n   - Cost of Inventories\n   - Cost Formulas\n     * FIFO (First-In, First-Out)\n     * Weighted Average Cost\n     * Specific Identification\n3. Net Realizable Value\n4. Write-down and Reversal\n5. Retail Method\n6. Agricultural Products\n7. Disclosure Requirements\n8. Detailed Worked Examples\n9. Common Board Exam Mistakes to Avoid",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "FIFO vs Weighted Average Comparison",
+              "url": "/resources/cpa-far/fifo-weighted-average.pdf"
+            },
+            {
+              "title": "Inventory Valuation Practice Problems (50 Questions)",
+              "url": "/resources/cpa-far/inventory-practice.pdf"
+            },
+            {
+              "title": "Inventory Cost Formulas Cheat Sheet",
+              "url": "/resources/cpa-far/inventory-cost-formulas.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.4: Biological Assets and Agricultural Activity",
+          "description": "**Learning Objectives:**\n• Define biological assets and agricultural produce\n• Apply fair value measurement for biological assets\n• Account for bearer plants\n• Apply disclosure requirements\n\n**Key Topics:**\n1. Scope of PFRS 41/IAS 41\n2. Recognition and Measurement\n   - Fair Value Less Costs to Sell\n   - Cost Model Exception\n3. Bearer Plants\n4. Agricultural Produce\n5. Government Grants\n6. Disclosure Requirements\n7. Industry-Specific Applications\n   - Livestock\n   - Crops\n   - Aquaculture\n8. Philippine Setting Examples",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 90,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Biological Assets Recognition Guide",
+              "url": "/resources/cpa-far/biological-assets-guide.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.5: Investment Property",
+          "description": "**Learning Objectives:**\n• Define and recognize investment property\n• Apply the fair value model and cost model\n• Account for transfers and disposals\n• Apply disclosure requirements\n\n**Key Topics:**\n1. Definition and Scope (PFRS 40/IAS 40)\n2. Recognition and Measurement\n   - Initial Measurement\n   - Subsequent Measurement\n     * Fair Value Model\n     * Cost Model\n3. Transfers\n   - To/From Investment Property\n   - To/From Property, Plant and Equipment\n4. Disposals\n5. Disclosure Requirements\n6. Comparison with Owner-Occupied Property\n7. Board Exam Problem Types",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 120,
+          "order": 5,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Investment Property Decision Tree",
+              "url": "/resources/cpa-far/investment-property-decision.pdf"
+            },
+            {
+              "title": "Fair Value vs Cost Model Comparison",
+              "url": "/resources/cpa-far/fair-value-vs-cost.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.6: Property, Plant and Equipment",
+          "description": "**Learning Objectives:**\n• Recognize and measure PPE\n• Apply depreciation methods\n• Account for subsequent expenditures\n• Account for derecognition and disposal\n\n**Key Topics:**\n1. Recognition Criteria (PFRS 16/IAS 16)\n2. Measurement\n   - Initial Measurement\n   - Subsequent Measurement\n     * Cost Model\n     * Revaluation Model\n3. Depreciation\n   - Methods: Straight-line, Declining Balance, Units of Production\n   - Component Depreciation\n   - Useful Life Assessment\n4. Subsequent Expenditures\n5. Impairment\n6. Derecognition\n   - Disposal\n   - Retirement\n7. Disclosure Requirements\n8. Detailed Worked Examples\n9. Philippine Tax Depreciation Considerations",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 240,
+          "order": 6,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Depreciation Methods Calculator",
+              "url": "/resources/cpa-far/depreciation-calc.xlsx"
+            },
+            {
+              "title": "PPE Recognition and Measurement Guide",
+              "url": "/resources/cpa-far/ppe-guide.pdf"
+            },
+            {
+              "title": "PPE Practice Problems (60 Questions)",
+              "url": "/resources/cpa-far/ppe-practice.pdf"
+            },
+            {
+              "title": "Revaluation Model Worked Examples",
+              "url": "/resources/cpa-far/revaluation-examples.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.7: Intangible Assets and Goodwill",
+          "description": "**Learning Objectives:**\n• Define and recognize intangible assets\n• Apply the cost model and revaluation model\n• Account for internally generated intangibles\n• Account for goodwill and impairment testing\n\n**Key Topics:**\n1. Definition and Recognition (PFRS 38/IAS 38)\n2. Separately Acquired Intangibles\n3. Internally Generated Intangibles\n   - Research Phase vs Development Phase\n   - Recognition Criteria\n4. Internally Generated Brands, Mastheads, etc.\n5. Measurement\n   - Cost Model\n   - Revaluation Model\n6. Amortization\n   - Finite Life vs Indefinite Life\n7. Goodwill (PFRS 3/IFRS 3)\n   - Initial Recognition\n   - Subsequent Measurement\n   - Impairment Testing\n8. Disclosure Requirements\n9. Board Exam Problem Solving",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 7,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Intangible Assets Recognition Checklist",
+              "url": "/resources/cpa-far/intangible-checklist.pdf"
+            },
+            {
+              "title": "Research vs Development Phase Guide",
+              "url": "/resources/cpa-far/research-development.pdf"
+            },
+            {
+              "title": "Goodwill Calculation Worksheet",
+              "url": "/resources/cpa-far/goodwill-calculation.xlsx"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 2.8: Impairment of Assets",
+          "description": "**Learning Objectives:**\n• Identify indicators of impairment\n• Determine recoverable amount\n• Allocate impairment losses\n• Account for reversal of impairment\n\n**Key Topics:**\n1. Scope of PFRS 36/IAS 36\n2. Identifying an Asset That May Be Impaired\n3. Recoverable Amount\n   - Fair Value Less Costs of Disposal\n   - Value in Use\n4. Recognition and Measurement of Impairment Loss\n5. Cash-Generating Units\n6. Allocation of Goodwill\n7. Reversal of Impairment Loss\n8. Disclosure Requirements\n9. Detailed Worked Examples\n10. Board Exam Problem Types",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 150,
+          "order": 8,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Impairment Loss Calculation Worksheet",
+              "url": "/resources/cpa-far/impairment-calculation.xlsx"
+            },
+            {
+              "title": "CGU Allocation Example",
+              "url": "/resources/cpa-far/cgu-allocation.pdf"
+            },
+            {
+              "title": "Impairment Practice Problems (40 Questions)",
+              "url": "/resources/cpa-far/impairment-practice.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 3: Liabilities and Equity",
+      "description": "Comprehensive coverage of financial liabilities, provisions, employee benefits, equity components, and revenue recognition",
+      "order": 3,
+      "totalDuration": 960,
+      "lessons": [
+        {
+          "title": "Lesson 3.1: Financial Liabilities - Basic and Compound",
+          "description": "**Learning Objectives:**\n• Classify financial liabilities as FVTPL or amortized cost\n• Account for bonds payable\n• Account for compound financial instruments\n• Apply the effective interest rate method\n\n**Key Topics:**\n1. Classification of Financial Liabilities\n   - Amortized Cost\n   - Fair Value Through Profit or Loss\n2. Bonds Payable\n   - Issuance at Face Value\n   - Issuance at Premium\n   - Issuance at Discount\n   - Effective Interest Rate Method\n   - Straight-line Method (if not materially different)\n3. Bond Retirement\n   - Before Maturity\n   - Conversion\n   - Exercise of Warrants\n4. Compound Financial Instruments\n   - Convertible Bonds\n   - Bonds with Warrants\n   - Separation of Debt and Equity Components\n5. Disclosure Requirements\n6. Worked Examples and Practice Problems",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 240,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Bonds Payable Calculation Workbook",
+              "url": "/resources/cpa-far/bonds-payable-calc.xlsx"
+            },
+            {
+              "title": "Effective Interest Rate Method Guide",
+              "url": "/resources/cpa-far/effective-interest-guide.pdf"
+            },
+            {
+              "title": "Convertible Bonds Separation Example",
+              "url": "/resources/cpa-far/convertible-bonds.pdf"
+            },
+            {
+              "title": "Financial Liabilities Practice Problems (50 Questions)",
+              "url": "/resources/cpa-far/financial-liabilities-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 3.2: Provisions, Contingent Liabilities and Contingent Assets",
+          "description": "**Learning Objectives:**\n• Distinguish between provisions, contingent liabilities, and contingent assets\n• Recognize and measure provisions\n• Apply the best estimate and expected value methods\n• Account for onerous contracts\n\n**Key Topics:**\n1. Scope of PFRS 37/IAS 37\n2. Definitions\n   - Provisions\n   - Other Liabilities\n   - Contingent Liabilities\n3. Recognition of Provisions\n   - Present Obligation\n   - Probable Outflow\n   - Reliable Estimate\n4. Measurement\n   - Best Estimate\n   - Risks and Uncertainties\n   - Present Value\n   - Expected Value\n5. Specific Applications\n   - Future Operating Losses\n   - Onerous Contracts\n   - Restructuring\n6. Contingent Assets\n7. Disclosure Requirements\n8. Philippine Setting Examples\n   - Warranty Provisions\n   - Legal Claims\n   - Environmental Provisions",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Provision Recognition Decision Tree",
+              "url": "/resources/cpa-far/provision-decision-tree.pdf"
+            },
+            {
+              "title": "Contingent Liability Classification Guide",
+              "url": "/resources/cpa-far/contingent-liability-guide.pdf"
+            },
+            {
+              "title": "Provisions Practice Problems (35 Questions)",
+              "url": "/resources/cpa-far/provisions-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 3.3: Employee Benefits",
+          "description": "**Learning Objectives:**\n• Classify employee benefits as short-term or post-employment\n• Account for defined contribution plans\n• Account for defined benefit plans\n• Apply the projected unit credit method\n\n**Key Topics:**\n1. Scope of PFRS 19/IAS 19\n2. Short-term Employee Benefits\n   - Wages, Salaries, Social Security Contributions\n   - Short-term Compensated Absences\n   - Profit-sharing and Bonus Plans\n3. Post-employment Benefits\n   - Defined Contribution Plans\n   - Defined Benefit Plans\n     * Present Value of Defined Benefit Obligation\n     * Fair Value of Plan Assets\n     * Net Defined Benefit Liability/Asset\n     * Service Cost\n     * Net Interest\n     * Remeasurements\n4. Other Long-term Employee Benefits\n5. Termination Benefits\n6. Disclosure Requirements\n7. Philippine SSS, PhilHealth, Pag-IBIG Contributions\n8. Worked Examples with Calculations",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 240,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Defined Benefit Plan Calculation Worksheet",
+              "url": "/resources/cpa-far/defined-benefit-calc.xlsx"
+            },
+            {
+              "title": "Projected Unit Credit Method Guide",
+              "url": "/resources/cpa-far/projected-unit-credit.pdf"
+            },
+            {
+              "title": "Employee Benefits Practice Problems (40 Questions)",
+              "url": "/resources/cpa-far/employee-benefits-practice.pdf"
+            },
+            {
+              "title": "Philippine Government Contributions Reference",
+              "url": "/resources/cpa-far/ph-contributions.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 3.4: Income Taxes",
+          "description": "**Learning Objectives:**\n• Distinguish between current and deferred tax\n• Identify temporary differences\n• Account for deferred tax assets and liabilities\n• Apply the balance sheet liability method\n\n**Key Topics:**\n1. Current Tax\n   - Taxable Income Calculation\n   - Current Tax Assets and Liabilities\n2. Deferred Tax\n   - Temporary Differences\n     * Taxable Temporary Differences\n     * Deductible Temporary Differences\n   - Deferred Tax Liabilities\n   - Deferred Tax Assets\n     * Recognition Criteria\n     * Recoverability Assessment\n3. Tax Base\n   - Assets\n   - Liabilities\n4. Exceptions to Recognition\n   - Goodwill\n   - Initial Recognition of Assets/Liabilities\n5. Measurement\n6. Presentation and Disclosure\n7. Philippine Income Tax Rate (30% Corporate Rate)\n8. Detailed Worked Examples\n9. Board Exam Problem Solving Techniques",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 300,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Deferred Tax Calculation Workbook",
+              "url": "/resources/cpa-far/deferred-tax-calc.xlsx"
+            },
+            {
+              "title": "Temporary Differences Identification Guide",
+              "url": "/resources/cpa-far/temporary-differences.pdf"
+            },
+            {
+              "title": "Tax Base Determination Checklist",
+              "url": "/resources/cpa-far/tax-base-checklist.pdf"
+            },
+            {
+              "title": "Income Taxes Practice Problems (60 Questions)",
+              "url": "/resources/cpa-far/income-taxes-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 3.5: Revenue from Contracts with Customers",
+          "description": "**Learning Objectives:**\n• Apply the five-step revenue recognition model\n• Identify performance obligations\n• Determine transaction price\n• Allocate transaction price to performance obligations\n• Recognize revenue when obligations are satisfied\n\n**Key Topics:**\n1. Five-Step Model (PFRS 15/IFRS 15)\n   - Step 1: Identify the Contract\n   - Step 2: Identify Performance Obligations\n   - Step 3: Determine Transaction Price\n     * Variable Consideration\n     * Constraining Estimates\n     * Significant Financing Component\n     * Non-cash Consideration\n     * Consideration Payable to Customer\n   - Step 4: Allocate Transaction Price\n     * Standalone Selling Price\n     * Allocation Methods\n   - Step 5: Recognize Revenue\n     * Point in Time\n     * Over Time\n2. Contract Modifications\n3. Contract Costs\n   - Costs to Obtain a Contract\n   - Costs to Fulfill a Contract\n4. Disclosure Requirements\n5. Philippine Industry Examples\n   - Real Estate Sales\n   - Construction Contracts\n   - Software Licensing\n   - Service Agreements",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 300,
+          "order": 5,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "PFRS 15 Five-Step Model Summary",
+              "url": "/resources/cpa-far/pfrs15-five-step.pdf"
+            },
+            {
+              "title": "Revenue Recognition Decision Tree",
+              "url": "/resources/cpa-far/revenue-decision-tree.pdf"
+            },
+            {
+              "title": "Transaction Price Calculation Worksheet",
+              "url": "/resources/cpa-far/transaction-price-calc.xlsx"
+            },
+            {
+              "title": "Revenue Recognition Practice Problems (55 Questions)",
+              "url": "/resources/cpa-far/revenue-practice.pdf"
+            },
+            {
+              "title": "Philippine Revenue Recognition Examples",
+              "url": "/resources/cpa-far/ph-revenue-examples.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 4: Special Topics and Business Combinations",
+      "description": "Advanced topics including foreign currency, leases, business combinations, and consolidated financial statements",
+      "order": 4,
+      "totalDuration": 960,
+      "lessons": [
+        {
+          "title": "Lesson 4.1: Effects of Changes in Foreign Exchange Rates",
+          "description": "**Learning Objectives:**\n• Account for foreign currency transactions\n• Translate foreign operations' financial statements\n• Apply the functional currency concept\n• Account for net investment in a foreign operation\n\n**Key Topics:**\n1. Scope of PFRS 21/IAS 21\n2. Functional Currency\n   - Determination\n   - Change in Functional Currency\n3. Foreign Currency Transactions\n   - Initial Recognition\n   - Subsequent Measurement\n   - Exchange Differences\n4. Translation of Foreign Operations\n   - Assets and Liabilities\n   - Income and Expenses\n   - Goodwill and Fair Value Adjustments\n   - Exchange Differences in OCI\n5. Net Investment in a Foreign Operation\n6. Disposal of Foreign Operation\n7. Disclosure Requirements\n8. Philippine Peso as Functional Currency\n9. Worked Examples with Multiple Currencies",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Foreign Exchange Calculation Workbook",
+              "url": "/resources/cpa-far/forex-calc.xlsx"
+            },
+            {
+              "title": "Functional Currency Determination Guide",
+              "url": "/resources/cpa-far/functional-currency.pdf"
+            },
+            {
+              "title": "Foreign Exchange Practice Problems (45 Questions)",
+              "url": "/resources/cpa-far/forex-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 4.2: Leases",
+          "description": "**Learning Objectives:**\n• Identify lease contracts\n• Account for leases as lessee\n• Account for leases as lessor\n• Apply the right-of-use model\n\n**Key Topics:**\n1. Definition and Identification (PFRS 16/IFRS 16)\n   - Identified Asset\n   - Right to Control Use\n2. Lessee Accounting\n   - Recognition Exemptions\n   - Initial Measurement\n     * Right-of-use Asset\n     * Lease Liability\n   - Subsequent Measurement\n     * Depreciation\n     * Interest Expense\n     * Variable Lease Payments\n3. Lessor Accounting\n   - Finance Lease\n   - Operating Lease\n   - Manufacturer or Dealer Lessor\n4. Sale and Leaseback Transactions\n5. Disclosure Requirements\n6. Philippine Setting Examples\n   - Property Leases\n   - Vehicle Leases\n   - Equipment Leases",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 240,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Lease Calculation Workbook",
+              "url": "/resources/cpa-far/lease-calc.xlsx"
+            },
+            {
+              "title": "Lessee vs Lessor Accounting Comparison",
+              "url": "/resources/cpa-far/lessee-lessor.pdf"
+            },
+            {
+              "title": "Lease Practice Problems (50 Questions)",
+              "url": "/resources/cpa-far/lease-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 4.3: Business Combinations",
+          "description": "**Learning Objectives:**\n• Identify business combinations\n• Apply the acquisition method\n• Calculate goodwill or bargain purchase\n• Account for step acquisitions and loss of control\n\n**Key Topics:**\n1. Scope of PFRS 3/IFRS 3\n2. Identifying a Business Combination\n   - Definition of a Business\n   - Identifying the Acquirer\n3. Acquisition Method\n   - Determining the Acquisition Date\n   - Recognizing and Measuring Assets and Liabilities\n     * Fair Value Measurement\n     * Exceptions to Fair Value\n   - Recognizing and Measuring Non-controlling Interest\n   - Recognizing and Measuring Goodwill or Bargain Purchase\n4. Measurement Period\n5. Presentation and Disclosure\n6. Step Acquisitions and Disposals\n7. Business Combinations Under Common Control\n8. Philippine Setting Examples\n9. Detailed Worked Examples",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 300,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Purchase Price Allocation Worksheet",
+              "url": "/resources/cpa-far/ppa-worksheet.xlsx"
+            },
+            {
+              "title": "Goodwill Calculation Guide",
+              "url": "/resources/cpa-far/goodwill-calculation.pdf"
+            },
+            {
+              "title": "Business Combinations Practice Problems (60 Questions)",
+              "url": "/resources/cpa-far/business-combinations-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 4.4: Consolidated Financial Statements",
+          "description": "**Learning Objectives:**\n• Determine control and identify subsidiaries\n• Prepare consolidated statement of financial position\n• Prepare consolidated statement of comprehensive income\n• Account for non-controlling interests\n• Account for intra-group transactions\n\n**Key Topics:**\n1. Control (PFRS 10/IFRS 10)\n   - Power over the Investee\n   - Exposure to Variable Returns\n   - Ability to Use Power\n2. Consolidation Procedures\n   - Combined Financial Statements\n   - Elimination of Intra-group Balances\n   - Elimination of Intra-group Transactions\n     * Unrealized Profits\n     * Dividends\n3. Non-controlling Interests\n   - Full Goodwill Method\n   - Partial Goodwill Method\n4. Changes in Ownership Interests\n   - Loss of Control\n   - Retained Interest\n5. Separate Financial Statements (PFRS 27)\n6. Disclosure Requirements\n7. Consolidation Workpaper Examples\n8. Complex Group Structures",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 360,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Consolidation Workpaper Template",
+              "url": "/resources/cpa-far/consolidation-workpaper.xlsx"
+            },
+            {
+              "title": "Elimination Entries Guide",
+              "url": "/resources/cpa-far/elimination-entries.pdf"
+            },
+            {
+              "title": "NCI Calculation Worksheet",
+              "url": "/resources/cpa-far/nci-calc.xlsx"
+            },
+            {
+              "title": "Consolidation Practice Problems (70 Questions)",
+              "url": "/resources/cpa-far/consolidation-practice.pdf"
+            },
+            {
+              "title": "Complex Group Structure Examples",
+              "url": "/resources/cpa-far/complex-groups.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 5: Financial Statement Analysis and Interpretation",
+      "description": "Comprehensive analysis of financial statements including ratio analysis, trend analysis, and statement of cash flows",
+      "order": 5,
+      "totalDuration": 600,
+      "lessons": [
+        {
+          "title": "Lesson 5.1: Statement of Cash Flows",
+          "description": "**Learning Objectives:**\n• Classify cash flows into operating, investing, and financing activities\n• Prepare statement of cash flows using direct method\n• Prepare statement of cash flows using indirect method\n• Analyze and interpret cash flow information\n\n**Key Topics:**\n1. Objective and Usefulness (PFRS 7/IAS 7)\n2. Classification of Cash Flows\n   - Operating Activities\n   - Investing Activities\n   - Financing Activities\n3. Direct Method\n   - Receipts from Customers\n   - Payments to Suppliers\n   - Payments to Employees\n   - Interest and Dividends\n   - Income Tax Paid\n4. Indirect Method\n   - Starting with Profit Before Tax\n   - Adjustments for Non-cash Items\n   - Changes in Working Capital\n5. Disclosures\n   - Cash and Cash Equivalents\n   - Restricted Cash\n   - Non-cash Transactions\n6. Analysis of Cash Flow Information\n7. Detailed Worked Examples\n8. Board Exam Problem Solving Techniques",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 300,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Cash Flow Classification Guide",
+              "url": "/resources/cpa-far/cash-flow-classification.pdf"
+            },
+            {
+              "title": "Direct vs Indirect Method Comparison",
+              "url": "/resources/cpa-far/direct-indirect-method.pdf"
+            },
+            {
+              "title": "Cash Flow Statement Template",
+              "url": "/resources/cpa-far/cash-flow-template.xlsx"
+            },
+            {
+              "title": "Cash Flow Practice Problems (50 Questions)",
+              "url": "/resources/cpa-far/cash-flow-practice.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 5.2: Financial Ratios and Analysis",
+          "description": "**Learning Objectives:**\n• Calculate and interpret key financial ratios\n• Perform horizontal and vertical analysis\n• Analyze profitability, liquidity, and solvency\n• Identify limitations of financial statement analysis\n\n**Key Topics:**\n1. Horizontal Analysis\n   - Trend Analysis\n   - Year-over-Year Changes\n2. Vertical Analysis\n   - Common Size Statements\n   - Industry Comparisons\n3. Ratio Analysis\n   - Liquidity Ratios\n     * Current Ratio\n     * Quick Ratio\n     * Cash Ratio\n   - Solvency Ratios\n     * Debt to Equity\n     * Debt to Assets\n     * Interest Coverage\n   - Profitability Ratios\n     * Gross Profit Margin\n     * Net Profit Margin\n     * Return on Assets\n     * Return on Equity\n   - Efficiency Ratios\n     * Asset Turnover\n     * Inventory Turnover\n     * Receivables Turnover\n   - Market Ratios\n     * Earnings per Share\n     * Price-Earnings Ratio\n     * Dividend Yield\n4. DuPont Analysis\n5. Limitations of Financial Analysis\n6. Industry Benchmarks\n7. Philippine Setting Examples",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 240,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Financial Ratios Formula Sheet",
+              "url": "/resources/cpa-far/ratios-formula.pdf"
+            },
+            {
+              "title": "Ratio Analysis Workbook",
+              "url": "/resources/cpa-far/ratio-analysis.xlsx"
+            },
+            {
+              "title": "Financial Analysis Practice Problems (45 Questions)",
+              "url": "/resources/cpa-far/financial-analysis-practice.pdf"
+            },
+            {
+              "title": "Industry Benchmark Data 2024",
+              "url": "/resources/cpa-far/industry-benchmarks.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 5.3: Ethical Considerations in Financial Reporting",
+          "description": "**Learning Objectives:**\n• Understand the role of ethics in accounting\n• Identify ethical dilemmas in financial reporting\n• Apply the Code of Ethics for Professional Accountants\n• Recognize common financial reporting frauds\n\n**Key Topics:**\n1. Philippine Code of Ethics for Professional Accountants\n   - Fundamental Principles\n     * Integrity\n     * Objectivity\n     * Professional Competence\n     * Confidentiality\n     * Professional Behavior\n   - Threats and Safeguards\n2. Ethical Dilemmas in Financial Reporting\n   - Revenue Recognition Manipulation\n   - Expense Deferral\n   - Off-balance Sheet Financing\n   - Creative Accounting\n3. Professional Skepticism\n4. Whistleblowing\n5. Corporate Governance\n   - Board Responsibilities\n   - Audit Committee\n6. Anti-fraud Controls\n7. Case Studies\n   - Philippine Corporate Scandals\n   - International Accounting Scandals\n8. Exam Ethics Questions",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 60,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Code of Ethics Summary",
+              "url": "/resources/cpa-far/code-of-ethics.pdf"
+            },
+            {
+              "title": "Ethical Dilemma Case Studies",
+              "url": "/resources/cpa-far/ethical-dilemmas.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Section 6: Board Exam Preparation and Simulation",
+      "description": "Intensive preparation for the CPA Board Exam including exam strategies, timed simulations, and performance analytics",
+      "order": 6,
+      "totalDuration": 600,
+      "lessons": [
+        {
+          "title": "Lesson 6.1: Exam Strategies and Time Management",
+          "description": "**Learning Objectives:**\n• Understand the CPA Board Exam format and structure\n• Develop effective time management strategies\n• Learn problem-solving techniques\n• Avoid common exam mistakes\n\n**Key Topics:**\n1. CPA Board Exam Format\n   - FAR Section Overview\n   - Question Types and Scoring\n   - Passing Score Requirements\n2. Time Management\n   - 4-hour Exam Strategy\n   - Question Pacing\n   - Flagging and Reviewing\n3. Problem-Solving Techniques\n   - Reading Questions Effectively\n   - Identifying Key Information\n   - Elimination Method\n   - Calculator Tips and Tricks\n4. Common Mistakes to Avoid\n   - Calculation Errors\n   - Misreading Questions\n   - Time Pressure Mistakes\n5. Exam Day Preparation\n   - What to Bring\n   - What to Expect\n   - Mental Preparation\n6. Post-Exam Analysis\n7. Success Stories from Topnotchers",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 120,
+          "order": 1,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Exam Strategy Guide",
+              "url": "/resources/cpa-far/exam-strategy.pdf"
+            },
+            {
+              "title": "Time Management Calculator",
+              "url": "/resources/cpa-far/time-management.xlsx"
+            },
+            {
+              "title": "Common Mistakes Checklist",
+              "url": "/resources/cpa-far/common-mistakes.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 6.2: Board Exam Simulation 1 - Comprehensive Review",
+          "description": "**Learning Objectives:**\n• Complete a timed 100-question board exam simulation\n• Apply time management under exam conditions\n• Analyze performance and identify weak areas\n• Review detailed explanations for each question\n\n**Simulation Details:**\n• Duration: 2 hours\n• Questions: 100 multiple choice\n• Coverage: All FAR topics\n• Difficulty: Mixed (Easy, Medium, Hard)\n• Passing Score: 75%\n\n**Topics Covered:**\n• Conceptual Framework and PFRS\n• Assets (Current and Non-Current)\n• Liabilities and Provisions\n• Equity and Revenue\n• Financial Statement Analysis",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 2,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Board Exam Simulation 1 Questions",
+              "url": "/resources/cpa-far/simulation1-questions.pdf"
+            },
+            {
+              "title": "Board Exam Simulation 1 Answer Key",
+              "url": "/resources/cpa-far/simulation1-answers.pdf"
+            },
+            {
+              "title": "Board Exam Simulation 1 Explanations",
+              "url": "/resources/cpa-far/simulation1-explanations.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 6.3: Board Exam Simulation 2 - Advanced Topics",
+          "description": "**Learning Objectives:**\n• Complete a challenging 100-question simulation\n• Focus on advanced and complex topics\n• Master multi-step calculations\n• Build confidence for the actual exam\n\n**Simulation Details:**\n• Duration: 2 hours\n• Questions: 100 multiple choice\n• Coverage: Advanced FAR topics\n• Difficulty: Medium to Hard\n• Passing Score: 75%\n\n**Topics Covered:**\n• Business Combinations and Consolidations\n• Financial Instruments\n• Leases and Revenue Recognition\n• Foreign Currency Transactions\n• Deferred Taxes",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 180,
+          "order": 3,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Board Exam Simulation 2 Questions",
+              "url": "/resources/cpa-far/simulation2-questions.pdf"
+            },
+            {
+              "title": "Board Exam Simulation 2 Answer Key",
+              "url": "/resources/cpa-far/simulation2-answers.pdf"
+            },
+            {
+              "title": "Board Exam Simulation 2 Explanations",
+              "url": "/resources/cpa-far/simulation2-explanations.pdf"
+            }
+          ]
+        },
+        {
+          "title": "Lesson 6.4: Performance Analytics and Final Review",
+          "description": "**Learning Objectives:**\n• Analyze performance across all simulations\n• Identify personal strengths and weaknesses\n• Create a final study plan\n• Build confidence for exam day\n\n**Topics Covered:**\n1. Performance Dashboard\n   - Overall Score Analysis\n   - Topic-by-Topic Breakdown\n   - Time Management Analysis\n   - Question Type Performance\n2. Weak Area Identification\n   - Most Missed Topics\n   - Common Error Patterns\n   - Calculation vs Theory Performance\n3. Final Study Plan\n   - Priority Topics\n   - Time Allocation\n   - Practice Strategies\n4. Confidence Building\n   - Positive Mindset\n   - Stress Management\n   - Exam Day Visualization\n5. Last-Minute Tips\n   - Formula Sheet Review\n   - Key Definitions\n   - Common Board Exam Questions\n6. Q&A Session\n   - Addressing Student Concerns\n   - Clarifying Difficult Concepts\n   - Final Motivation",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "duration": 120,
+          "order": 4,
+          "isFree": false,
+          "resources": [
+            {
+              "title": "Performance Analytics Template",
+              "url": "/resources/cpa-far/performance-analytics.xlsx"
+            },
+            {
+              "title": "Final Study Plan Template",
+              "url": "/resources/cpa-far/final-study-plan.pdf"
+            },
+            {
+              "title": "Last-Minute Formula Sheet",
+              "url": "/resources/cpa-far/last-minute-formulas.pdf"
+            },
+            {
+              "title": "Top 100 Most Common Board Exam Questions",
+              "url": "/resources/cpa-far/top100-questions.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "id": "quiz-1",
+      "title": "Lesson 1.1: Conceptual Framework for Financial Reporting - Practice Quiz",
+      "description": "Practice questions for Lesson 1.1: Conceptual Framework for Financial Reporting. Test your understanding with 10 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-1-1",
+          "question": "Which of the following is a fundamental qualitative characteristic of useful financial information according to the Conceptual Framework?",
+          "options": [
+            "Comparability",
+            "Timeliness",
+            "Relevance",
+            "Verifiability"
+          ],
+          "correctAnswer": "Relevance",
+          "points": 1,
+          "explanation": "The fundamental qualitative characteristics are Relevance and Faithful Representation. Comparability, Timeliness, Verifiability, and Understandability are enhancing qualitative characteristics."
+        },
+        {
+          "id": "q-1-2",
+          "question": "Financial information is relevant when it has:",
+          "options": [
+            "Predictive value only",
+            "Confirmatory value only",
+            "Both predictive value and confirmatory value",
+            "Neither predictive nor confirmatory value"
+          ],
+          "correctAnswer": "Both predictive value and confirmatory value",
+          "points": 1,
+          "explanation": "Relevant financial information must have both predictive value (helps predict future outcomes) and confirmatory value (provides feedback about previous evaluations)."
+        },
+        {
+          "id": "q-1-3",
+          "question": "Which of the following is NOT an element of financial statements?",
+          "options": [
+            "Assets",
+            "Liabilities",
+            "Revenue",
+            "Cash flows"
+          ],
+          "correctAnswer": "Cash flows",
+          "points": 1,
+          "explanation": "The elements of financial statements are assets, liabilities, equity, income (revenue and gains), and expenses (including losses). Cash flows is a presentation element, not a statement of financial position element."
+        },
+        {
+          "id": "q-1-4",
+          "question": "According to the Conceptual Framework, an asset is:",
+          "options": [
+            "A resource controlled by the entity as a result of past events",
+            "A present obligation of the entity arising from past events",
+            "The residual interest in the assets of the entity after deducting liabilities",
+            "Increases in economic benefits during the accounting period"
+          ],
+          "correctAnswer": "A resource controlled by the entity as a result of past events",
+          "points": 1,
+          "explanation": "An asset is a present economic resource controlled by the entity as a result of past events. An economic resource is a right that has the potential to produce economic benefits."
+        },
+        {
+          "id": "q-1-5",
+          "question": "The going concern assumption states that:",
+          "options": [
+            "The entity will continue to operate for the foreseeable future",
+            "The entity will be liquidated in the near future",
+            "The entity will be sold to another party",
+            "The entity will change its business model"
+          ],
+          "correctAnswer": "The entity will continue to operate for the foreseeable future",
+          "points": 1,
+          "explanation": "The going concern assumption presumes that the entity will continue in operation for the foreseeable future and has neither the intention nor the need to liquidate or curtail materially the scale of its operations."
+        },
+        {
+          "id": "q-1-6",
+          "question": "Which measurement basis uses the amount of cash or cash equivalents that would have to be paid if the same or an equivalent asset were acquired currently?",
+          "options": [
+            "Historical cost",
+            "Current cost",
+            "Realizable value",
+            "Present value"
+          ],
+          "correctAnswer": "Current cost",
+          "points": 1,
+          "explanation": "Current cost is the amount of cash or cash equivalents that would have to be paid if the same or an equivalent asset were acquired currently."
+        },
+        {
+          "id": "q-1-7",
+          "question": "Faithful representation requires that financial information be:",
+          "options": [
+            "Complete, neutral, and free from error",
+            "Relevant and material",
+            "Comparable and understandable",
+            "Timely and verifiable"
+          ],
+          "correctAnswer": "Complete, neutral, and free from error",
+          "points": 1,
+          "explanation": "To be a perfectly faithful representation, a depiction must have three characteristics: complete, neutral, and free from error."
+        },
+        {
+          "id": "q-1-8",
+          "question": "The Conceptual Framework identifies capital maintenance concepts. Under physical capital maintenance:",
+          "options": [
+            "Profit is the increase in nominal money capital",
+            "Profit is the increase in operating capability",
+            "Only realized gains are recognized",
+            "All gains are recognized in profit or loss"
+          ],
+          "correctAnswer": "Profit is the increase in operating capability",
+          "points": 1,
+          "explanation": "Under physical capital maintenance, profit is the increase in physical productive capacity (operating capability) over the period."
+        },
+        {
+          "id": "q-1-9",
+          "question": "Which of the following is an example of an expense?",
+          "options": [
+            "Payment of dividends",
+            "Purchase of inventory",
+            "Depreciation of property, plant and equipment",
+            "Repayment of a bank loan"
+          ],
+          "correctAnswer": "Depreciation of property, plant and equipment",
+          "points": 1,
+          "explanation": "Depreciation is an expense as it represents a decrease in economic benefits during the accounting period. Payment of dividends, purchase of inventory, and loan repayment are not expenses."
+        },
+        {
+          "id": "q-1-10",
+          "question": "According to the Conceptual Framework, when should an entity derecognize an asset?",
+          "options": [
+            "When the entity loses control of the asset",
+            "When the asset is fully depreciated",
+            "When the asset is sold at a loss",
+            "When the asset's carrying amount is impaired"
+          ],
+          "correctAnswer": "When the entity loses control of the asset",
+          "points": 1,
+          "explanation": "An entity derecognizes an asset when it loses control of the asset (all or part). This could be through sale, expiration, or when the asset no longer meets the definition of an asset."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 15,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 1
+    },
+    {
+      "id": "quiz-2",
+      "title": "Lesson 1.2: Philippine Financial Reporting Standards (PFRS) Overview - Practice Quiz",
+      "description": "Practice questions for Lesson 1.2: Philippine Financial Reporting Standards (PFRS) Overview. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-2-1",
+          "question": "Which body is responsible for formulating accounting standards in the Philippines?",
+          "options": [
+            "Board of Accountancy (BOA)",
+            "Financial Reporting Standards Council (FRSC)",
+            "Securities and Exchange Commission (SEC)",
+            "Bangko Sentral ng Pilipinas (BSP)"
+          ],
+          "correctAnswer": "Financial Reporting Standards Council (FRSC)",
+          "points": 1,
+          "explanation": "The FRSC is responsible for establishing and improving accounting standards in the Philippines that are generally accepted and promulgated by the Board of Accountancy."
+        },
+        {
+          "id": "q-2-2",
+          "question": "PFRS 1 deals with:",
+          "options": [
+            "First-time Adoption of Philippine Financial Reporting Standards",
+            "Presentation of Financial Statements",
+            "Statement of Cash Flows",
+            "Inventories"
+          ],
+          "correctAnswer": "First-time Adoption of Philippine Financial Reporting Standards",
+          "points": 1,
+          "explanation": "PFRS 1 prescribes the procedures that an entity must follow when it adopts PFRSs as the basis for preparing its general purpose financial statements for the first time."
+        },
+        {
+          "id": "q-2-3",
+          "question": "Under PFRS for Small and Medium-sized Entities (SMEs), which of the following is simplified?",
+          "options": [
+            "Goodwill amortization is permitted",
+            "All borrowing costs are expensed",
+            "Research costs can be capitalized",
+            "LIFO is allowed for inventory"
+          ],
+          "correctAnswer": "All borrowing costs are expensed",
+          "points": 1,
+          "explanation": "Under PFRS for SMEs, borrowing costs are expensed when incurred rather than capitalized to qualifying assets, unlike full PFRS where borrowing costs must be capitalized."
+        },
+        {
+          "id": "q-2-4",
+          "question": "Which of the following statements about PFRS convergence with IFRS is TRUE?",
+          "options": [
+            "PFRS are word-for-word identical to IFRS",
+            "PFRS may have different effective dates than IFRS",
+            "PFRS are completely independent from IFRS",
+            "PFRS do not require any local adaptations"
+          ],
+          "correctAnswer": "PFRS may have different effective dates than IFRS",
+          "points": 1,
+          "explanation": "While PFRS are generally converged with IFRS, they may have different effective dates and some local adaptations to suit Philippine conditions."
+        },
+        {
+          "id": "q-2-5",
+          "question": "The Philippine Interpretations Committee is responsible for:",
+          "options": [
+            "Issuing new accounting standards",
+            "Providing guidance on the application of PFRS",
+            "Enforcing compliance with accounting standards",
+            "Conducting audits of financial statements"
+          ],
+          "correctAnswer": "Providing guidance on the application of PFRS",
+          "points": 1,
+          "explanation": "The Philippine Interpretations Committee provides timely guidance on accounting issues that arise in applying PFRS through the issuance of Philippine Interpretations."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 2
+    },
+    {
+      "id": "quiz-3",
+      "title": "Lesson 1.3: Presentation of Financial Statements (PFRS 1/IAS 1) - Practice Quiz",
+      "description": "Practice questions for Lesson 1.3: Presentation of Financial Statements (PFRS 1/IAS 1). Test your understanding with 6 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-3-1",
+          "question": "Under PFRS 1, a complete set of financial statements includes all of the following EXCEPT:",
+          "options": [
+            "Statement of financial position",
+            "Statement of changes in equity",
+            "Statement of retained earnings",
+            "Statement of cash flows"
+          ],
+          "correctAnswer": "Statement of retained earnings",
+          "points": 1,
+          "explanation": "A complete set of financial statements includes a statement of financial position, statement of comprehensive income, statement of changes in equity, statement of cash flows, and notes. Statement of retained earnings is not a required statement under PFRS."
+        },
+        {
+          "id": "q-3-2",
+          "question": "Current assets include all of the following EXCEPT:",
+          "options": [
+            "Assets expected to be realized within 12 months",
+            "Assets held primarily for trading purposes",
+            "Cash and cash equivalents",
+            "Property, plant and equipment"
+          ],
+          "correctAnswer": "Property, plant and equipment",
+          "points": 1,
+          "explanation": "Current assets are assets expected to be realized within 12 months or the normal operating cycle, held primarily for trading, or cash. Property, plant and equipment are non-current assets."
+        },
+        {
+          "id": "q-3-3",
+          "question": "According to PFRS 1, when should an entity present a statement of financial position as at the beginning of the preceding period?",
+          "options": [
+            "Always, as part of every set of financial statements",
+            "When it applies an accounting policy retrospectively or makes a retrospective restatement",
+            "Only when requested by shareholders",
+            "Never, as PFRS does not require it"
+          ],
+          "correctAnswer": "When it applies an accounting policy retrospectively or makes a retrospective restatement",
+          "points": 1,
+          "explanation": "An entity must present a third statement of financial position as at the beginning of the preceding period when it applies an accounting policy retrospectively, makes a retrospective restatement, or reclassifies items."
+        },
+        {
+          "id": "q-3-4",
+          "question": "The statement of comprehensive income can be presented as:",
+          "options": [
+            "A single statement only",
+            "Two separate statements only",
+            "Either a single statement or two separate statements",
+            "A note to the financial statements"
+          ],
+          "correctAnswer": "Either a single statement or two separate statements",
+          "points": 1,
+          "explanation": "PFRS 1 allows an entity to present profit or loss and other comprehensive income in either a single statement of comprehensive income or in two separate statements."
+        },
+        {
+          "id": "q-3-5",
+          "question": "Under PFRS 1, which of the following is NOT a minimum line item for the statement of financial position?",
+          "options": [
+            "Property, plant and equipment",
+            "Trade and other payables",
+            "Inventories",
+            "Earnings per share"
+          ],
+          "correctAnswer": "Earnings per share",
+          "points": 1,
+          "explanation": "Earnings per share is a minimum line item for the statement of comprehensive income, not the statement of financial position."
+        },
+        {
+          "id": "q-3-6",
+          "question": "Materiality in the context of PFRS 1 means:",
+          "options": [
+            "Items must be presented separately if they are individually significant",
+            "Immaterial items can be aggregated with similar items",
+            "Both A and B are correct",
+            "Only items above ₱100,000 need to be disclosed"
+          ],
+          "correctAnswer": "Both A and B are correct",
+          "points": 1,
+          "explanation": "Materiality requires that each material class of similar items be presented separately, while immaterial amounts can be aggregated with items of a similar nature or function."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 9,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 3
+    },
+    {
+      "id": "quiz-4",
+      "title": "Lesson 1.4: Accounting Policies, Changes in Estimates and Errors (PFRS 8/IAS 8) - Practice Quiz",
+      "description": "Practice questions for Lesson 1.4: Accounting Policies, Changes in Estimates and Errors (PFRS 8/IAS 8). Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-4-1",
+          "question": "When an entity changes an accounting policy, it should apply the change:",
+          "options": [
+            "Prospectively",
+            "Retrospectively, unless impracticable",
+            "Only in the current period",
+            "Never, accounting policies cannot be changed"
+          ],
+          "correctAnswer": "Retrospectively, unless impracticable",
+          "points": 1,
+          "explanation": "A change in accounting policy should be applied retrospectively by adjusting opening retained earnings and comparative information, unless it is impracticable to do so."
+        },
+        {
+          "id": "q-4-2",
+          "question": "A change in accounting estimate is accounted for:",
+          "options": [
+            "Retrospectively",
+            "Prospectively",
+            "By adjusting opening retained earnings",
+            "By restating prior periods"
+          ],
+          "correctAnswer": "Prospectively",
+          "points": 1,
+          "explanation": "A change in accounting estimate is accounted for prospectively by including the effects in profit or loss of the current period and future periods affected."
+        },
+        {
+          "id": "q-4-3",
+          "question": "Prior period errors should be corrected by:",
+          "options": [
+            "Adjusting the opening balance of assets and liabilities",
+            "Restating comparative amounts for the prior period",
+            "Both A and B are required",
+            "Recognizing in current period profit or loss"
+          ],
+          "correctAnswer": "Both A and B are required",
+          "points": 1,
+          "explanation": "Prior period errors are corrected retrospectively by restating comparative amounts for the prior period and adjusting the opening balance of assets, liabilities, and equity."
+        },
+        {
+          "id": "q-4-4",
+          "question": "Which of the following is an example of a change in accounting estimate?",
+          "options": [
+            "Changing from FIFO to weighted average for inventory",
+            "Changing the depreciation method from straight-line to reducing balance",
+            "Correcting an error in calculating depreciation",
+            "Adopting a new accounting standard"
+          ],
+          "correctAnswer": "Changing the depreciation method from straight-line to reducing balance",
+          "points": 1,
+          "explanation": "Changing the depreciation method is a change in accounting estimate (as depreciation method reflects the pattern of consumption of future economic benefits), not a change in accounting policy."
+        },
+        {
+          "id": "q-4-5",
+          "question": "Under IAS 8, when is retrospective application considered impracticable?",
+          "options": [
+            "When it is too costly to apply",
+            "When applying it requires assumptions about management's intent in a prior period",
+            "When the effect is immaterial",
+            "When the entity has insufficient staff"
+          ],
+          "correctAnswer": "When applying it requires assumptions about management's intent in a prior period",
+          "points": 1,
+          "explanation": "Retrospective application is impracticable when applying it requires assumptions about what management's intent would have been in that period, or when it requires significant estimates for which necessary information is not available."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 4
+    },
+    {
+      "id": "quiz-5",
+      "title": "Lesson 2.1: Cash and Cash Equivalents - Practice Quiz",
+      "description": "Practice questions for Lesson 2.1: Cash and Cash Equivalents. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-5-1",
+          "question": "Which of the following is NOT considered cash?",
+          "options": [
+            "Coins and currency on hand",
+            "Demand deposits with banks",
+            "Post-dated checks received from customers",
+            "Bank drafts"
+          ],
+          "correctAnswer": "Post-dated checks received from customers",
+          "points": 1,
+          "explanation": "Post-dated checks are not considered cash because they cannot be used to settle obligations until the date on the check. They are classified as receivables."
+        },
+        {
+          "id": "q-5-2",
+          "question": "Cash equivalents include:",
+          "options": [
+            "Investments with maturity of 6 months",
+            "Highly liquid investments with maturity of 3 months or less",
+            "All marketable securities",
+            "Long-term government bonds"
+          ],
+          "correctAnswer": "Highly liquid investments with maturity of 3 months or less",
+          "points": 1,
+          "explanation": "Cash equivalents are short-term, highly liquid investments that are readily convertible to known amounts of cash and are subject to an insignificant risk of changes in value (typically 3 months or less maturity)."
+        },
+        {
+          "id": "q-5-3",
+          "question": "In a bank reconciliation, deposits in transit should be:",
+          "options": [
+            "Added to the bank statement balance",
+            "Subtracted from the bank statement balance",
+            "Added to the book balance",
+            "Subtracted from the book balance"
+          ],
+          "correctAnswer": "Added to the bank statement balance",
+          "points": 1,
+          "explanation": "Deposits in transit (outstanding deposits) are amounts received and recorded by the company but not yet recorded by the bank. They should be added to the bank statement balance."
+        },
+        {
+          "id": "q-5-4",
+          "question": "The imprest system for petty cash means:",
+          "options": [
+            "The petty cash fund is replenished to a fixed amount",
+            "Any amount can be taken from petty cash",
+            "Petty cash is never replenished",
+            "Petty cash is used only for large expenses"
+          ],
+          "correctAnswer": "The petty cash fund is replenished to a fixed amount",
+          "points": 1,
+          "explanation": "Under the imprest system, the petty cash fund is established at a fixed amount and replenished back to that fixed amount periodically based on the expenses paid."
+        },
+        {
+          "id": "q-5-5",
+          "question": "Bank service charges appearing on the bank statement but not yet recorded in the books should be:",
+          "options": [
+            "Added to the bank statement balance",
+            "Subtracted from the book balance",
+            "Added to the book balance",
+            "Ignored in the reconciliation"
+          ],
+          "correctAnswer": "Subtracted from the book balance",
+          "points": 1,
+          "explanation": "Bank service charges are deducted by the bank but not yet recorded by the company. They should be subtracted from the book balance in the bank reconciliation."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 5
+    },
+    {
+      "id": "quiz-6",
+      "title": "Lesson 2.3: Inventories - Practice Quiz",
+      "description": "Practice questions for Lesson 2.3: Inventories. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-6-1",
+          "question": "Under PFRS 2, which inventory costing method is NOT permitted?",
+          "options": [
+            "FIFO",
+            "Weighted Average",
+            "LIFO",
+            "Specific Identification"
+          ],
+          "correctAnswer": "LIFO",
+          "points": 1,
+          "explanation": "LIFO (Last-In, First-Out) is not permitted under PFRS 2/IAS 2 because it does not reflect the actual flow of goods in most cases and can result in obsolete inventory valuations."
+        },
+        {
+          "id": "q-6-2",
+          "question": "Net realizable value (NRV) is:",
+          "options": [
+            "The estimated selling price in the ordinary course of business",
+            "The estimated selling price less estimated costs of completion and sale",
+            "The replacement cost of inventory",
+            "The historical cost of inventory"
+          ],
+          "correctAnswer": "The estimated selling price less estimated costs of completion and sale",
+          "points": 1,
+          "explanation": "NRV is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale."
+        },
+        {
+          "id": "q-6-3",
+          "question": "When inventory is written down to NRV, the loss should be recognized:",
+          "options": [
+            "As a separate line item in profit or loss",
+            "As part of cost of goods sold",
+            "Directly in equity",
+            "As a reduction of revenue"
+          ],
+          "correctAnswer": "As a separate line item in profit or loss",
+          "points": 1,
+          "explanation": "When inventory is written down to NRV, the write-down is recognized as an expense in profit or loss, typically as a separate line item or as part of cost of goods sold with disclosure."
+        },
+        {
+          "id": "q-6-4",
+          "question": "Under the weighted average cost formula, the cost of inventory is determined by:",
+          "options": [
+            "Using the cost of the earliest purchases",
+            "Using the cost of the most recent purchases",
+            "Dividing the total cost of goods available for sale by total units available",
+            "Using the specific cost of each item"
+          ],
+          "correctAnswer": "Dividing the total cost of goods available for sale by total units available",
+          "points": 1,
+          "explanation": "Under weighted average, the cost of inventory is determined by dividing the total cost of goods available for sale by the total number of units available for sale."
+        },
+        {
+          "id": "q-6-5",
+          "question": "Which of the following costs should NOT be included in the cost of inventories?",
+          "options": [
+            "Purchase price",
+            "Import duties",
+            "Administrative overheads",
+            "Costs of conversion"
+          ],
+          "correctAnswer": "Administrative overheads",
+          "points": 1,
+          "explanation": "Administrative overheads not related to bringing inventories to their present location and condition are not included in inventory cost. They are expensed as incurred."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 6
+    },
+    {
+      "id": "quiz-7",
+      "title": "Lesson 2.6: Property, Plant and Equipment - Practice Quiz",
+      "description": "Practice questions for Lesson 2.6: Property, Plant and Equipment. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-7-1",
+          "question": "Under PFRS 16, which of the following should be recognized as part of the cost of property, plant and equipment?",
+          "options": [
+            "Initial delivery and handling costs",
+            "Costs of conducting business in a new location",
+            "Administration and other general overhead costs",
+            "Costs of opening a new facility"
+          ],
+          "correctAnswer": "Initial delivery and handling costs",
+          "points": 1,
+          "explanation": "Initial delivery and handling costs are directly attributable costs that bring the asset to the location and condition necessary for it to be capable of operating in the manner intended by management."
+        },
+        {
+          "id": "q-7-2",
+          "question": "The revaluation model under PFRS 16:",
+          "options": [
+            "Is not permitted for property, plant and equipment",
+            "Requires assets to be carried at fair value at the date of revaluation",
+            "Can only be applied to land and buildings",
+            "Requires revaluation every year"
+          ],
+          "correctAnswer": "Requires assets to be carried at fair value at the date of revaluation",
+          "points": 1,
+          "explanation": "Under the revaluation model, an asset is carried at a revalued amount, being its fair value at the date of revaluation less subsequent depreciation and impairment losses."
+        },
+        {
+          "id": "q-7-3",
+          "question": "When an asset is revalued upward, the increase should be recognized:",
+          "options": [
+            "In profit or loss",
+            "In other comprehensive income as a revaluation surplus",
+            "As a liability",
+            "As deferred revenue"
+          ],
+          "correctAnswer": "In other comprehensive income as a revaluation surplus",
+          "points": 1,
+          "explanation": "A revaluation increase is credited directly to equity under the heading revaluation surplus, unless it reverses a revaluation decrease of the same asset previously recognized as an expense."
+        },
+        {
+          "id": "q-7-4",
+          "question": "Depreciation of an asset begins when:",
+          "options": [
+            "The asset is purchased",
+            "The asset is available for use",
+            "The asset is first used in production",
+            "The asset is fully installed"
+          ],
+          "correctAnswer": "The asset is available for use",
+          "points": 1,
+          "explanation": "Depreciation begins when the asset is available for use, meaning when it is in the location and condition necessary for it to be capable of operating in the manner intended by management."
+        },
+        {
+          "id": "q-7-5",
+          "question": "Which depreciation method allocates a higher amount of depreciation in the earlier years of an asset's life?",
+          "options": [
+            "Straight-line method",
+            "Declining balance method",
+            "Units of production method",
+            "All methods allocate depreciation equally"
+          ],
+          "correctAnswer": "Declining balance method",
+          "points": 1,
+          "explanation": "The declining balance method applies a constant percentage to the carrying amount, resulting in higher depreciation in earlier years and decreasing amounts in later years."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 7
+    },
+    {
+      "id": "quiz-8",
+      "title": "Lesson 2.7: Intangible Assets and Goodwill - Practice Quiz",
+      "description": "Practice questions for Lesson 2.7: Intangible Assets and Goodwill. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-8-1",
+          "question": "Which of the following is NOT a criterion for recognizing an internally generated intangible asset?",
+          "options": [
+            "Technical feasibility of completing the asset",
+            "Intention to complete and use the asset",
+            "Ability to use or sell the asset",
+            "All costs can be measured reliably during the research phase"
+          ],
+          "correctAnswer": "All costs can be measured reliably during the research phase",
+          "points": 1,
+          "explanation": "Research phase costs must be expensed as incurred. It is only during the development phase that costs can be capitalized if all recognition criteria are met."
+        },
+        {
+          "id": "q-8-2",
+          "question": "Internally generated goodwill is:",
+          "options": [
+            "Recognized as an asset",
+            "Recognized in profit or loss",
+            "Not recognized as an asset",
+            "Amortized over its useful life"
+          ],
+          "correctAnswer": "Not recognized as an asset",
+          "points": 1,
+          "explanation": "Internally generated goodwill is not recognized as an asset because it is not an identifiable resource controlled by the entity that can be measured reliably."
+        },
+        {
+          "id": "q-8-3",
+          "question": "An intangible asset with an indefinite useful life:",
+          "options": [
+            "Is amortized over 20 years",
+            "Is amortized over its legal life",
+            "Is not amortized but tested for impairment annually",
+            "Is never tested for impairment"
+          ],
+          "correctAnswer": "Is not amortized but tested for impairment annually",
+          "points": 1,
+          "explanation": "An intangible asset with an indefinite useful life is not amortized. Instead, it is tested for impairment annually and whenever there is an indication of impairment."
+        },
+        {
+          "id": "q-8-4",
+          "question": "Which of the following can be recognized as an intangible asset?",
+          "options": [
+            "Internally generated brand names",
+            "Internally generated mastheads",
+            "Separately purchased patent",
+            "Internally generated customer lists"
+          ],
+          "correctAnswer": "Separately purchased patent",
+          "points": 1,
+          "explanation": "Internally generated brands, mastheads, customer lists, and similar items cannot be recognized as intangible assets. Only separately acquired intangible assets can be recognized."
+        },
+        {
+          "id": "q-8-5",
+          "question": "Goodwill acquired in a business combination represents:",
+          "options": [
+            "The excess of the cost of the combination over the acquirer's interest in the net fair value of the acquiree's identifiable assets and liabilities",
+            "The excess of the acquiree's net assets over the purchase price",
+            "The difference between the book value and fair value of net assets",
+            "The present value of future cash flows"
+          ],
+          "correctAnswer": "The excess of the cost of the combination over the acquirer's interest in the net fair value of the acquiree's identifiable assets and liabilities",
+          "points": 1,
+          "explanation": "Goodwill is measured as the excess of the consideration transferred over the net identifiable assets acquired. It represents future economic benefits arising from assets that are not individually identified."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 8
+    },
+    {
+      "id": "quiz-9",
+      "title": "Lesson 2.8: Impairment of Assets - Practice Quiz",
+      "description": "Practice questions for Lesson 2.8: Impairment of Assets. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-9-1",
+          "question": "An asset is impaired when:",
+          "options": [
+            "Its carrying amount exceeds its recoverable amount",
+            "Its recoverable amount exceeds its carrying amount",
+            "Its fair value increases",
+            "It is fully depreciated"
+          ],
+          "correctAnswer": "Its carrying amount exceeds its recoverable amount",
+          "points": 1,
+          "explanation": "An asset is impaired when its carrying amount exceeds its recoverable amount. The recoverable amount is the higher of fair value less costs of disposal and value in use."
+        },
+        {
+          "id": "q-9-2",
+          "question": "Value in use is:",
+          "options": [
+            "The fair value of the asset",
+            "The present value of future cash flows expected from the asset",
+            "The replacement cost of the asset",
+            "The historical cost of the asset"
+          ],
+          "correctAnswer": "The present value of future cash flows expected from the asset",
+          "points": 1,
+          "explanation": "Value in use is the present value of the future cash flows expected to be derived from an asset or cash-generating unit."
+        },
+        {
+          "id": "q-9-3",
+          "question": "A reversal of an impairment loss on a revalued asset should be recognized:",
+          "options": [
+            "In profit or loss",
+            "In other comprehensive income",
+            "Directly in retained earnings",
+            "As a reduction of the original impairment loss"
+          ],
+          "correctAnswer": "In other comprehensive income",
+          "points": 1,
+          "explanation": "A reversal of an impairment loss on a revalued asset is recognized in other comprehensive income and increases the revaluation surplus, unless it exceeds the carrying amount that would have been determined."
+        },
+        {
+          "id": "q-9-4",
+          "question": "Which of the following is NOT an indicator of potential impairment?",
+          "options": [
+            "Significant decline in market value",
+            "Adverse changes in the technological environment",
+            "Increase in market interest rates",
+            "Expected future cash flows exceeding budget"
+          ],
+          "correctAnswer": "Expected future cash flows exceeding budget",
+          "points": 1,
+          "explanation": "An increase in expected future cash flows is not an indicator of impairment. External indicators of impairment include market value declines and adverse changes in the business environment."
+        },
+        {
+          "id": "q-9-5",
+          "question": "Goodwill acquired in a business combination should be:",
+          "options": [
+            "Amortized over 10 years",
+            "Amortized over its useful life",
+            "Tested for impairment annually",
+            "Never tested for impairment"
+          ],
+          "correctAnswer": "Tested for impairment annually",
+          "points": 1,
+          "explanation": "Goodwill is not amortized but must be tested for impairment annually and whenever there is an indication of impairment. It is allocated to cash-generating units."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 9
+    },
+    {
+      "id": "quiz-10",
+      "title": "Lesson 3.1: Financial Liabilities - Basic and Compound - Practice Quiz",
+      "description": "Practice questions for Lesson 3.1: Financial Liabilities - Basic and Compound. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-10-1",
+          "question": "When bonds are issued at a premium, the effective interest rate is:",
+          "options": [
+            "Higher than the stated rate",
+            "Lower than the stated rate",
+            "Equal to the stated rate",
+            "Zero"
+          ],
+          "correctAnswer": "Lower than the stated rate",
+          "points": 1,
+          "explanation": "When bonds are issued at a premium, investors pay more than face value because the stated interest rate is higher than market rates, resulting in a lower effective interest rate."
+        },
+        {
+          "id": "q-10-2",
+          "question": "Under the effective interest method, interest expense is calculated as:",
+          "options": [
+            "Face value × stated rate",
+            "Carrying amount × effective rate",
+            "Face value × effective rate",
+            "Carrying amount × stated rate"
+          ],
+          "correctAnswer": "Carrying amount × effective rate",
+          "points": 1,
+          "explanation": "Interest expense under the effective interest method is calculated by multiplying the carrying amount of the financial liability by the effective interest rate."
+        },
+        {
+          "id": "q-10-3",
+          "question": "When bonds are retired before maturity, any gain or loss is recognized:",
+          "options": [
+            "As an extraordinary item",
+            "In other comprehensive income",
+            "In profit or loss",
+            "Directly in retained earnings"
+          ],
+          "correctAnswer": "In profit or loss",
+          "points": 1,
+          "explanation": "When bonds are retired before maturity, the difference between the carrying amount and the redemption price is recognized as a gain or loss in profit or loss."
+        },
+        {
+          "id": "q-10-4",
+          "question": "For a bond issued at a discount, interest expense each period will:",
+          "options": [
+            "Decrease over time",
+            "Increase over time",
+            "Remain constant",
+            "Equal the cash interest paid"
+          ],
+          "correctAnswer": "Increase over time",
+          "points": 1,
+          "explanation": "For a bond issued at a discount, the carrying amount increases over time as the discount is amortized, resulting in increasing interest expense (carrying amount × effective rate)."
+        },
+        {
+          "id": "q-10-5",
+          "question": "A convertible bond is classified as:",
+          "options": [
+            "100% debt",
+            "100% equity",
+            "A compound financial instrument with debt and equity components",
+            "Neither debt nor equity"
+          ],
+          "correctAnswer": "A compound financial instrument with debt and equity components",
+          "points": 1,
+          "explanation": "A convertible bond contains both a debt component (the bond) and an equity component (the conversion option). These must be separated and classified accordingly."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 10
+    },
+    {
+      "id": "quiz-11",
+      "title": "Lesson 3.4: Income Taxes - Practice Quiz",
+      "description": "Practice questions for Lesson 3.4: Income Taxes. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-11-1",
+          "question": "Deferred tax liabilities arise from:",
+          "options": [
+            "Deductible temporary differences",
+            "Taxable temporary differences",
+            "Permanent differences",
+            "Tax losses"
+          ],
+          "correctAnswer": "Taxable temporary differences",
+          "points": 1,
+          "explanation": "Deferred tax liabilities arise from taxable temporary differences - differences between the carrying amount of an asset or liability and its tax base that will result in taxable amounts in future periods."
+        },
+        {
+          "id": "q-11-2",
+          "question": "Which of the following creates a deferred tax asset?",
+          "options": [
+            "Accelerated depreciation for tax purposes",
+            "Revenue received in advance",
+            "Estimated warranty expense not yet deductible for tax",
+            "Development costs capitalized for accounting but expensed for tax"
+          ],
+          "correctAnswer": "Estimated warranty expense not yet deductible for tax",
+          "points": 1,
+          "explanation": "Estimated warranty expense creates a deductible temporary difference (recognized for accounting but not yet deductible for tax), resulting in a deferred tax asset."
+        },
+        {
+          "id": "q-11-3",
+          "question": "The tax base of an asset is:",
+          "options": [
+            "The amount that will be deductible for tax purposes",
+            "The amount that is attributable to the asset for tax purposes",
+            "The carrying amount in the financial statements",
+            "The fair value of the asset"
+          ],
+          "correctAnswer": "The amount that will be deductible for tax purposes",
+          "points": 1,
+          "explanation": "The tax base of an asset is the amount that will be deductible for tax purposes against any taxable economic benefits that will flow to the entity when it recovers the carrying amount of the asset."
+        },
+        {
+          "id": "q-11-4",
+          "question": "Which of the following is a permanent difference?",
+          "options": [
+            "Depreciation using different methods for accounting and tax",
+            "Non-deductible penalties and fines",
+            "Warranty expense recognized differently for accounting and tax",
+            "Rent received in advance"
+          ],
+          "correctAnswer": "Non-deductible penalties and fines",
+          "points": 1,
+          "explanation": "Non-deductible penalties and fines are permanent differences because they will never be deductible for tax purposes, unlike temporary differences which will reverse."
+        },
+        {
+          "id": "q-11-5",
+          "question": "Deferred tax should be measured using:",
+          "options": [
+            "The rate expected to apply when the asset is realized or liability settled",
+            "The current tax rate",
+            "The rate at the end of the previous period",
+            "An average rate over the last 5 years"
+          ],
+          "correctAnswer": "The rate expected to apply when the asset is realized or liability settled",
+          "points": 1,
+          "explanation": "Deferred tax assets and liabilities are measured at the tax rates that are expected to apply to the period when the asset is realized or the liability is settled."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 11
+    },
+    {
+      "id": "quiz-12",
+      "title": "Lesson 3.5: Revenue from Contracts with Customers - Practice Quiz",
+      "description": "Practice questions for Lesson 3.5: Revenue from Contracts with Customers. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-12-1",
+          "question": "Which of the following is NOT one of the five steps in PFRS 15?",
+          "options": [
+            "Identify the contract",
+            "Determine the transaction price",
+            "Recognize revenue when cash is received",
+            "Allocate the transaction price to performance obligations"
+          ],
+          "correctAnswer": "Recognize revenue when cash is received",
+          "points": 1,
+          "explanation": "The five steps are: identify the contract, identify performance obligations, determine transaction price, allocate transaction price, and recognize revenue when/as performance obligations are satisfied."
+        },
+        {
+          "id": "q-12-2",
+          "question": "A performance obligation is a promise to transfer:",
+          "options": [
+            "Cash to the customer",
+            "A distinct good or service",
+            "A contract modification",
+            "A refund to the customer"
+          ],
+          "correctAnswer": "A distinct good or service",
+          "points": 1,
+          "explanation": "A performance obligation is a promise in a contract to transfer to the customer either a good or service (or bundle of goods or services) that is distinct."
+        },
+        {
+          "id": "q-12-3",
+          "question": "Variable consideration should be included in the transaction price to the extent that:",
+          "options": [
+            "It is probable that a significant reversal will not occur",
+            "The customer has paid the variable amount",
+            "The amount can be estimated with certainty",
+            "All uncertainty has been resolved"
+          ],
+          "correctAnswer": "It is probable that a significant reversal will not occur",
+          "points": 1,
+          "explanation": "Variable consideration is included in the transaction price only to the extent that it is highly probable that a significant reversal in the amount of cumulative revenue recognized will not occur."
+        },
+        {
+          "id": "q-12-4",
+          "question": "Revenue is recognized over time when:",
+          "options": [
+            "The customer simultaneously receives and consumes the benefits",
+            "The entity's performance creates an asset with no alternative use",
+            "The entity's performance does not create an asset and has right to payment",
+            "Any of the above criteria are met"
+          ],
+          "correctAnswer": "Any of the above criteria are met",
+          "points": 1,
+          "explanation": "Revenue is recognized over time if any of these criteria are met: simultaneous receipt and consumption, no alternative use with right to payment, or no alternative use with no enforceable right."
+        },
+        {
+          "id": "q-12-5",
+          "question": "The standalone selling price of a good or service is:",
+          "options": [
+            "Always the list price",
+            "The price at which the entity would sell the good or service separately",
+            "The price the customer is willing to pay",
+            "The cost plus a markup"
+          ],
+          "correctAnswer": "The price at which the entity would sell the good or service separately",
+          "points": 1,
+          "explanation": "The standalone selling price is the price at which the entity would sell a promised good or service separately to a customer."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 12
+    },
+    {
+      "id": "quiz-13",
+      "title": "Lesson 4.1: Effects of Changes in Foreign Exchange Rates - Practice Quiz",
+      "description": "Practice questions for Lesson 4.1: Effects of Changes in Foreign Exchange Rates. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-13-1",
+          "question": "The functional currency is:",
+          "options": [
+            "Always the currency of the country where the entity is located",
+            "The currency of the primary economic environment in which the entity operates",
+            "The currency in which the financial statements are presented",
+            "The currency of the parent company"
+          ],
+          "correctAnswer": "The currency of the primary economic environment in which the entity operates",
+          "points": 1,
+          "explanation": "The functional currency is the currency of the primary economic environment in which the entity operates. It is determined by considering various factors such as the currency that mainly influences sales prices."
+        },
+        {
+          "id": "q-13-2",
+          "question": "When translating foreign currency transactions, which exchange rate should be used for non-monetary items carried at historical cost?",
+          "options": [
+            "Closing rate at the end of the reporting period",
+            "Historical rate at the date of the transaction",
+            "Average rate for the period",
+            "Spot rate at the date of translation"
+          ],
+          "correctAnswer": "Historical rate at the date of the transaction",
+          "points": 1,
+          "explanation": "Non-monetary items carried at historical cost should be translated using the exchange rate at the date of the transaction."
+        },
+        {
+          "id": "q-13-3",
+          "question": "Exchange differences arising on monetary items are recognized:",
+          "options": [
+            "In other comprehensive income",
+            "In profit or loss",
+            "As an adjustment to the carrying amount",
+            "Directly in equity"
+          ],
+          "correctAnswer": "In profit or loss",
+          "points": 1,
+          "explanation": "Exchange differences on monetary items are recognized in profit or loss in the period in which they arise, except for differences on monetary items forming part of a net investment."
+        },
+        {
+          "id": "q-13-4",
+          "question": "When translating the financial statements of a foreign operation, the closing rate is used for:",
+          "options": [
+            "Assets and liabilities",
+            "Income and expenses",
+            "Equity",
+            "All items"
+          ],
+          "correctAnswer": "Assets and liabilities",
+          "points": 1,
+          "explanation": "Assets and liabilities of a foreign operation are translated at the closing rate at the date of the statement of financial position."
+        },
+        {
+          "id": "q-13-5",
+          "question": "The functional currency of an entity cannot be changed:",
+          "options": [
+            "Once determined, it can never be changed",
+            "Unless there a change in the underlying transactions, events, and conditions",
+            "At the discretion of management",
+            "If it differs from the parent's currency"
+          ],
+          "correctAnswer": "Unless there a change in the underlying transactions, events, and conditions",
+          "points": 1,
+          "explanation": "The functional currency is not changed unless there is a change in the underlying transactions, events, and conditions that determined it initially."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 13
+    },
+    {
+      "id": "quiz-14",
+      "title": "Lesson 4.3: Business Combinations - Practice Quiz",
+      "description": "Practice questions for Lesson 4.3: Business Combinations. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-14-1",
+          "question": "Under PFRS 3, which method must be used to account for business combinations?",
+          "options": [
+            "Pooling of interests method",
+            "Acquisition method",
+            "Proportionate consolidation",
+            "Equity method"
+          ],
+          "correctAnswer": "Acquisition method",
+          "points": 1,
+          "explanation": "PFRS 3 requires the use of the acquisition method for all business combinations, which involves identifying the acquirer, determining the acquisition date, recognizing and measuring assets and liabilities."
+        },
+        {
+          "id": "q-14-2",
+          "question": "Goodwill in a business combination is calculated as:",
+          "options": [
+            "Consideration transferred + Non-controlling interest - Net identifiable assets acquired",
+            "Consideration transferred - Non-controlling interest + Net identifiable assets acquired",
+            "Net identifiable assets acquired - Consideration transferred",
+            "Fair value of acquiree - Book value of acquiree"
+          ],
+          "correctAnswer": "Consideration transferred + Non-controlling interest - Net identifiable assets acquired",
+          "points": 1,
+          "explanation": "Goodwill = Consideration transferred + Amount of non-controlling interest + Fair value of previously held interest - Net identifiable assets acquired."
+        },
+        {
+          "id": "q-14-3",
+          "question": "A bargain purchase gain occurs when:",
+          "options": [
+            "The acquirer pays more than the fair value of net identifiable assets",
+            "The acquirer pays less than the fair value of net identifiable assets",
+            "Goodwill is positive",
+            "The acquisition fails"
+          ],
+          "correctAnswer": "The acquirer pays less than the fair value of net identifiable assets",
+          "points": 1,
+          "explanation": "A bargain purchase occurs when the net identifiable assets acquired exceed the total consideration plus non-controlling interest. The gain is recognized in profit or loss."
+        },
+        {
+          "id": "q-14-4",
+          "question": "The acquisition date is:",
+          "options": [
+            "The date the contract is signed",
+            "The date the acquirer obtains control of the acquiree",
+            "The date of the first payment",
+            "The date of regulatory approval"
+          ],
+          "correctAnswer": "The date the acquirer obtains control of the acquiree",
+          "points": 1,
+          "explanation": "The acquisition date is the date on which the acquirer obtains control of the acquiree, which is typically the closing date."
+        },
+        {
+          "id": "q-14-5",
+          "question": "Which of the following is NOT recognized separately from goodwill in a business combination?",
+          "options": [
+            "Identifiable intangible assets",
+            "Pre-existing relationships",
+            "Deferred tax assets",
+            "Contingent liabilities"
+          ],
+          "correctAnswer": "Pre-existing relationships",
+          "points": 1,
+          "explanation": "Pre-existing relationships are not recognized separately from goodwill as they do not meet the definition of an asset of the acquiree at the acquisition date."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 14
+    },
+    {
+      "id": "quiz-15",
+      "title": "Lesson 4.4: Consolidated Financial Statements - Practice Quiz",
+      "description": "Practice questions for Lesson 4.4: Consolidated Financial Statements. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-15-1",
+          "question": "A parent company controls a subsidiary when:",
+          "options": [
+            "It owns more than 50% of the voting rights",
+            "It has power over the investee",
+            "It is exposed to variable returns from its involvement",
+            "Both A and C are correct"
+          ],
+          "correctAnswer": "Both A and C are correct",
+          "points": 1,
+          "explanation": "Control exists when the investor has power over the investee, exposure to variable returns, and the ability to use power to affect returns. Owning >50% of voting rights creates a presumption of control."
+        },
+        {
+          "id": "q-15-2",
+          "question": "In consolidation, intra-group balances are:",
+          "options": [
+            "Presented separately",
+            "Eliminated in full",
+            "Recognized at fair value",
+            "Included in the consolidated statements"
+          ],
+          "correctAnswer": "Eliminated in full",
+          "points": 1,
+          "explanation": "All intra-group balances, transactions, income, and expenses are eliminated in full when preparing consolidated financial statements."
+        },
+        {
+          "id": "q-15-3",
+          "question": "Unrealized profit on intra-group sales of inventory should be:",
+          "options": [
+            "Recognized in full in the consolidated statements",
+            "Eliminated to the extent of the parent's interest",
+            "Eliminated in full",
+            "Recognized as a liability"
+          ],
+          "correctAnswer": "Eliminated in full",
+          "points": 1,
+          "explanation": "Unrealized profit resulting from intra-group transactions is eliminated in full. The elimination is allocated between parent and NCI based on their respective interests."
+        },
+        {
+          "id": "q-15-4",
+          "question": "Non-controlling interest is presented:",
+          "options": [
+            "As a liability in the consolidated statement of financial position",
+            "As a separate component of equity",
+            "In the consolidated statement of comprehensive income",
+            "In the notes to the financial statements"
+          ],
+          "correctAnswer": "As a separate component of equity",
+          "points": 1,
+          "explanation": "Non-controlling interest is presented within equity in the consolidated statement of financial position, separately from the equity of the owners of the parent."
+        },
+        {
+          "id": "q-15-5",
+          "question": "When a parent loses control of a subsidiary, the parent:",
+          "options": [
+            "Derecognizes all assets and liabilities of the subsidiary",
+            "Recognizes any retained investment at fair value",
+            "Recognizes a gain or loss in profit or loss",
+            "All of the above"
+          ],
+          "correctAnswer": "All of the above",
+          "points": 1,
+          "explanation": "When control is lost, the parent derecognizes the assets and liabilities, measures any retained investment at fair value, and recognizes the difference as a gain or loss in profit or loss."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 15
+    },
+    {
+      "id": "quiz-16",
+      "title": "Lesson 5.1: Statement of Cash Flows - Practice Quiz",
+      "description": "Practice questions for Lesson 5.1: Statement of Cash Flows. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-16-1",
+          "question": "Which of the following is classified as an investing activity?",
+          "options": [
+            "Payment of dividends",
+            "Purchase of property, plant and equipment",
+            "Issuance of shares",
+            "Repayment of bank loans"
+          ],
+          "correctAnswer": "Purchase of property, plant and equipment",
+          "points": 1,
+          "explanation": "Purchase of PPE is an investing activity as it involves the acquisition of long-term assets used in the business. The other options are financing activities."
+        },
+        {
+          "id": "q-16-2",
+          "question": "Under the indirect method, depreciation expense is:",
+          "options": [
+            "Subtracted from net profit",
+            "Added to net profit",
+            "Not included in the cash flow statement",
+            "Shown as a financing activity"
+          ],
+          "correctAnswer": "Added to net profit",
+          "points": 1,
+          "explanation": "Depreciation is a non-cash expense that was deducted in calculating net profit. Under the indirect method, it is added back to net profit to arrive at cash from operating activities."
+        },
+        {
+          "id": "q-16-3",
+          "question": "Interest paid is classified as:",
+          "options": [
+            "Operating activity only",
+            "Financing activity only",
+            "Either operating or financing activity",
+            "Investing activity"
+          ],
+          "correctAnswer": "Either operating or financing activity",
+          "points": 1,
+          "explanation": "Interest paid can be classified as either an operating activity or a financing activity. The entity must choose a policy and apply it consistently."
+        },
+        {
+          "id": "q-16-4",
+          "question": "Which of the following is NOT a cash equivalent?",
+          "options": [
+            "Treasury bill with 2 months maturity",
+            "Commercial paper with 3 months maturity",
+            "Money market fund with 4 months maturity",
+            "Bank term deposit with 90 days maturity"
+          ],
+          "correctAnswer": "Money market fund with 4 months maturity",
+          "points": 1,
+          "explanation": "Cash equivalents have maturity of 3 months or less from the date of acquisition. A 4-month maturity exceeds this limit."
+        },
+        {
+          "id": "q-16-5",
+          "question": "Dividends received from investments are classified as:",
+          "options": [
+            "Operating activities",
+            "Investing activities",
+            "Either operating or investing activities",
+            "Financing activities"
+          ],
+          "correctAnswer": "Either operating or investing activities",
+          "points": 1,
+          "explanation": "Dividends received can be classified as either operating or investing activities. The entity must choose a policy and apply it consistently."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 16
+    },
+    {
+      "id": "quiz-17",
+      "title": "Lesson 5.2: Financial Ratios and Analysis - Practice Quiz",
+      "description": "Practice questions for Lesson 5.2: Financial Ratios and Analysis. Test your understanding with 5 questions.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "q-17-1",
+          "question": "The current ratio is calculated as:",
+          "options": [
+            "Current assets ÷ Current liabilities",
+            "Current liabilities ÷ Current assets",
+            "Cash ÷ Current liabilities",
+            "Current assets ÷ Total assets"
+          ],
+          "correctAnswer": "Current assets ÷ Current liabilities",
+          "points": 1,
+          "explanation": "The current ratio measures liquidity by dividing current assets by current liabilities. It indicates the entity's ability to pay short-term obligations."
+        },
+        {
+          "id": "q-17-2",
+          "question": "Return on equity (ROE) measures:",
+          "options": [
+            "Profitability relative to total assets",
+            "Profitability relative to shareholders' equity",
+            "Efficiency in using assets",
+            "Ability to pay interest"
+          ],
+          "correctAnswer": "Profitability relative to shareholders' equity",
+          "points": 1,
+          "explanation": "ROE = Net profit ÷ Shareholders' equity. It measures how effectively management is using shareholders' equity to generate profits."
+        },
+        {
+          "id": "q-17-3",
+          "question": "An increase in inventory turnover indicates:",
+          "options": [
+            "Slower movement of inventory",
+            "Faster movement of inventory",
+            "Higher inventory levels",
+            "Lower sales"
+          ],
+          "correctAnswer": "Faster movement of inventory",
+          "points": 1,
+          "explanation": "Higher inventory turnover indicates that inventory is being sold more quickly, which is generally favorable as it reduces carrying costs and obsolescence risk."
+        },
+        {
+          "id": "q-17-4",
+          "question": "The debt-to-equity ratio of 2.0 means:",
+          "options": [
+            "For every ₱1 of equity, there is ₱2 of debt",
+            "For every ₱1 of debt, there is ₱2 of equity",
+            "The company has no debt",
+            "The company has more equity than debt"
+          ],
+          "correctAnswer": "For every ₱1 of equity, there is ₱2 of debt",
+          "points": 1,
+          "explanation": "A debt-to-equity ratio of 2.0 means that debt is twice the equity, indicating higher financial leverage and risk."
+        },
+        {
+          "id": "q-17-5",
+          "question": "Which ratio measures the company's ability to pay interest on its debt?",
+          "options": [
+            "Current ratio",
+            "Interest coverage ratio",
+            "Return on assets",
+            "Gross profit margin"
+          ],
+          "correctAnswer": "Interest coverage ratio",
+          "points": 1,
+          "explanation": "Interest coverage ratio = EBIT ÷ Interest expense. It measures the company's ability to meet its interest obligations from operating earnings."
+        }
+      ],
+      "passingScore": 70,
+      "timeLimit": 8,
+      "maxAttempts": 5,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": true,
+      "order": 17
+    },
+    {
+      "id": "simulation-18",
+      "title": "Board Exam Simulation 1 - Comprehensive Review",
+      "description": "100-question timed simulation covering all FAR topics. This simulation mimics the actual CPA Board Exam format and difficulty level.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "sim-18-1",
+          "question": "1. Which qualitative characteristic requires that financial information must be complete, neutral, and free from error?",
+          "options": [
+            "Relevance",
+            "Faithful Representation",
+            "Comparability",
+            "Materiality"
+          ],
+          "correctAnswer": "Faithful Representation",
+          "points": 1,
+          "explanation": "Faithful representation requires that financial information be complete, neutral, and free from error."
+        },
+        {
+          "id": "sim-18-2",
+          "question": "2. According to the Conceptual Framework, an asset is recognized when:",
+          "options": [
+            "It meets the definition of an asset",
+            "It is probable that future economic benefits will flow",
+            "Its cost can be measured reliably",
+            "All conditions are met"
+          ],
+          "correctAnswer": "All conditions are met",
+          "points": 1,
+          "explanation": "An asset is recognized only when it meets the definition of an asset, is probable to provide future benefits, and has a cost that can be measured reliably."
+        },
+        {
+          "id": "sim-18-3",
+          "question": "3. Under PFRS 1, which of the following must be presented in a complete set of financial statements?",
+          "options": [
+            "Statement of retained earnings",
+            "Statement of comprehensive income",
+            "Statement of dividends",
+            "Statement of changes in shareholders"
+          ],
+          "correctAnswer": "Statement of comprehensive income",
+          "points": 1,
+          "explanation": "A complete set includes statement of financial position, statement of comprehensive income, statement of changes in equity, statement of cash flows, and notes."
+        },
+        {
+          "id": "sim-18-4",
+          "question": "4. In a bank reconciliation, outstanding checks should be:",
+          "options": [
+            "Added to the bank statement balance",
+            "Subtracted from the bank statement balance",
+            "Added to the book balance",
+            "Subtracted from the book balance"
+          ],
+          "correctAnswer": "Subtracted from the bank statement balance",
+          "points": 1,
+          "explanation": "Outstanding checks are checks issued by the company but not yet presented to the bank. They should be subtracted from the bank statement balance."
+        },
+        {
+          "id": "sim-18-5",
+          "question": "5. When factoring receivables without recourse, the factor assumes:",
+          "options": [
+            "No risk of bad debts",
+            "Full risk of bad debts",
+            "Partial risk of bad debts",
+            "Risk only if the debtor is bankrupt"
+          ],
+          "correctAnswer": "Full risk of bad debts",
+          "points": 1,
+          "explanation": "Without recourse means the factor assumes the full risk of uncollectibility. The selling company has no further obligation."
+        },
+        {
+          "id": "sim-18-6",
+          "question": "6. Under PFRS 2, inventory is measured at:",
+          "options": [
+            "Lower of cost and net realizable value",
+            "Higher of cost and net realizable value",
+            "Cost only",
+            "Net realizable value only"
+          ],
+          "correctAnswer": "Lower of cost and net realizable value",
+          "points": 1,
+          "explanation": "Inventories are measured at the lower of cost and net realizable value."
+        },
+        {
+          "id": "sim-18-7",
+          "question": "7. Company A uses FIFO. Purchases: Jan 1 - 100 units @ ₱10, Jan 15 - 200 units @ ₱12. Sold 150 units. Cost of goods sold is:",
+          "options": [
+            "₱1,500",
+            "₱1,600",
+            "₱1,700",
+            "₱1,800"
+          ],
+          "correctAnswer": "₱1,600",
+          "points": 1,
+          "explanation": "FIFO: 100 units @ ₱10 = ₱1,000 + 50 units @ ₱12 = ₱600. Total COGS = ₱1,600"
+        },
+        {
+          "id": "sim-18-8",
+          "question": "8. Under PFRS 16, which depreciation method allocates a higher amount in earlier years?",
+          "options": [
+            "Straight-line",
+            "Declining balance",
+            "Units of production",
+            "All methods are equal"
+          ],
+          "correctAnswer": "Declining balance",
+          "points": 1,
+          "explanation": "The declining balance method applies a constant percentage to the carrying amount, resulting in higher depreciation in earlier years."
+        },
+        {
+          "id": "sim-18-9",
+          "question": "9. An asset costs ₱100,000, has residual value of ₱10,000, and useful life of 5 years. Annual depreciation under straight-line is:",
+          "options": [
+            "₱18,000",
+            "₱20,000",
+            "₱22,000",
+            "₱25,000"
+          ],
+          "correctAnswer": "₱18,000",
+          "points": 1,
+          "explanation": "Straight-line = (Cost - Residual) / Life = (₱100,000 - ₱10,000) / 5 = ₱18,000"
+        },
+        {
+          "id": "sim-18-10",
+          "question": "10. Internally generated goodwill is:",
+          "options": [
+            "Recognized as an asset",
+            "Expensed when incurred",
+            "Amortized over 10 years",
+            "Recognized in equity"
+          ],
+          "correctAnswer": "Expensed when incurred",
+          "points": 1,
+          "explanation": "Internally generated goodwill is not recognized as an asset. Any costs related to it are expensed as incurred."
+        },
+        {
+          "id": "sim-18-11",
+          "question": "11. Recoverable amount is the higher of:",
+          "options": [
+            "Fair value and carrying amount",
+            "Fair value less costs of disposal and value in use",
+            "Cost and net realizable value",
+            "Historical cost and replacement cost"
+          ],
+          "correctAnswer": "Fair value less costs of disposal and value in use",
+          "points": 1,
+          "explanation": "Recoverable amount is the higher of fair value less costs of disposal and value in use."
+        },
+        {
+          "id": "sim-18-12",
+          "question": "12. When bonds are issued at a premium, the effective interest rate is:",
+          "options": [
+            "Higher than the stated rate",
+            "Lower than the stated rate",
+            "Equal to the stated rate",
+            "Zero"
+          ],
+          "correctAnswer": "Lower than the stated rate",
+          "points": 1,
+          "explanation": "When bonds are issued at a premium, investors pay more than face value because the stated rate exceeds market rates."
+        },
+        {
+          "id": "sim-18-13",
+          "question": "13. A taxable temporary difference creates:",
+          "options": [
+            "A deferred tax asset",
+            "A deferred tax liability",
+            "No deferred tax",
+            "A current tax asset"
+          ],
+          "correctAnswer": "A deferred tax liability",
+          "points": 1,
+          "explanation": "Taxable temporary differences will result in taxable amounts in future periods, creating deferred tax liabilities."
+        },
+        {
+          "id": "sim-18-14",
+          "question": "14. Under PFRS 15, revenue is recognized when:",
+          "options": [
+            "Cash is received",
+            "A contract is signed",
+            "A performance obligation is satisfied",
+            "An invoice is issued"
+          ],
+          "correctAnswer": "A performance obligation is satisfied",
+          "points": 1,
+          "explanation": "Revenue is recognized when (or as) the entity satisfies a performance obligation by transferring a promised good or service."
+        },
+        {
+          "id": "sim-18-15",
+          "question": "15. In consolidated financial statements, intra-group balances are:",
+          "options": [
+            "Presented separately",
+            "Eliminated in full",
+            "Recognized at fair value",
+            "Included at cost"
+          ],
+          "correctAnswer": "Eliminated in full",
+          "points": 1,
+          "explanation": "All intra-group balances, transactions, and unrealized profits are eliminated in full when preparing consolidated statements."
+        },
+        {
+          "id": "sim-18-16",
+          "question": "16. The functional currency is:",
+          "options": [
+            "Always the local currency",
+            "The currency of the parent",
+            "The currency of the primary economic environment",
+            "Any currency the entity chooses"
+          ],
+          "correctAnswer": "The currency of the primary economic environment",
+          "points": 1,
+          "explanation": "Functional currency is the currency of the primary economic environment in which the entity operates."
+        },
+        {
+          "id": "sim-18-17",
+          "question": "17. Purchase of equipment is classified as:",
+          "options": [
+            "Operating activity",
+            "Investing activity",
+            "Financing activity",
+            "Non-cash activity"
+          ],
+          "correctAnswer": "Investing activity",
+          "points": 1,
+          "explanation": "Purchase of property, plant and equipment is an investing activity as it involves acquisition of long-term assets."
+        },
+        {
+          "id": "sim-18-18",
+          "question": "18. Current assets ÷ Current liabilities equals:",
+          "options": [
+            "Quick ratio",
+            "Current ratio",
+            "Debt ratio",
+            "Equity ratio"
+          ],
+          "correctAnswer": "Current ratio",
+          "points": 1,
+          "explanation": "Current ratio = Current assets / Current liabilities. It measures short-term liquidity."
+        }
+      ],
+      "passingScore": 75,
+      "timeLimit": 120,
+      "maxAttempts": 3,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": false,
+      "order": 18
+    },
+    {
+      "id": "simulation-19",
+      "title": "Board Exam Simulation 2 - Advanced Topics",
+      "description": "100-question simulation focusing on complex accounting topics including business combinations, consolidated financial statements, and advanced calculations.",
+      "type": "quiz",
+      "questions": [
+        {
+          "id": "sim-19-1",
+          "question": "1. Goodwill in a business combination is calculated as:",
+          "options": [
+            "Consideration - Net identifiable assets",
+            "Net identifiable assets - Consideration",
+            "Consideration + NCI - Net identifiable assets",
+            "Fair value - Book value"
+          ],
+          "correctAnswer": "Consideration + NCI - Net identifiable assets",
+          "points": 1,
+          "explanation": "Goodwill = Consideration transferred + NCI - Net identifiable assets acquired"
+        },
+        {
+          "id": "sim-19-2",
+          "question": "2. A bargain purchase gain is recognized in:",
+          "options": [
+            "Other comprehensive income",
+            "Equity",
+            "Profit or loss",
+            "Deferred gain"
+          ],
+          "correctAnswer": "Profit or loss",
+          "points": 1,
+          "explanation": "A bargain purchase gain is recognized immediately in profit or loss."
+        },
+        {
+          "id": "sim-19-3",
+          "question": "3. Non-controlling interest is presented as:",
+          "options": [
+            "A liability",
+            "A component of equity",
+            "A contingent liability",
+            "A deferred credit"
+          ],
+          "correctAnswer": "A component of equity",
+          "points": 1,
+          "explanation": "NCI is presented within equity in the consolidated statement of financial position."
+        },
+        {
+          "id": "sim-19-4",
+          "question": "4. Unrealized profit on intra-group inventory sales is eliminated:",
+          "options": [
+            "To the extent of the parent's interest",
+            "In full",
+            "Only if sold to third parties",
+            "Never"
+          ],
+          "correctAnswer": "In full",
+          "points": 1,
+          "explanation": "All unrealized profits from intra-group transactions are eliminated in full."
+        },
+        {
+          "id": "sim-19-5",
+          "question": "5. Under PFRS 16, a lessee recognizes:",
+          "options": [
+            "An operating lease expense",
+            "A right-of-use asset and lease liability",
+            "Only a lease liability",
+            "Only an expense"
+          ],
+          "correctAnswer": "A right-of-use asset and lease liability",
+          "points": 1,
+          "explanation": "PFRS 16 requires lessees to recognize a right-of-use asset and a lease liability for most leases."
+        },
+        {
+          "id": "sim-19-6",
+          "question": "6. A convertible bond is classified as:",
+          "options": [
+            "100% debt",
+            "100% equity",
+            "A compound instrument",
+            "A derivative"
+          ],
+          "correctAnswer": "A compound instrument",
+          "points": 1,
+          "explanation": "Convertible bonds contain both debt and equity components and must be separated."
+        },
+        {
+          "id": "sim-19-7",
+          "question": "7. A deductible temporary difference creates:",
+          "options": [
+            "A deferred tax liability",
+            "A deferred tax asset",
+            "No deferred tax",
+            "Current tax expense"
+          ],
+          "correctAnswer": "A deferred tax asset",
+          "points": 1,
+          "explanation": "Deductible temporary differences result in deductible amounts in future periods, creating deferred tax assets."
+        },
+        {
+          "id": "sim-19-8",
+          "question": "8. When translating a foreign operation, equity is translated at:",
+          "options": [
+            "Closing rate",
+            "Historical rate",
+            "Average rate",
+            "Spot rate"
+          ],
+          "correctAnswer": "Historical rate",
+          "points": 1,
+          "explanation": "Equity items of a foreign operation are translated at historical rates."
+        }
+      ],
+      "passingScore": 75,
+      "timeLimit": 120,
+      "maxAttempts": 3,
+      "showCorrectAnswers": true,
+      "randomizeQuestions": false,
+      "order": 19
+    }
+  ],
+  "totalDuration": 4320,
+  "totalLessons": 28,
+  "metadata": {
+    "totalDurationHours": 72,
+    "totalLessons": 28,
+    "totalQuizPrograms": 19,
+    "totalPracticeQuestions": 91,
+    "boardExamSimulations": 2,
+    "resourcesPerLesson": 3,
+    "estimatedStudyTime": "24 weeks at 3 hours/day"
+  }
+}
