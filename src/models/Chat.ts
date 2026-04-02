@@ -6,6 +6,7 @@ const MessageSchema = new mongoose.Schema({
   content: { type: String, required: true },
   messageType: { type: String, default: 'text' },
   readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  status: { type: String, default: 'sent' },
 }, { timestamps: true })
 
 const ConversationSchema = new mongoose.Schema({

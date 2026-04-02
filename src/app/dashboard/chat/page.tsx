@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { MessageCircle, Send, Loader2, User, Circle } from 'lucide-react'
+import { MessageCircle, Send, Loader2, User, Circle, Image, Smile, Check, CheckCheck, FileText, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import EmojiPicker from 'emoji-picker-react'
 
 interface UserType {
   _id: string
@@ -18,6 +19,9 @@ interface Message {
   content: string
   createdAt: string
   sender: UserType
+  messageType?: string
+  status?: string
+  readBy?: string[]
 }
 
 interface Conversation {
@@ -39,9 +43,17 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false)
   const [allUsers, setAllUsers] = useState<UserType[]>([])
   const [showNewChat, setShowNewChat] = useState(false)
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const currentUserId = (session?.user as any)?.id
   const [onlineUsers, setOnlineUsers] = useState<any[]>([])
+  const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set())
+  const sseRef = useRef<EventSource | null>(null)
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [isTyping, setIsTyping] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/auth/login')
@@ -63,6 +75,76 @@ export default function ChatPage() {
     }
   }, [status])
 
+  useEffect(() => {
+    if (selectedConversation) {
+      loadMessages()
+      markAsRead()
+      setupSSE()
+    }
+    return () => {
+      if (sseRef.current) {
+        sseRef.current.close()
+        sseRef.current = null
+      }
+    }
+  }, [selectedConversation])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  const setupSSE = useCallback(() => {
+    if (!selectedConversation) return
+    
+    if (sseRef.current) {
+      sseRef.current.close()
+    }
+
+    const eventSource = new EventSource(`/api/chat/sse?conversationId=${selectedConversation._id}`)
+    sseRef.current = eventSource
+
+    eventSource.addEventListener('message', (event: MessageEvent) => {
+      try {
+        const newMsg = JSON.parse(event.data)
+        setMessages(prev => {
+          const exists = prev.some(m => m._id === newMsg._id)
+          if (exists) return prev
+          return [...prev, newMsg]
+        })
+        
+        if (newMsg.sender._id !== currentUserId) {
+          markAsRead()
+        }
+      } catch (error) {
+        console.error('Error parsing SSE message:', error)
+      }
+    })
+
+    eventSource.addEventListener('typing', (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data)
+        if (data.userId !== currentUserId) {
+          setTypingUsers(prev => new Set(prev).add(data.userId))
+          setTimeout(() => {
+            setTypingUsers(prev => {
+              const next = new Set(prev)
+              next.delete(data.userId)
+              return next
+            })
+          }, 3000)
+        }
+      } catch (error) {
+        console.error('Error parsing typing event:', error)
+      }
+    })
+
+    eventSource.onerror = (error) => {
+      console.error('SSE Error:', error)
+      eventSource.close()
+      setTimeout(() => setupSSE(), 5000)
+    }
+  }, [selectedConversation, currentUserId])
+
   const updatePresence = async (status: string) => {
     try {
       await fetch('/api/user/presence', {
@@ -80,17 +162,6 @@ export default function ChatPage() {
       if (res.ok) setOnlineUsers(data.online || [])
     } catch (error) {}
   }
-
-  useEffect(() => {
-    if (selectedConversation) {
-      loadMessages()
-      markAsRead()
-    }
-  }, [selectedConversation])
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
 
   const loadConversations = async () => {
     try {
@@ -140,28 +211,74 @@ export default function ChatPage() {
       }
     } catch (error) {
       console.error('Error starting conversation:', error)
+      toast.error('Failed to start conversation')
     }
   }
 
   const sendMessage = async () => {
-    if (!newMessage.trim() || !selectedConversation) return
+    if ((!newMessage.trim() && !imagePreview) || !selectedConversation) return
     setSending(true)
     try {
+      let content = newMessage
+      let messageType = 'text'
+      
+      if (imagePreview) {
+        messageType = 'image'
+        content = imagePreview
+      }
+
       const res = await fetch('/api/chat/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ conversationId: selectedConversation._id, content: newMessage })
+        body: JSON.stringify({ 
+          conversationId: selectedConversation._id, 
+          content,
+          messageType
+        })
       })
       const data = await res.json()
       if (res.ok) {
         setMessages([...messages, data.message])
         setNewMessage('')
+        setImagePreview(null)
         loadConversations()
+      } else {
+        toast.error(data.error || 'Failed to send message')
       }
     } catch (error) {
       console.error('Error sending message:', error)
+      toast.error('Failed to send message')
     } finally {
       setSending(false)
+    }
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file')
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB')
+      return
+    }
+
+    setUploading(true)
+    try {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        setImagePreview(event.target?.result as string)
+      }
+      reader.readAsDataURL(file)
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      toast.error('Failed to upload image')
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -179,6 +296,57 @@ export default function ChatPage() {
     }
   }
 
+  const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewMessage(e.target.value)
+    
+    if (!isTyping && e.target.value.trim()) {
+      setIsTyping(true)
+      fetch('/api/chat/typing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          conversationId: selectedConversation?._id,
+          isTyping: true 
+        })
+      }).catch(console.error)
+    }
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false)
+      fetch('/api/chat/typing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          conversationId: selectedConversation?._id,
+          isTyping: false 
+        })
+      }).catch(console.error)
+    }, 2000)
+  }
+
+  const onEmojiClick = (emojiData: any) => {
+    setNewMessage(prev => prev + emojiData.emoji)
+    setShowEmojiPicker(false)
+  }
+
+  const getMessageStatus = (message: Message) => {
+    if (message.sender._id !== currentUserId) return null
+    
+    const isRead = message.readBy && message.readBy.length > 1
+    return isRead ? 'read' : 'delivered'
+  }
+
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    })
+  }
+
   if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
@@ -191,7 +359,6 @@ export default function ChatPage() {
     <div className="min-h-screen bg-dark pt-20">
       <div className="max-w-6xl mx-auto px-0 py-0">
         <div className="flex h-[calc(100vh-80px)] bg-dark/50 border border-border rounded-xl overflow-hidden">
-          {/* Conversations List */}
           <div className={`${selectedConversation ? 'hidden md:flex' : 'flex'} w-full md:w-80 flex-col border-r border-border`}>
             <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between mb-4">
@@ -213,11 +380,16 @@ export default function ChatPage() {
                     className={`p-3 border-b border-border/50 cursor-pointer hover:bg-card ${selectedConversation?._id === conv._id ? 'bg-card' : ''}`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                        {conv.participant.image ? (
-                          <img src={conv.participant.image} alt="" className="w-10 h-10 rounded-full object-cover" />
-                        ) : (
-                          <User className="w-5 h-5 text-primary" />
+                      <div className="relative">
+                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                          {conv.participant.image ? (
+                            <img src={conv.participant.image} alt="" className="w-10 h-10 rounded-full object-cover" />
+                          ) : (
+                            <User className="w-5 h-5 text-primary" />
+                          )}
+                        </div>
+                        {onlineUsers.some(u => u.userId === conv.participant._id) && (
+                          <Circle className="w-3 h-3 text-green-400 fill-green-400 absolute -bottom-0 -right-0 bg-dark rounded-full" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -244,48 +416,122 @@ export default function ChatPage() {
                     <button onClick={() => setSelectedConversation(null)} className="md:hidden">
                       <User className="w-5 h-5" />
                     </button>
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                      {selectedConversation.participant.image ? (
-                        <img src={selectedConversation.participant.image} alt="" className="w-10 h-10 rounded-full object-cover" />
-                      ) : (
-                        <User className="w-5 h-5 text-primary" />
+                    <div className="relative">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                        {selectedConversation.participant.image ? (
+                          <img src={selectedConversation.participant.image} alt="" className="w-10 h-10 rounded-full object-cover" />
+                        ) : (
+                          <User className="w-5 h-5 text-primary" />
+                        )}
+                      </div>
+                      {onlineUsers.some(u => u.userId === selectedConversation.participant._id) && (
+                        <Circle className="w-3 h-3 text-green-400 fill-green-400 absolute -bottom-0 -right-0 bg-dark rounded-full" />
                       )}
                     </div>
                     <div>
                       <p className="font-medium">{selectedConversation.participant.name}</p>
-                      <p className="text-gray-500 text-xs">{selectedConversation.participant.email}</p>
+                      <p className="text-gray-500 text-xs">
+                        {onlineUsers.some(u => u.userId === selectedConversation.participant._id) ? 'Online' : 'Offline'}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                   {messages.map(msg => {
-                    const isMe = msg.sender._id === currentUserId || msg.sender._id === currentUserId
+                    const isMe = msg.sender._id === currentUserId
+                    const messageStatus = getMessageStatus(msg)
                     return (
                       <div key={msg._id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[70%] p-3 rounded-xl ${isMe ? 'bg-primary text-white' : 'bg-card'}`}>
-                          <p className="text-sm">{msg.content}</p>
-                          <p className={`text-xs mt-1 ${isMe ? 'text-white/70' : 'text-gray-500'}`}>
-                            {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
+                          {msg.messageType === 'image' ? (
+                            <img src={msg.content} alt="Shared image" className="rounded-lg max-w-full h-auto mb-2" />
+                          ) : (
+                            <p className="text-sm">{msg.content}</p>
+                          )}
+                          <div className="flex items-center justify-end gap-1 mt-1">
+                            <p className={`text-xs ${isMe ? 'text-white/70' : 'text-gray-500'}`}>
+                              {formatTime(msg.createdAt)}
+                            </p>
+                            {isMe && (
+                              messageStatus === 'read' ? (
+                                <CheckCheck className="w-3 h-3 text-blue-300" />
+                              ) : (
+                                <Check className="w-3 h-3 text-white/70" />
+                              )
+                            )}
+                          </div>
                         </div>
                       </div>
                     )
                   })}
+                  {typingUsers.size > 0 && (
+                    <div className="flex justify-start">
+                      <div className="bg-card p-3 rounded-xl">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <div ref={messagesEndRef} />
                 </div>
 
                 <div className="p-4 border-t border-border">
-                  <div className="flex gap-2">
+                  {imagePreview && (
+                    <div className="mb-2 relative">
+                      <img src={imagePreview} alt="Preview" className="max-h-32 rounded-lg" />
+                      <button 
+                        onClick={() => setImagePreview(null)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex gap-2 items-center">
+                    <button 
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploading}
+                      className="text-gray-400 hover:text-primary transition-colors"
+                    >
+                      {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Image className="w-5 h-5" />}
+                    </button>
                     <input
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                      placeholder="Type a message..."
-                      className="input-base flex-1"
+                      type="file"
+                      ref={fileInputRef}
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
                     />
-                    <button onClick={sendMessage} disabled={sending || !newMessage.trim()} className="btn-primary p-3">
+                    <div className="relative flex-1">
+                      <input
+                        type="text"
+                        value={newMessage}
+                        onChange={handleTyping}
+                        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                        placeholder="Type a message..."
+                        className="input-base w-full"
+                      />
+                      <button
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary"
+                      >
+                        <Smile className="w-5 h-5" />
+                      </button>
+                      {showEmojiPicker && (
+                        <div className="absolute bottom-full right-0 mb-2 z-10">
+                          <EmojiPicker onEmojiClick={onEmojiClick} />
+                        </div>
+                      )}
+                    </div>
+                    <button 
+                      onClick={sendMessage} 
+                      disabled={sending || (!newMessage.trim() && !imagePreview)} 
+                      className="btn-primary p-3"
+                    >
                       {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                     </button>
                   </div>
@@ -301,7 +547,6 @@ export default function ChatPage() {
             )}
           </div>
 
-          {/* Online Users Sidebar */}
           <div className="w-64 border-l border-border hidden lg:flex flex-col">
             <div className="p-4 border-b border-border">
               <h2 className="font-semibold text-sm flex items-center gap-2">
@@ -341,7 +586,12 @@ export default function ChatPage() {
       {showNewChat && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowNewChat(false)}>
           <div className="bg-card border border-border rounded-xl w-full max-w-md p-6" onClick={e => e.stopPropagation()}>
-            <h2 className="font-bold text-xl mb-4">New Conversation</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-bold text-xl">New Conversation</h2>
+              <button onClick={() => setShowNewChat(false)} className="text-gray-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
             <div className="space-y-2 max-h-64 overflow-y-auto">
               {allUsers.filter(u => u._id !== currentUserId).map(user => (
                 <div
@@ -349,8 +599,13 @@ export default function ChatPage() {
                   onClick={() => startConversation(user._id)}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-dark cursor-pointer"
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    {user.image ? <img src={user.image} alt="" className="w-10 h-10 rounded-full" /> : <User className="w-5 h-5" />}
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                      {user.image ? <img src={user.image} alt="" className="w-10 h-10 rounded-full" /> : <User className="w-5 h-5" />}
+                    </div>
+                    {onlineUsers.some(u => u.userId === user._id) && (
+                      <Circle className="w-3 h-3 text-green-400 fill-green-400 absolute -bottom-0 -right-0 bg-dark rounded-full" />
+                    )}
                   </div>
                   <div>
                     <p className="font-medium">{user.name}</p>

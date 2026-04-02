@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { conversationId, content } = await request.json()
+    const { conversationId, content, messageType = 'text' } = await request.json()
 
     if (!conversationId || !content) {
       return NextResponse.json({ error: 'Conversation ID and content required' }, { status: 400 })
@@ -56,17 +56,34 @@ export async function POST(request: NextRequest) {
       conversationId,
       sender: senderId,
       content,
-      messageType: 'text',
-      readBy: [senderId]
+      messageType,
+      readBy: [senderId],
+      status: 'sent'
     })
 
     await message.populate('sender', 'name email image')
 
-    await Conversation.findByIdAndUpdate(conversationId, {
+    const conversation = await Conversation.findById(conversationId).lean() as any
+    
+    const updateData: any = {
       lastMessage: content,
       lastMessageAt: new Date(),
       lastSender: senderId
-    })
+    }
+    
+    if (conversation?.participants) {
+      const otherParticipants = conversation.participants.filter(
+        (p: any) => p.toString() !== senderId
+      )
+      otherParticipants.forEach((p: any) => {
+        updateData[`$inc`] = {
+          ...updateData[`$inc`],
+          [`unreadCount.${p.toString()}`]: 1
+        }
+      })
+    }
+    
+    await Conversation.findByIdAndUpdate(conversationId, updateData)
 
     return NextResponse.json({ message })
   } catch (error: any) {
