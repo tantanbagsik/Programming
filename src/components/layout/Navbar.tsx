@@ -110,7 +110,7 @@ export function Navbar() {
                     <Link href="/dashboard/courses" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
                       <BookOpen className="w-4 h-4" /> My Courses
                     </Link>
-                    <Link href="/chat" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
+                    <Link href="/dashboard/chat" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-border hover:text-white transition-colors" onClick={() => setUserMenuOpen(false)}>
                       <MessageCircle className="w-4 h-4" /> Messages
                     </Link>
                     {user?.role === 'admin' && (
@@ -166,7 +166,7 @@ export function Navbar() {
                 </div>
               </div>
               <Link href="/dashboard" className="block nav-link py-2" onClick={() => setMobileOpen(false)}>Dashboard</Link>
-              <Link href="/chat" className="block nav-link py-2" onClick={() => setMobileOpen(false)}>Messages</Link>
+              <Link href="/dashboard/chat" className="block nav-link py-2" onClick={() => setMobileOpen(false)}>Messages</Link>
               <button onClick={() => signOut({ callbackUrl: '/' })} className="block text-red-400 text-sm py-2">Sign Out</button>
             </>
           ) : (

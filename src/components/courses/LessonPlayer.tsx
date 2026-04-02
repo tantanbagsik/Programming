@@ -1,11 +1,11 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import {
   ChevronLeft, ChevronRight, CheckCircle, Circle,
-  Menu, X, BookOpen, Trophy, Home
+  Menu, X, BookOpen, Trophy, Home, Play, Pause, Volume2, VolumeX, Maximize, SkipBack, SkipForward
 } from 'lucide-react'
 
 interface Props {
@@ -16,6 +16,36 @@ interface Props {
   userId: string
 }
 
+function getVideoType(url: string): 'youtube' | 'vimeo' | 'cloudinary' | 'direct' | 'embed' | null {
+  if (!url) return null
+  if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube'
+  if (url.includes('vimeo.com')) return 'vimeo'
+  if (url.includes('cloudinary.com') || url.includes('res.cloudinary.com')) return 'cloudinary'
+  if (url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i)) return 'direct'
+  if (url.startsWith('<iframe') || url.startsWith('http') && url.includes('/embed/')) return 'embed'
+  return 'direct'
+}
+
+function getYouTubeId(url: string): string | null {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([\w-]{11})/)
+  return match ? match[1] : null
+}
+
+function getVimeoId(url: string): string | null {
+  const match = url.match(/vimeo\.com\/(\d+)/)
+  return match ? match[1] : null
+}
+
+function getCloudinaryUrls(url: string) {
+  if (!url.includes('cloudinary.com')) return { stream: '', poster: '', direct: url }
+  const base = url.replace(/\.[^.]+$/, '').replace(/\/upload/, '/upload')
+  return {
+    stream: url.includes('.m3u8') ? url : `${base}.m3u8`,
+    poster: url.includes('.m3u8') ? url.replace('.m3u8', '.jpg') : url.replace(/\.[^.]+$/, '.jpg'),
+    direct: url
+  }
+}
+
 export function LessonPlayer({ course, enrollment, currentLesson, currentSection, userId }: Props) {
   const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -24,6 +54,218 @@ export function LessonPlayer({ course, enrollment, currentLesson, currentSection
   )
   const [progress, setProgress] = useState(enrollment.progress ?? 0)
   const [marking, setMarking] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [isMuted, setIsMuted] = useState(false)
+  const [showControls, setShowControls] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const videoUrl = currentLesson?.videoUrl || ''
+  const videoType = getVideoType(videoUrl)
+  const cloudinaryUrls = getCloudinaryUrls(videoUrl)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const onPlay = () => setIsPlaying(true)
+    const onPause = () => setIsPlaying(false)
+    const onTimeUpdate = () => setCurrentTime(video.currentTime)
+    const onDurationChange = () => setDuration(video.duration)
+    const onEnded = () => {
+      setIsPlaying(false)
+      if (currentLesson && !completedLessons.has(currentLesson._id)) {
+        markComplete(currentLesson._id)
+      }
+    }
+    video.addEventListener('play', onPlay)
+    video.addEventListener('pause', onPause)
+    video.addEventListener('timeupdate', onTimeUpdate)
+    video.addEventListener('durationchange', onDurationChange)
+    video.addEventListener('ended', onEnded)
+    return () => {
+      video.removeEventListener('play', onPlay)
+      video.removeEventListener('pause', onPause)
+      video.removeEventListener('timeupdate', onTimeUpdate)
+      video.removeEventListener('durationchange', onDurationChange)
+      video.removeEventListener('ended', onEnded)
+    }
+  }, [currentLesson])
+
+  const togglePlay = () => {
+    const video = videoRef.current
+    if (!video) return
+    if (isPlaying) video.pause()
+    else video.play()
+  }
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const video = videoRef.current
+    if (!video) return
+    const time = parseFloat(e.target.value)
+    video.currentTime = time
+    setCurrentTime(time)
+  }
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const video = videoRef.current
+    if (!video) return
+    const vol = parseFloat(e.target.value)
+    video.volume = vol
+    setVolume(vol)
+    setIsMuted(vol === 0)
+  }
+
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = !isMuted
+    setIsMuted(!isMuted)
+  }
+
+  const toggleFullscreen = () => {
+    const container = document.getElementById('video-container')
+    if (!container) return
+    if (document.fullscreenElement) document.exitFullscreen()
+    else container.requestFullscreen()
+  }
+
+  const skip = (seconds: number) => {
+    const video = videoRef.current
+    if (!video) return
+    video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + seconds))
+  }
+
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return '0:00'
+    const mins = Math.floor(time / 60)
+    const secs = Math.floor(time % 60)
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const handleMouseMove = () => {
+    setShowControls(true)
+    if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current)
+    controlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) setShowControls(false)
+    }, 3000)
+  }
+
+  const renderVideoPlayer = () => {
+    if (!videoUrl) {
+      return (
+        <div className="text-center">
+          <div className="text-6xl mb-4">🎬</div>
+          <p className="text-gray-400 text-sm">No video for this lesson yet</p>
+        </div>
+      )
+    }
+
+    if (videoType === 'youtube') {
+      const ytId = getYouTubeId(videoUrl)
+      if (!ytId) return <div className="text-center text-gray-400">Invalid YouTube URL</div>
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1`}
+          className="w-full h-full"
+          allow="autoplay; fullscreen; encrypted-media"
+          allowFullScreen
+        />
+      )
+    }
+
+    if (videoType === 'vimeo') {
+      const vimeoId = getVimeoId(videoUrl)
+      if (!vimeoId) return <div className="text-center text-gray-400">Invalid Vimeo URL</div>
+      return (
+        <iframe
+          src={`https://player.vimeo.com/video/${vimeoId}`}
+          className="w-full h-full"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+        />
+      )
+    }
+
+    if (videoType === 'cloudinary' || videoType === 'direct') {
+      const src = cloudinaryUrls.direct
+      return (
+        <div
+          id="video-container"
+          className="relative w-full h-full bg-black group"
+          onMouseMove={handleMouseMove}
+          onClick={togglePlay}
+        >
+          <video
+            ref={videoRef}
+            src={src}
+            className="w-full h-full object-contain"
+            poster={cloudinaryUrls.poster || undefined}
+            onClick={(e) => e.stopPropagation()}
+          />
+          <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}>
+            {!isPlaying && (
+              <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
+                <Play className="w-8 h-8 text-white" />
+              </div>
+            )}
+          </div>
+          <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}>
+            <input
+              type="range"
+              min="0"
+              max={duration || 100}
+              value={currentTime}
+              onChange={handleSeek}
+              className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer mb-3 accent-primary"
+            />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <button onClick={(e) => { e.stopPropagation(); skip(-10) }} className="text-white/80 hover:text-white">
+                  <SkipBack className="w-5 h-5" />
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); togglePlay() }} className="text-white/80 hover:text-white">
+                  {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); skip(10) }} className="text-white/80 hover:text-white">
+                  <SkipForward className="w-5 h-5" />
+                </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={(e) => { e.stopPropagation(); toggleMute() }} className="text-white/80 hover:text-white">
+                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                  </button>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={isMuted ? 0 : volume}
+                    onChange={handleVolumeChange}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-20 h-1 bg-white/30 rounded-full appearance-none cursor-pointer accent-primary"
+                  />
+                </div>
+                <span className="text-white/80 text-xs">{formatTime(currentTime)} / {formatTime(duration)}</span>
+              </div>
+              <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="text-white/80 hover:text-white">
+                <Maximize className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <iframe
+        src={videoUrl}
+        className="w-full h-full"
+        allow="autoplay; fullscreen"
+        allowFullScreen
+      />
+    )
+  }
 
   // Flatten all lessons for prev/next navigation
   const allLessons = course.sections?.flatMap((s: any) =>
@@ -97,19 +339,7 @@ export function LessonPlayer({ course, enrollment, currentLesson, currentSection
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
               {/* Video area */}
               <div className="aspect-video bg-black rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-border">
-                {currentLesson.videoUrl ? (
-                  <iframe
-                    src={currentLesson.videoUrl}
-                    className="w-full h-full"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                ) : (
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">🎬</div>
-                    <p className="text-gray-400 text-sm">Video content coming soon</p>
-                  </div>
-                )}
+                {renderVideoPlayer()}
               </div>
 
               {/* Lesson header */}
